@@ -3,8 +3,13 @@
     <button @click="enabled = !enabled">Toggle</button>
     <span> Sprite visible: {{ enabled }} </span>
   </div>
-  <Application background="white" :width="300" :height="300">
-    <CursorSprite v-if="enabled" :x="300 / 2" :y="300 / 2" />
+  <Application ref="app" background="white" :width="600" :height="200">
+    <CursorSprite v-if="enabled" :x="100" :y="200 / 2" />
+    <CursorSprite v-if="enabled" :x="190" :y="200 / 2" />
+    <CursorSprite v-if="enabled" :x="270" :y="200 / 2" />
+    <CursorSprite v-if="enabled" :x="360" :y="200 / 2" />
+    <CursorSprite v-if="enabled" :x="450" :y="200 / 2" />
+    <CursorSprite v-if="enabled" :x="540" :y="200 / 2" />
   </Application>
 </template>
 
@@ -15,4 +20,6 @@ import { ref } from 'vue'
 import CursorSprite from '../components/CursorSprite.vue'
 
 const enabled = ref(true)
+
+const app = ref()
 </script>

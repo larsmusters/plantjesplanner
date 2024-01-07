@@ -1,5 +1,4 @@
 import './assets/main.css'
-import './assets/spritesheet.json'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
