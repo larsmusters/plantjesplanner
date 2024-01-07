@@ -64,7 +64,7 @@ const el = ref()
 
 const hovering = useElementHover(el)
 
-const scale = computed(() => (hovering.value ? 1.2 : 1))
+const scale = computed(() => (hovering.value ? 1.05 : 1))
 const scaleAnimated = useTransition(scale, {
   duration: 100,
   transition: TransitionPresets.easeOutQuad
@@ -86,9 +86,9 @@ const drawDropShadow = (g: Graphics) => {
   g.clear()
 
   const s = scaleAnimated.value
-  g.beginFill(Colours.black, (scaleAnimated.value - 1) * 10 * 0.1)
+  g.beginFill(Colours.black, (scaleAnimated.value - 1) * 10 * 0.25)
   if (g.drawRoundedShape) {
-    g.drawRoundedShape(buildPolygon(scaleAnimated.value, 10), 0)
+    g.drawRoundedShape(buildPolygon(scaleAnimated.value, 5), 0)
   }
 
   // g.drawRect(-size * s, -size * s, (size * 2 + 8) * s, (size * 2 + 8) * s)
