@@ -4,23 +4,23 @@
     -re-factor PixiBed
 
     Fun things:
-    - Start building the yard construction tool, (build polygon with clicks)
+    - !!Start building the yard construction tool, (build polygon with clicks)
     - Display information on the component that is being hovered,
     - Collect more information on plants.
     -->
-  <Application ref="app" background="white" :width="620" :height="600">
-    <Loader :resources="{ spritesheet: 'flowers.json' }" @resolved="onResolved($event.spritesheet)">
-      <template v-for="bed in fakeGarden.beds" :key="bed.id">
-        <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
-      </template>
-    </Loader>
-  </Application>
+  <Loader :resources="{ spritesheet: 'flowers.json' }" @resolved="onResolved($event.spritesheet)">
+    <template v-for="bed in fakeGarden.beds" :key="bed.id">
+      <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
+    </template>
+  </Loader>
+  <ToolTip />
 </template>
 
 <script setup lang="ts">
 import PixiBed from '@/components/graphics/PixiBed.vue'
+import ToolTip from '@/components/graphics/PixiToolTip.vue'
 import { ref } from 'vue'
-import { Application, Loader } from 'vue3-pixi'
+import { Loader } from 'vue3-pixi'
 import type { ApplicationInst } from 'vue3-pixi'
 import { Spritesheet, Container } from 'pixi.js'
 import { fakeGarden } from '@/config'
