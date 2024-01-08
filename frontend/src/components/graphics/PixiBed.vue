@@ -7,7 +7,7 @@
       <animated-sprite
         :textures="bed.animation"
         playing
-        :animation-speed="0.08"
+        :animation-speed="0.04"
         :anchor="0.5"
         :scale="scaleAnimated * bed.animationScale"
       />
