@@ -30,7 +30,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
-  (e: 'clicki', container: Container): void
+  (e: 'click:bed', container: Container): void
 }>()
 
 const size = 30
@@ -84,6 +84,6 @@ const drawDropShadow = (g: Graphics) => {
 }
 
 const bedClicked = (e: any) => {
-  emit('clicki', containerRef.value)
+  emit('click:bed', containerRef.value)
 }
 </script>

@@ -1,14 +1,14 @@
 <template>
   <!-- To-do's:
     Fun things:
-    - Start building the yard construction tool,
+    - Start building the yard construction tool, (build polygon with clicks)
     - Display information on the component that is being hovered,
     - Collect more information on plants.
     -->
   <Application ref="app" background="white" :width="620" :height="600">
     <Loader :resources="{ spritesheet: 'flowers.json' }" @resolved="onResolved($event.spritesheet)">
       <template v-for="bed in fakeGarden.beds" :key="bed.id">
-        <PixiBed :bed="bed" @update:hover="raiseBedIndex" @clicki="bedClicked" />
+        <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
       </template>
     </Loader>
   </Application>
