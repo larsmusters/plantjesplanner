@@ -34,9 +34,9 @@ export const fakeGarden: Garden = {
       color: Colours.red,
       shape: [
         { x: 30, y: -30, radius: 10 },
-        { x: 60, y: 30, radius: 10 },
-        { x: -30, y: 30, radius: 10 },
-        { x: -60, y: -30, radius: 10 }
+        { x: 45, y: 60, radius: 10 },
+        { x: -30, y: 60, radius: 10 },
+        { x: -30, y: -30, radius: 10 }
       ],
       location: { x: 160, y: 180 },
       plant: 'pink',

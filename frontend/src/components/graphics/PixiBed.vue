@@ -1,9 +1,9 @@
 <template>
-  <container :ref="(el) => (containerRef = el)">
+  <container :ref="(el) => (containerRef = el)" :x="bed.location.x" :y="bed.location.y">
     <graphics @render="drawDropShadow">
       <blur-filter :quality="10" :blur="20" />
     </graphics>
-    <graphics ref="el" @render="drawOutline" :hitArea="hitArea">
+    <graphics ref="el" @render="drawOutline" :hitArea="hitArea" @click="bedClicked">
       <animated-sprite
         :textures="bed.animation"
         playing
@@ -22,13 +22,15 @@ import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
 import type { Bed } from '@/types/garden'
+import type { Container } from 'pixi.js'
 
 const props = defineProps<{
   bed: Bed
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:hover', container: any): void
+  (e: 'update:hover', container: Container): void
+  (e: 'clicki', container: Container): void
 }>()
 
 const size = 30
@@ -79,5 +81,9 @@ const drawDropShadow = (g: Graphics) => {
     g.drawRoundedShape(buildPolygon(scaleAnimated.value, 5), 0)
   }
   g.endFill()
+}
+
+const bedClicked = (e: any) => {
+  emit('clicki', containerRef.value)
 }
 </script>

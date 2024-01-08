@@ -6,20 +6,10 @@
     - Collect more information on plants.
     -->
   <Application ref="app" background="white" :width="620" :height="600">
-    <Loader
-      :resources="{
-        spritesheet: 'flowers.json'
-      }"
-      @resolved="onResolved($event.spritesheet)"
-    >
-      <PixiBed
-        v-for="(bed, index) in fakeGarden.beds"
-        :key="index"
-        :x="bed.location.x"
-        :y="bed.location.y"
-        :bed="bed"
-        @update:hover="raiseBedIndex"
-      />
+    <Loader :resources="{ spritesheet: 'flowers.json' }" @resolved="onResolved($event.spritesheet)">
+      <template v-for="bed in fakeGarden.beds" :key="bed.id">
+        <PixiBed :bed="bed" @update:hover="raiseBedIndex" @clicki="bedClicked" />
+      </template>
     </Loader>
   </Application>
 </template>
@@ -35,6 +25,7 @@ import { fakeGarden } from '@/config'
 const app = ref<ApplicationInst>()
 
 const onResolved = (sheet: Spritesheet) => {
+  // Populate gardenbeds with animations
   fakeGarden.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
 }
 
@@ -43,5 +34,9 @@ const raiseBedIndex = (container: Container) => {
 
   const highestIndex = (app.value?.app.stage.children.length || 1) - 1
   app.value?.app.stage.setChildIndex(container, highestIndex)
+}
+
+const bedClicked = (container: Container) => {
+  console.log('bed Clicked!', container)
 }
 </script>

@@ -5,9 +5,15 @@ export interface Garden {
   beds: Bed[]
 }
 
+export interface PolygonPoints {
+  x: number
+  y: number
+  radius: number
+}
+
 export interface Bed {
   id: number
-  shape: IPointData[]
+  shape: PolygonPoints[]
   color: Colours
   location: IPointData
   plant: string
