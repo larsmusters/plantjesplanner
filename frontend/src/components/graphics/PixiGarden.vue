@@ -21,12 +21,15 @@ import { Application, Loader } from 'vue3-pixi'
 import type { ApplicationInst } from 'vue3-pixi'
 import { Spritesheet, Container } from 'pixi.js'
 import { fakeGarden } from '@/config'
+import type { Garden } from '@/types/garden'
 
 const app = ref<ApplicationInst>()
 
+const garden = ref<Garden>(fakeGarden)
+
 const onResolved = (sheet: Spritesheet) => {
   // Populate gardenbeds with animations
-  fakeGarden.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
+  garden.value.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
 }
 
 const raiseBedIndex = (container: Container) => {
