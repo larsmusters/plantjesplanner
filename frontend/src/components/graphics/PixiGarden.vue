@@ -13,12 +13,10 @@
       <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
     </template>
   </Loader>
-  <ToolTip />
 </template>
 
 <script setup lang="ts">
 import PixiBed from '@/components/graphics/PixiBed.vue'
-import ToolTip from '@/components/graphics/PixiToolTip.vue'
 import { ref } from 'vue'
 import { Loader } from 'vue3-pixi'
 import type { ApplicationInst } from 'vue3-pixi'
