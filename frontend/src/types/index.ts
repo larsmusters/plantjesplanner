@@ -1,6 +1,6 @@
-import { Spritesheet, Texture } from 'pixi.js'
+import { Texture, Spritesheet, type ISpritesheetData } from 'pixi.js'
 
 export interface Resource {
-  spritesheet?: undefined | Spritesheet
-  animation?: undefined | Texture[]
+  spritesheet?: Spritesheet<ISpritesheetData>
+  animation?: Texture[]
 }

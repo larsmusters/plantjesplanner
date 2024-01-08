@@ -5,7 +5,7 @@
     </graphics>
     <graphics ref="el" @render="drawOutline" :hitArea="hitArea">
       <animated-sprite
-        :textures="resource.animation"
+        :textures="animation"
         playing
         :animation-speed="0.08"
         :anchor="0.5"
@@ -17,16 +17,14 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { Graphics } from 'pixi.js'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
-import { Polygon, AnimatedSprite } from 'pixi.js'
-import type { Resource } from '@/types'
+import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
+import type { Texture } from 'pixi.js'
 
 defineProps<{
-  resource: Resource
-  refName?: string
+  animation?: Texture[]
 }>()
 
 const emit = defineEmits<{
