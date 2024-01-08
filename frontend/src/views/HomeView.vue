@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import Garden from '../components/Garden.vue'
+import Garden from '@/components/graphics/PixiGarden.vue'
 </script>

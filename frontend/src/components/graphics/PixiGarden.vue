@@ -1,8 +1,5 @@
 <template>
   <!-- To-do's:
-    Lame things: 
-    - Figure out zIndex for n beds: use Layer package?
-  
     Fun things:
     - Build structure to define several different (flower)-beds/regions,
     - Start building the yard construction tool,
@@ -16,8 +13,9 @@
       }"
       @resolved="onResolved($event.spritesheet)"
     >
-      <Bed
+      <PixiBed
         v-for="column in 6"
+        :key="column"
         :x="80 + (column - 1) * 90"
         :y="75"
         :animation="animation"
@@ -28,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import Bed from '../components/Bed.vue'
+import PixiBed from '@/components/graphics/PixiBed.vue'
 import { ref } from 'vue'
 import { Application, Loader } from 'vue3-pixi'
 import type { ApplicationInst } from 'vue3-pixi'

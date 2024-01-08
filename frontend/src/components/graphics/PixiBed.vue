@@ -75,7 +75,6 @@ function drawOutline(g: Graphics) {
 const drawDropShadow = (g: Graphics) => {
   g.clear()
 
-  const s = scaleAnimated.value
   g.beginFill(Colours.black, (scaleAnimated.value - 1) * 10 * 0.25)
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(scaleAnimated.value, 5), 0)
