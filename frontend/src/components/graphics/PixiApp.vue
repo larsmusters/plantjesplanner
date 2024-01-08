@@ -1,5 +1,5 @@
 <template>
-  <Application ref="app" background="white" :width="width" :height="height">
+  <Application class="pixi_app" background="white" :width="width" :height="height">
     <PixiGarden />
   </Application>
 </template>
@@ -13,3 +13,9 @@ defineProps<{
   height: number
 }>()
 </script>
+
+<style scoped lang="scss">
+.pixi_app {
+  border: 1px solid rgb(200, 200, 200);
+}
+</style>

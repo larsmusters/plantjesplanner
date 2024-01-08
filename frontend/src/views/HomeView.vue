@@ -3,7 +3,7 @@
     <div class="header">Plantjesplanner</div>
     <div class="menu">Menu</div>
     <div ref="graph" class="graph">
-      <PixiApp :width="window.width.value / 2" :height="window.height.value / 2" />
+      <PixiApp :width="window.width.value * 0.6" :height="window.height.value * 0.75" />
     </div>
   </div>
 </template>
@@ -52,5 +52,8 @@ const height = computed(() => (window.height.value - 20).toString() + 'px')
 
 .graph {
   grid-area: graph;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
