@@ -7,22 +7,23 @@ const defaultBed: Bed = {
   shape: [],
   location: { x: 0, y: 0 },
   plant: 'default',
-  heightOnHover: 1.25,
+  heightOnHover: 1.04,
   animation: [],
   animationScale: 1
 }
 
 export const fakeGarden: Garden = {
+  shape: [],
   beds: [
     {
       ...defaultBed,
       id: 1,
-      color: Colours.green,
+      color: Colours.grass,
       shape: [
-        { x: 30, y: -30, radius: 10 },
-        { x: 60, y: 30, radius: 10 },
-        { x: -30, y: 30, radius: 10 },
-        { x: -60, y: -30, radius: 10 }
+        { x: 30, y: -30, radius: 5 },
+        { x: 60, y: 30, radius: 5 },
+        { x: -30, y: 30, radius: 5 },
+        { x: -60, y: -30, radius: 5 }
       ],
       location: { x: 80, y: 100 },
       plant: 'brown',
@@ -31,12 +32,12 @@ export const fakeGarden: Garden = {
     {
       ...defaultBed,
       id: 2,
-      color: Colours.red,
+      color: Colours.dirt,
       shape: [
-        { x: 30, y: -30, radius: 10 },
-        { x: 45, y: 60, radius: 10 },
-        { x: -30, y: 60, radius: 10 },
-        { x: -30, y: -30, radius: 10 }
+        { x: 30, y: -30, radius: 5 },
+        { x: 45, y: 60, radius: 5 },
+        { x: -30, y: 60, radius: 5 },
+        { x: -30, y: -30, radius: 5 }
       ],
       location: { x: 160, y: 180 },
       plant: 'pink',

@@ -1,5 +1,8 @@
 <template>
   <!-- To-do's:
+    Lame things:
+    -re-factor PixiBed
+
     Fun things:
     - Start building the yard construction tool, (build polygon with clicks)
     - Display information on the component that is being hovered,
@@ -24,7 +27,6 @@ import { fakeGarden } from '@/config'
 import type { Garden } from '@/types/garden'
 
 const app = ref<ApplicationInst>()
-
 const garden = ref<Garden>(fakeGarden)
 
 const onResolved = (sheet: Spritesheet) => {
@@ -34,12 +36,11 @@ const onResolved = (sheet: Spritesheet) => {
 
 const raiseBedIndex = (container: Container) => {
   app.value?.app.stage.sortChildren()
-
   const highestIndex = (app.value?.app.stage.children.length || 1) - 1
   app.value?.app.stage.setChildIndex(container, highestIndex)
 }
 
 const bedClicked = (container: Container) => {
-  console.log('bed Clicked!', container)
+  console.log('bed Clicked!')
 }
 </script>

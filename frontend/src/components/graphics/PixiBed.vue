@@ -3,7 +3,7 @@
     <graphics @render="drawDropShadow">
       <blur-filter :quality="10" :blur="20" />
     </graphics>
-    <graphics ref="el" @render="drawOutline" :hitArea="hitArea" @click="bedClicked">
+    <graphics ref="el" @render="drawPolygon" :hitArea="hitArea" @click="bedClicked">
       <animated-sprite
         :textures="bed.animation"
         playing
@@ -33,18 +33,13 @@ const emit = defineEmits<{
   (e: 'click:bed', container: Container): void
 }>()
 
-const size = 30
 const buildPolygon = (s: number = 1, o: number = 0) => {
-  let shape = props.bed.shape
-
-  shape = shape.map((point) => {
+  return props.bed.shape.map((point) => {
     return { x: point.x * s + o, y: point.y * s + o, radius: point.radius * s }
   })
-
-  return shape
 }
 
-const hitArea = new Polygon(buildPolygon(1))
+const hitArea = new Polygon(buildPolygon())
 const el = ref()
 
 const hovering = useElementHover(el)
@@ -57,16 +52,17 @@ const scaleAnimated = useTransition(scale, {
 
 const containerRef = ref()
 watch(hovering, () => {
-  if (hovering.value == true) {
+  if (hovering.value) {
     emit('update:hover', containerRef.value)
   }
 })
-function drawOutline(g: Graphics) {
+
+const drawPolygon = (g: Graphics) => {
   g.clear()
 
-  g.lineStyle(2, Colours.grey)
+  g.lineStyle(0.5, Colours.dirtLight, 0.5)
 
-  g.beginFill(Colours.green, 1)
+  g.beginFill(props.bed.color, 1)
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(scaleAnimated.value), 0)
   }
@@ -76,7 +72,7 @@ function drawOutline(g: Graphics) {
 const drawDropShadow = (g: Graphics) => {
   g.clear()
 
-  g.beginFill(Colours.black, (scaleAnimated.value - 1) * 10 * 0.25)
+  g.beginFill(Colours.black, (scaleAnimated.value - 1) * 2)
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(scaleAnimated.value, 5), 0)
   }

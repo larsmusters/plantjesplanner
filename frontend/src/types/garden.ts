@@ -1,14 +1,15 @@
 import type { IPointData, Texture } from 'pixi.js'
 import type { Colours } from './colours'
 
-export interface Garden {
-  beds: Bed[]
-}
-
 export interface PolygonPoints {
   x: number
   y: number
   radius: number
+}
+
+export interface Garden {
+  shape: PolygonPoints[]
+  beds: Bed[]
 }
 
 export interface Bed {
