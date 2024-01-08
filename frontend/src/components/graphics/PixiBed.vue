@@ -5,11 +5,11 @@
     </graphics>
     <graphics ref="el" @render="drawOutline" :hitArea="hitArea">
       <animated-sprite
-        :textures="animation"
+        :textures="bed.animation"
         playing
         :animation-speed="0.08"
         :anchor="0.5"
-        :scale="scaleAnimated * 0.4"
+        :scale="scaleAnimated * bed.animationScale"
       />
     </graphics>
   </container>
@@ -21,10 +21,10 @@ import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Texture } from 'pixi.js'
+import type { Bed } from '@/types/garden'
 
-defineProps<{
-  animation?: Texture[]
+const props = defineProps<{
+  bed: Bed
 }>()
 
 const emit = defineEmits<{
@@ -33,14 +33,13 @@ const emit = defineEmits<{
 
 const size = 30
 const buildPolygon = (s: number = 1, o: number = 0) => {
-  const e = size
-  const radius = 20 * s
-  return [
-    { x: e * s + o, y: -e * s + o, radius },
-    { x: 2 * e * s + o, y: e * s + o, radius },
-    { x: -e * s + o, y: e * s + o, radius },
-    { x: -2 * e * s + o, y: -e * s + o, radius }
-  ]
+  let shape = props.bed.shape
+
+  shape = shape.map((point) => {
+    return { x: point.x * s + o, y: point.y * s + o, radius: point.radius * s }
+  })
+
+  return shape
 }
 
 const hitArea = new Polygon(buildPolygon(1))
@@ -48,7 +47,7 @@ const el = ref()
 
 const hovering = useElementHover(el)
 
-const scale = computed(() => (hovering.value ? 1.25 : 1))
+const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
 const scaleAnimated = useTransition(scale, {
   duration: 100,
   transition: TransitionPresets.easeOutQuad

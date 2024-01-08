@@ -1,0 +1,100 @@
+{
+  "frames": {
+    "brown1.png": {
+      "frame": { "x": 0, "y": 0, "w": 51, "h": 51 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 51, "h": 51 },
+      "sourceSize": { "w": 51, "h": 51 },
+      "anchor": { "x": 0.5, "y": 0.5 }
+    },
+    "brown2.png": {
+      "frame": { "x": 51, "y": 0, "w": 51, "h": 51 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 51, "h": 51 },
+      "sourceSize": { "w": 51, "h": 51 },
+      "anchor": { "x": 0.5, "y": 0.5 }
+    },
+    "madelief2.png": {
+      "frame": { "x": 0, "y": 51, "w": 92, "h": 101 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 92, "h": 101 },
+      "sourceSize": { "w": 92, "h": 101 },
+      "anchor": { "x": 0.51087, "y": 0.50495 }
+    },
+    "madelief3.png": {
+      "frame": { "x": 0, "y": 152, "w": 102, "h": 94 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 102, "h": 94 },
+      "sourceSize": { "w": 102, "h": 94 },
+      "anchor": { "x": 0.5, "y": 0.457447 }
+    },
+    "orange1.png": {
+      "frame": { "x": 0, "y": 246, "w": 50, "h": 50 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+      "sourceSize": { "w": 50, "h": 50 },
+      "anchor": { "x": 0.5, "y": 0.5 }
+    },
+    "orange2.png": {
+      "frame": { "x": 50, "y": 246, "w": 50, "h": 50 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+      "sourceSize": { "w": 50, "h": 50 },
+      "anchor": { "x": 0.48, "y": 0.48 }
+    },
+    "pink1.png": {
+      "frame": { "x": 0, "y": 296, "w": 43, "h": 42 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 43, "h": 42 },
+      "sourceSize": { "w": 43, "h": 42 },
+      "anchor": { "x": 0.465116, "y": 0.5 }
+    },
+    "pink2.png": {
+      "frame": { "x": 43, "y": 296, "w": 43, "h": 42 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 43, "h": 42 },
+      "sourceSize": { "w": 43, "h": 42 },
+      "anchor": { "x": 0.465116, "y": 0.452381 }
+    },
+    "purple1.png": {
+      "frame": { "x": 0, "y": 338, "w": 36, "h": 37 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 37 },
+      "sourceSize": { "w": 36, "h": 37 },
+      "anchor": { "x": 0.444444, "y": 0.486486 }
+    },
+    "purple2.png": {
+      "frame": { "x": 36, "y": 338, "w": 36, "h": 37 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 37 },
+      "sourceSize": { "w": 36, "h": 37 },
+      "anchor": { "x": 0.527778, "y": 0.513514 }
+    }
+  },
+  "animations": {
+    "brown": ["brown1.png", "brown2.png"],
+    "madelief": ["madelief2.png", "madelief3.png"],
+    "orange": ["orange1.png", "orange2.png"],
+    "pink": ["pink1.png", "pink2.png"],
+    "purple": ["purple1.png", "purple2.png"]
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.1",
+    "image": "flowers.png",
+    "format": "RGBA8888",
+    "size": { "w": 102, "h": 375 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:40b07b28ecf243a694370a0cb5d99cf2:267077e374f766b70f912567249e9ee3:d3ef8763eadfaadc00adadba3381a5f3$"
+  }
+}
