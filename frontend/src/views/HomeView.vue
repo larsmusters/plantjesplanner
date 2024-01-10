@@ -3,7 +3,7 @@
     <div class="header">Plantjesplanner</div>
     <div class="menu">Menu</div>
     <div ref="graph" class="graph">
-      <PixiApp :width="window.width.value * 0.6" :height="window.height.value * 0.75" />
+      <PixiApp :width="graphWidth" :height="graphHeight" />
     </div>
   </div>
 </template>
@@ -11,18 +11,31 @@
 <script setup lang="ts">
 import PixiApp from '@/components/graphics/PixiApp.vue'
 import { useWindowSize } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const window = useWindowSize()
-const width = computed(() => (window.width.value - 20).toString() + 'px')
-const height = computed(() => (window.height.value - 20).toString() + 'px')
+const windowWidth = computed(() => window.width.value)
+const windowHeight = computed(() => window.height.value)
+
+const appWidth = computed(() => (windowWidth.value - 20).toString() + 'px')
+const appHeight = computed(() => (windowHeight.value - 20).toString() + 'px')
+
+const headerHeight = 60
+const menuWidth = 150
+
+const graphWidth = computed(() => windowWidth.value - menuWidth)
+const graphHeight = computed(() => windowHeight.value - headerHeight)
+
+// For CSS
+const headerHeightCSS = headerHeight.toString() + 'px'
+const menuWidthCSS = menuWidth.toString() + 'px'
 </script>
 
 <style scoped lang="scss">
 .app-container {
   background-color: white;
-  width: v-bind(width);
-  height: v-bind(height);
+  width: v-bind(appWidth);
+  height: v-bind(appHeight);
   overflow-y: hidden;
   overflow-x: hidden;
 
@@ -30,8 +43,8 @@ const height = computed(() => (window.height.value - 20).toString() + 'px')
   grid-template-areas:
     'header header '
     'menu graph ';
-  grid-template-columns: 15em 100fr;
-  grid-template-rows: 4em 100fr;
+  grid-template-columns: v-bind(menuWidthCSS) 50fr;
+  grid-template-rows: v-bind(headerHeightCSS) 50fr;
 }
 
 .header {
