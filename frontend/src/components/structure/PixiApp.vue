@@ -17,8 +17,8 @@
       >
         <PixiGarden :garden="fakeGarden" />
       </Loader>
-      <ToolTip />
     </World>
+    <ToolTip />
   </Application>
 </template>
 
@@ -38,7 +38,7 @@ defineProps<{
   height: number
 }>()
 
-const position = ref<WorldPosition>({ x: 0, y: 0, scale: 1, rotation: 0 })
+const position = ref<WorldPosition>({ x: 30, y: 30, scale: 1, rotation: 0 })
 
 const garden = ref<Garden>(fakeGarden)
 const onResolved = (sheet: Spritesheet) => {

@@ -43,10 +43,10 @@ onReady((app) => {
 
 const onPointerEvent = (event: FederatedPointerEvent) => {
   // Only change, position the object at the top right of the cursor
-  const y_offset = event.global.y < 25 ? 20 : -20
+  const y_offset = event.global.y < 30 ? 20 : -20
 
   const appWidth = appRef.value.view.width
-  const x_offset = appWidth - event.global.x < 110 ? -110 : 10
+  const x_offset = appWidth - event.global.x < 140 ? -110 : 10
 
   const newLocation = { x: event.global.x + x_offset, y: event.global.y + y_offset }
   Object.assign(position, newLocation)

@@ -9,6 +9,6 @@ export enum Colours {
   black = 0x000000,
   grey = 0xa0a0a0,
 
-  inside = 0xa0a0a0,
-  outside = 0xffffff
+  edge = 0xa0a0a0,
+  inside = 0xeeeeee
 }

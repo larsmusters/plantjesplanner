@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import PixiApp from '@/components/structure/PixiApp.vue'
 import { useWindowSize } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const window = useWindowSize()
 const windowWidth = computed(() => window.width.value)

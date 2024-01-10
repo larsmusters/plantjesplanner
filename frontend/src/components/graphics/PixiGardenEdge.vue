@@ -21,9 +21,9 @@ const buildPolygon = (s: number = 1, o: number = 0) => {
 const drawEdge = (g: Graphics) => {
   g.clear()
 
-  g.lineStyle(2, Colours.inside, 0.5)
+  g.lineStyle(2, Colours.edge, 0.5)
 
-  g.beginFill(Colours.outside, 1)
+  g.beginFill(Colours.inside, 1)
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(1), 0)
   }

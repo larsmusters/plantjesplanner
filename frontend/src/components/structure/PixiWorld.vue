@@ -1,5 +1,5 @@
 <template>
-  <graphics>
+  <graphics :x="position.x" :y="position.y" :rotation="position.rotation" :scale="position.scale">
     <slot />
   </graphics>
 </template>
@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import type { WorldPosition } from '@/types/index'
 
-const props = defineProps<{
+defineProps<{
   position: WorldPosition
 }>()
 </script>
