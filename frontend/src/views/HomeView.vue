@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import PixiApp from '@/components/graphics/PixiApp.vue'
+import PixiApp from '@/components/structure/PixiApp.vue'
 import { useWindowSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
 

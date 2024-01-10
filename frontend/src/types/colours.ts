@@ -7,5 +7,8 @@ export enum Colours {
   red = 0xff3300,
   white = 0xffffff,
   black = 0x000000,
-  grey = 0xa0a0a0
+  grey = 0xa0a0a0,
+
+  inside = 0xa0a0a0,
+  outside = 0xffffff
 }

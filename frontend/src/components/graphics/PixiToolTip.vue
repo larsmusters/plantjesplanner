@@ -9,10 +9,15 @@
 import { Colours } from '@/types/colours'
 import type { FederatedPointerEvent, Graphics } from 'pixi.js'
 import { useEventListener } from '@vueuse/core'
-import { reactive, ref } from 'vue'
+import { reactive, ref, type StyleValue, type SVGAttributes } from 'vue'
 import { useStage, onReady, useApplication } from 'vue3-pixi'
 
-const textStyle = { fontFamily: 'Arial', fontSize: 17, wordWrap: true, wordWrapWidth: 100 }
+const textStyle = {
+  fontFamily: 'Arial',
+  fontSize: 17,
+  wordWrap: true,
+  wordWrapWidth: 100
+}
 const enabled = ref<boolean>(true)
 const tooltipText = ref<string>('Mode: select')
 

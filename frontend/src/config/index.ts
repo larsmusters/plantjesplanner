@@ -13,7 +13,12 @@ const defaultBed: Bed = {
 }
 
 export const fakeGarden: Garden = {
-  shape: [],
+  shape: [
+    { x: 0, y: 0, radius: 5 },
+    { x: 600, y: 0, radius: 5 },
+    { x: 600, y: 400, radius: 5 },
+    { x: 0, y: 400, radius: 5 }
+  ],
   beds: [
     {
       ...defaultBed,
