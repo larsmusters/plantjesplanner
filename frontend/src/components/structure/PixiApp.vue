@@ -5,10 +5,10 @@
 
     Fun things:
     - !!Start building the yard construction tool, (build polygon with clicks),
-    - Center and scale the garden such that it is always in view on load,
     - Display information on the component that is being hovered,
     - Collect more information on plants.
-    -->
+  -->
+
   <Application background="white" :width="width" :height="height">
     <World :position="position">
       <Loader
@@ -39,6 +39,10 @@ defineProps<{
 }>()
 
 const position = ref<WorldPosition>({ x: 30, y: 30, scale: 1, rotation: 0 })
+
+const getGardenBounds = () => {
+  // garden.value.shape <- use to get bounds
+}
 
 const garden = ref<Garden>(fakeGarden)
 const onResolved = (sheet: Spritesheet) => {
