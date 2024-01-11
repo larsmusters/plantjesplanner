@@ -10,7 +10,7 @@
   -->
 
   <Application background="white" :width="width" :height="height">
-    <World :position="position">
+    <World :garden-position="gardenPosition" :width="width" :height="height">
       <Loader
         :resources="{ spritesheet: 'flowers.json' }"
         @resolved="onResolved($event.spritesheet)"
@@ -30,7 +30,7 @@ import { ref, watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
 import type { Garden, PolygonPoint } from '@/types/garden'
-import type { WorldPosition, BoundingBox } from '@/types'
+import type { Position, BoundingBox } from '@/types'
 import { fakeGarden } from '@/config'
 
 const props = defineProps<{
@@ -51,8 +51,8 @@ const getGardenBounds = (gardenShape: PolygonPoint[]): BoundingBox => {
   return { xMin, xMax, yMin, yMax }
 }
 
-const position = ref<WorldPosition>({ x: 0, y: 0, scale: 1, rotation: 0 })
-const setWorldPosition = (): void => {
+const gardenPosition = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
+const setGardenPosition = (): void => {
   // The function provides world coordinates to center and scale the garden based on the screen size and garden bounds.
   const bounds = getGardenBounds(garden.value.shape)
   const boundMargin = 18 // Screen pixels
@@ -67,9 +67,9 @@ const setWorldPosition = (): void => {
   let y = -bounds.yMin * scale
   y += scale === scaleX ? (props.height - (bounds.yMax - bounds.yMin) * scaleX) / 2 : boundMargin
 
-  position.value = { x, y, scale, rotation: 0 }
+  gardenPosition.value = { x, y, scale, rotation: 0 }
 }
-setWorldPosition()
+setGardenPosition()
 
 const onResolved = (sheet: Spritesheet) => {
   // Populate gardenbeds with animations
@@ -77,9 +77,9 @@ const onResolved = (sheet: Spritesheet) => {
 }
 
 watch(
-  () => props.width + props.height,
+  () => [props.width, props.height],
   () => {
-    setWorldPosition()
+    setGardenPosition()
   }
 )
 </script>

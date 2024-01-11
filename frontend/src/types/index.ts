@@ -1,4 +1,4 @@
-export interface WorldPosition {
+export interface Position {
   x: number
   y: number
   scale: number
