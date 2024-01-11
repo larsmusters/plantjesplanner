@@ -14,10 +14,10 @@ const defaultBed: Bed = {
 
 export const fakeGarden: Garden = {
   shape: [
-    { x: 0, y: 0, radius: 5 },
+    { x: 45, y: 0, radius: 5 },
     { x: 600, y: 0, radius: 5 },
-    { x: 600, y: 400, radius: 5 },
-    { x: 0, y: 400, radius: 5 }
+    { x: 600, y: 300, radius: 5 },
+    { x: 45, y: 300, radius: 5 }
   ],
   beds: [
     {
@@ -30,7 +30,7 @@ export const fakeGarden: Garden = {
         { x: -30, y: 30, radius: 5 },
         { x: -60, y: -30, radius: 5 }
       ],
-      location: { x: 80, y: 100 },
+      location: { x: 300, y: 100 },
       plant: 'brown',
       animationScale: 0.7
     },

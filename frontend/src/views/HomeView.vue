@@ -23,8 +23,8 @@ const appHeight = computed(() => (windowHeight.value - 20).toString() + 'px')
 const headerHeight = 60
 const menuWidth = 150
 
-const graphWidth = computed(() => windowWidth.value - menuWidth)
-const graphHeight = computed(() => windowHeight.value - headerHeight)
+const graphWidth = computed(() => windowWidth.value - menuWidth - 20)
+const graphHeight = computed(() => windowHeight.value - headerHeight - 20)
 
 // For CSS
 const headerHeightCSS = headerHeight.toString() + 'px'

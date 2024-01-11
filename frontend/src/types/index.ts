@@ -4,3 +4,10 @@ export interface WorldPosition {
   scale: number
   rotation: number
 }
+
+export interface BoundingBox {
+  xMin: number
+  xMax: number
+  yMin: number
+  yMax: number
+}
