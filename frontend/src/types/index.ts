@@ -1,3 +1,8 @@
+export enum ClickMode {
+  add,
+  select
+}
+
 export interface Position {
   x: number
   y: number

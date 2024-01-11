@@ -1,15 +1,12 @@
 <template>
   <!-- To-do's:
-    Lame things:
-    -re-factor PixiBed
-
     Fun things:
-    - !!Start building the yard construction tool, (build polygon with clicks),
+    - -> doing this one, see store Start building the yard construction tool, (build polygon with clicks),
     - Display information on the component that is being hovered,
     - Collect more information on plants.
   -->
 
-  <Application background="white" :width="width" :height="height">
+  <Application background="white" :width="width" :height="height" @click="isClicked">
     <World :garden-position="gardenPosition" :width="width" :height="height">
       <Loader
         :resources="{ spritesheet: 'flowers.json' }"
@@ -18,27 +15,40 @@
         <PixiGarden :garden="fakeGarden" />
       </Loader>
     </World>
-    <ToolTip />
+    <PixiCursor />
   </Application>
 </template>
 
 <script setup lang="ts">
 import World from './PixiWorld.vue'
-import ToolTip from '@/components/graphics/PixiToolTip.vue'
+import PixiCursor from '@/components/cursor/PixiCursor.vue'
+// import ToolTip from '@/components/graphics/PixiToolTip.vue'
 import PixiGarden from './PixiGarden.vue'
+import { useEventListener } from '@vueuse/core'
 import { ref, watch } from 'vue'
-import { Loader, Application } from 'vue3-pixi'
+import { Loader, Application, useStage } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
-import type { Garden, PolygonPoint } from '@/types/garden'
+import type { Bed, PolygonPoint } from '@/types/garden'
 import type { Position, BoundingBox } from '@/types'
 import { fakeGarden } from '@/config'
-
+import { useGardenStore } from '@/stores'
+import { ClickMode } from '@/types'
 const props = defineProps<{
   width: number
   height: number
 }>()
 
-const garden = ref<Garden>(fakeGarden)
+const gardenStore = useGardenStore()
+gardenStore.garden = fakeGarden
+
+const isClicked = (e: PointerEvent) => {
+  console.log(e.offsetY, e.offsetX)
+  if (gardenStore.clickMode === ClickMode.add) {
+    // figure out where was clicked in application (relative to garden)
+    const newBed: Partial<Bed> = { location: { x: e.offsetX, y: e.offsetY } }
+    gardenStore.addBed(newBed)
+  }
+}
 
 const getGardenBounds = (gardenShape: PolygonPoint[]): BoundingBox => {
   let [xMin, xMax, yMin, yMax] = [1e6, -1e6, 1e6, -1e6]
@@ -54,7 +64,7 @@ const getGardenBounds = (gardenShape: PolygonPoint[]): BoundingBox => {
 const gardenPosition = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
 const setGardenPosition = (): void => {
   // The function provides world coordinates to center and scale the garden based on the screen size and garden bounds.
-  const bounds = getGardenBounds(garden.value.shape)
+  const bounds = getGardenBounds(gardenStore.garden!.shape)
   const boundMargin = 18 // Screen pixels
 
   const scaleY = (props.height - 2 * boundMargin) / (bounds.yMax - bounds.yMin)
@@ -73,7 +83,7 @@ setGardenPosition()
 
 const onResolved = (sheet: Spritesheet) => {
   // Populate gardenbeds with animations
-  garden.value.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
+  gardenStore.garden!.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
 }
 
 watch(

@@ -1,5 +1,5 @@
 <template>
-  <GardenShell :path="garden.shape" />
+  <GardenShell :path="garden.shape" @click="isClicked" />
   <template v-for="bed in garden.beds" :key="bed.id">
     <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
   </template>
@@ -9,7 +9,7 @@
 import PixiBed from '@/components/graphics/bed/PixiBed.vue'
 import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import { ref } from 'vue'
-import type { ApplicationInst } from 'vue3-pixi'
+import { type ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'
 import type { Garden } from '@/types/garden'
 

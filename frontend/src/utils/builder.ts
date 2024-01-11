@@ -16,7 +16,11 @@ const stylingDefault: PolygonStyling = {
     { x: 5, y: 10 }
   ],
   scale: 1,
-  offset: 0
+  offset: 0,
+  vertexRadius: 0,
+  vertexAlpha: 1,
+  vertexFillColour: Colours.black,
+  vertexLineColour: Colours.black
 }
 
 export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling>) => {
@@ -34,5 +38,10 @@ export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(ps.shape, ps.scale, ps.offset), 0)
   }
+  // draw vertices
+  g.lineStyle(ps.lineThickness, ps.vertexLineColour, ps.vertexAlpha)
+  ps.shape.forEach(({ x, y }) => {
+    g.drawCircle(x, y, ps.vertexRadius)
+  })
   g.endFill()
 }
