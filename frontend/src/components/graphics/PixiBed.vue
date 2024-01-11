@@ -3,7 +3,7 @@
     <graphics @render="drawDropShadow">
       <blur-filter :quality="10" :blur="20" />
     </graphics>
-    <graphics ref="el" @render="drawPolygon" :hitArea="hitArea" @click="bedClicked">
+    <graphics ref="el" @render="drawBed" :hitArea="hitArea" @click="bedClicked">
       <animated-sprite
         :textures="bed.animation"
         playing
@@ -23,6 +23,8 @@ import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
 import type { Bed } from '@/types/garden'
 import type { Container } from 'pixi.js'
+import { drawPolygon } from '@/utils/builder'
+import type { PolygonStyling } from '@/types/shapes'
 
 const props = defineProps<{
   bed: Bed
@@ -33,15 +35,8 @@ const emit = defineEmits<{
   (e: 'click:bed', container: Container): void
 }>()
 
-const buildPolygon = (s: number = 1, o: number = 0) => {
-  return props.bed.shape.map((point) => {
-    return { x: point.x * s + o, y: point.y * s + o, radius: point.radius * s }
-  })
-}
-
-const hitArea = new Polygon(buildPolygon())
+const hitArea = new Polygon(props.bed.shape)
 const el = ref()
-
 const hovering = useElementHover(el)
 
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
@@ -57,26 +52,27 @@ watch(hovering, () => {
   }
 })
 
-const drawPolygon = (g: Graphics) => {
-  g.clear()
-
-  g.lineStyle(0.5, Colours.dirtLight, 0.5)
-
-  g.beginFill(props.bed.color, 1)
-  if (g.drawRoundedShape) {
-    g.drawRoundedShape(buildPolygon(scaleAnimated.value), 0)
+const drawBed = (g: Graphics) => {
+  const styling: Partial<PolygonStyling> = {
+    shape: props.bed.shape,
+    scale: scaleAnimated.value,
+    lineThickness: 0.5,
+    lineColour: Colours.dirtLight,
+    fillColour: props.bed.color,
+    lineAlpha: 0.5
   }
-  g.endFill()
+  drawPolygon(g, styling)
 }
 
 const drawDropShadow = (g: Graphics) => {
-  g.clear()
-
-  g.beginFill(Colours.black, (scaleAnimated.value - 1) * 2)
-  if (g.drawRoundedShape) {
-    g.drawRoundedShape(buildPolygon(scaleAnimated.value, 5), 0)
+  const styling: Partial<PolygonStyling> = {
+    shape: props.bed.shape,
+    scale: scaleAnimated.value,
+    fillAlpha: (scaleAnimated.value - 1) * 2,
+    fillColour: Colours.black,
+    offset: 5
   }
-  g.endFill()
+  drawPolygon(g, styling)
 }
 
 const bedClicked = (e: any) => {

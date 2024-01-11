@@ -4,7 +4,7 @@ import type { Colours } from '@/types/colours'
 export interface PolygonPoint {
   x: number
   y: number
-  radius: number
+  radius?: number
 }
 
 export interface Garden {
