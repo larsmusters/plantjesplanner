@@ -13,25 +13,27 @@ import PixiApp from '@/components/structure/PixiApp.vue'
 import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
 
+const extraMargin = 30
+
 const window = useWindowSize()
 const windowWidth = computed(() => window.width.value)
 const windowHeight = computed(() => window.height.value)
 
-const appWidth = computed(() => (windowWidth.value - 20).toString() + 'px')
-const appHeight = computed(() => (windowHeight.value - 20).toString() + 'px')
+const appWidth = computed(() => (windowWidth.value - extraMargin * 2).toString() + 'px')
+const appHeight = computed(() => (windowHeight.value - extraMargin * 2).toString() + 'px')
 
 const headerHeight = 60
 const menuWidth = 150
 
-const graphWidth = computed(() => windowWidth.value - menuWidth - 20)
-const graphHeight = computed(() => windowHeight.value - headerHeight - 20)
+const graphWidth = computed(() => windowWidth.value - menuWidth - extraMargin * 2)
+const graphHeight = computed(() => windowHeight.value - headerHeight - extraMargin * 2)
 
 // For CSS
 const headerHeightCSS = headerHeight.toString() + 'px'
 const menuWidthCSS = menuWidth.toString() + 'px'
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .app-container {
   background-color: white;
   width: v-bind(appWidth);

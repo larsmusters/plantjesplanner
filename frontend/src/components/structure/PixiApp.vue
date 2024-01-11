@@ -55,7 +55,7 @@ const position = ref<WorldPosition>({ x: 0, y: 0, scale: 1, rotation: 0 })
 const setWorldPosition = (): void => {
   // The function provides world coordinates to center and scale the garden based on the screen size and garden bounds.
   const bounds = getGardenBounds(garden.value.shape)
-  const boundMargin = 30 // Screen pixels
+  const boundMargin = 18 // Screen pixels
 
   const scaleY = (props.height - 2 * boundMargin) / (bounds.yMax - bounds.yMin)
   const scaleX = (props.width - 2 * boundMargin) / (bounds.xMax - bounds.xMin)
