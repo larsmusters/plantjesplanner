@@ -1,7 +1,7 @@
 <template>
   <container :ref="(el) => (containerRef = el)" :x="bed.location.x" :y="bed.location.y">
     <graphics @render="drawDropShadow">
-      <blur-filter :quality="10" :blur="20" />
+      <blur-filter :quality="2" :blur="4" />
     </graphics>
     <graphics ref="el" @render="drawBed" :hitArea="hitArea" @click="bedClicked">
       <animated-sprite
@@ -56,10 +56,11 @@ const drawBed = (g: Graphics) => {
   const styling: Partial<PolygonStyling> = {
     shape: props.bed.shape,
     scale: scaleAnimated.value,
-    lineThickness: 0.5,
-    lineColour: Colours.dirtLight,
+    lineThickness: 1,
+    lineColour: props.bed.color,
     fillColour: props.bed.color,
-    lineAlpha: 0.5
+    lineAlpha: 0.9,
+    fillAlpha: 0.4
   }
   drawPolygon(g, styling)
 }
@@ -70,7 +71,7 @@ const drawDropShadow = (g: Graphics) => {
     scale: scaleAnimated.value,
     fillAlpha: (scaleAnimated.value - 1) * 2,
     fillColour: Colours.black,
-    offset: 5
+    offset: 7.5
   }
   drawPolygon(g, styling)
 }

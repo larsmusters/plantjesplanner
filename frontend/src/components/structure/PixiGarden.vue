@@ -1,13 +1,13 @@
 <template>
-  <GardenEdge :path="garden.shape" />
+  <GardenShell :path="garden.shape" />
   <template v-for="bed in garden.beds" :key="bed.id">
     <PixiBed :bed="bed" @update:hover="raiseBedIndex" @click:bed="bedClicked" />
   </template>
 </template>
 
 <script setup lang="ts">
-import PixiBed from '@/components/graphics/PixiBed.vue'
-import GardenEdge from '@/components/graphics/PixiGardenEdge.vue'
+import PixiBed from '@/components/graphics/bed/PixiBed.vue'
+import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import { ref } from 'vue'
 import type { ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'

@@ -23,7 +23,7 @@ export const fakeGarden: Garden = {
     {
       ...defaultBed,
       id: 1,
-      color: Colours.grass,
+      color: Colours.brownFlower,
       shape: [
         { x: 30, y: -30, radius: 5 },
         { x: 60, y: 30, radius: 5 },
@@ -37,7 +37,7 @@ export const fakeGarden: Garden = {
     {
       ...defaultBed,
       id: 2,
-      color: Colours.dirt,
+      color: Colours.violetFlower,
       shape: [
         { x: 30, y: -30, radius: 5 },
         { x: 45, y: 60, radius: 5 },
