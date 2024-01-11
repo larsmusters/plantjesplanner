@@ -26,7 +26,7 @@
 import World from './PixiWorld.vue'
 import ToolTip from '@/components/graphics/PixiToolTip.vue'
 import PixiGarden from './PixiGarden.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
 import type { Garden, PolygonPoint } from '@/types/garden'
@@ -75,4 +75,11 @@ const onResolved = (sheet: Spritesheet) => {
   // Populate gardenbeds with animations
   garden.value.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
 }
+
+watch(
+  () => props.width + props.height,
+  () => {
+    setWorldPosition()
+  }
+)
 </script>

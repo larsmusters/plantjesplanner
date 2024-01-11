@@ -16,8 +16,8 @@ export const fakeGarden: Garden = {
   shape: [
     { x: 45, y: 0, radius: 5 },
     { x: 600, y: 0, radius: 5 },
-    { x: 600, y: 300, radius: 5 },
-    { x: 45, y: 300, radius: 5 }
+    { x: 600, y: 400, radius: 5 },
+    { x: 45, y: 400, radius: 5 }
   ],
   beds: [
     {
