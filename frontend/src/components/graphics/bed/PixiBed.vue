@@ -3,7 +3,15 @@
     <graphics @render="drawDropShadow">
       <blur-filter :quality="2" :blur="4" />
     </graphics>
-    <graphics ref="el" @render="drawBed" :hitArea="hitArea" @click="bedClicked">
+    <graphics
+      ref="el"
+      @render="drawBed"
+      :hitArea="hitArea"
+      @click="bedClicked"
+      @pointerdown="onDragStart"
+      @pointerup="onDragEnd"
+      @pointerupoutside="onDragEnd"
+    >
       <animated-sprite
         v-if="bed.animation.length"
         :textures="bed.animation"
@@ -14,28 +22,28 @@
       />
     </graphics>
     <template v-if="editMode">
-      <graphics
-        v-for="point in props.bed.shape"
-        :key="point"
-        @render="(g: Graphics) => drawEditPoint(g, point)"
-        :hit-area="getEditPointHitArea(point)"
-        @click="editPointClicked"
+      <BedVertex
+        v-for="(point, index) in props.bed.shape"
+        :key="index"
+        :point="point"
+        @set-to-cursor:point="editPoint(index)"
       />
     </template>
   </container>
 </template>
 
 <script setup lang="ts">
+import BedVertex from './BedVertex.vue'
 import { computed, ref, watch } from 'vue'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Bed, PolygonPoint } from '@/types/garden'
+import type { Bed } from '@/types/garden'
 import type { Container } from 'pixi.js'
-import { drawPolygon, drawPolygonVertex } from '@/utils/builder'
+import { drawPolygon } from '@/utils/builder'
 import type { PolygonStyling } from '@/types/shapes'
-import { Circle } from 'pixi.js'
+import { useStage } from 'vue3-pixi'
 
 const props = withDefaults(
   defineProps<{
@@ -50,6 +58,8 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
   (e: 'click:bed', container: Container): void
+  (e: 'set-to-cursor:bed-vertex', index: number): void
+  (e: 'set-to-cursor:bed'): void
 }>()
 
 const hitArea = new Polygon(props.bed.shape)
@@ -93,27 +103,26 @@ const drawDropShadow = (g: Graphics) => {
   drawPolygon(g, styling)
 }
 
-const drawEditPoint = (g: Graphics, p: PolygonPoint) => {
-  const styling = {
-    shape: props.bed.shape,
-    scale: scaleAnimated.value,
-    lineThickness: 2,
-    fillColour: Colours.black,
-    location: p
-  }
-  drawPolygonVertex(g, styling)
-}
-
-const getEditPointHitArea = (p: PolygonPoint) => {
-  const radius = 5
-  return new Circle(p.x, p.y, radius)
-}
-
-const editPointClicked = () => {
-  console.log('clicked')
-}
-
 const bedClicked = () => {
   emit('click:bed', containerRef.value)
+}
+
+const editPoint = (index: number) => {
+  emit('set-to-cursor:bed-vertex', index)
+}
+
+const stage = useStage()
+const onDragStart = () => {
+  if (props.editMode) {
+    stage.value!.addEventListener('pointermove', onDrag)
+  }
+}
+
+const onDragEnd = () => {
+  stage.value!.removeEventListener('pointermove', onDrag)
+}
+
+const onDrag = () => {
+  emit('set-to-cursor:bed')
 }
 </script>

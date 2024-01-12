@@ -1,10 +1,12 @@
 <template>
   <GardenShell :path="gardenStore.garden.shape" />
-  <template v-for="bed in gardenStore.garden.beds" :key="bed.id">
+  <template v-for="(bed, index) in gardenStore.garden.beds" :key="bed.id">
     <PixiBed
       :bed="bed"
       @update:hover="raiseBedIndex"
       :edit-mode="gardenStore.clickMode === ClickMode.edit"
+      @set-to-cursor:bed-vertex="(vertexId: number) => moveBedVertex(vertexId, index)"
+      @set-to-cursor:bed="moveBed(index)"
     />
   </template>
   <PixiBed
@@ -22,6 +24,7 @@ import { type ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
+import type { Bed } from '@/types/garden'
 
 const app = ref<ApplicationInst>()
 const raiseBedIndex = (container: Container) => {
@@ -34,5 +37,16 @@ const gardenStore = useGardenStore()
 const addBed = () => {
   gardenStore.garden.beds.push({ ...gardenStore.newBed })
   gardenStore.clickMode = ClickMode.select
+}
+
+const moveBedVertex = (vertexId: number, bedId: number) => {
+  gardenStore.garden.beds[bedId].shape[vertexId].x =
+    gardenStore.gardenCursor.x - gardenStore.garden.beds[bedId].location.x
+  gardenStore.garden.beds[bedId].shape[vertexId].y =
+    gardenStore.gardenCursor.y - gardenStore.garden.beds[bedId].location.y
+}
+
+const moveBed = (bedId: number) => {
+  gardenStore.garden.beds[bedId].location = gardenStore.gardenCursor
 }
 </script>

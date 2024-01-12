@@ -47,6 +47,7 @@ const polygonVertexDefaultStyling: PolygonVertexStyling = {
 
 export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonVertexStyling>) => {
   const pvs: PolygonVertexStyling = { ...polygonVertexDefaultStyling, ...polygonStyling }
+  g.clear()
   g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
   g.drawCircle(pvs.location.x, pvs.location.y, pvs.radius)
   g.endFill()
