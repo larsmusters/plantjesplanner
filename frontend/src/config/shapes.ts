@@ -12,7 +12,7 @@ export const defaultNewBed: Bed = {
   color: Colours.blue,
   location: { x: 0, y: 0 },
   plant: 'madelief',
-  heightOnHover: 1,
+  heightOnHover: 1.05,
   animation: [],
   animationScale: 0.5
 }

@@ -32,7 +32,7 @@ const onPointerEvent = (event: FederatedPointerEvent) => {
   const newLocation = { x: event.global.x, y: event.global.y }
   Object.assign(position, newLocation)
 
-  gardenStore.globalCursor = newLocation
+  gardenStore.updateCursor(newLocation)
 }
 
 useEventListener(stageRef, 'pointermove', onPointerEvent)

@@ -1,7 +1,7 @@
 <template>
   <!-- To-do's:
     Fun things:
-    - -> doing this one, see store Start building the yard construction tool, (build polygon with clicks),
+    - Start building the yard construction tool, (build polygon with clicks),
     - Display information on the component that is being hovered,
     - Collect more information on plants.
   -->
@@ -62,6 +62,7 @@ setGardenPosition()
 const onResolved = (sheet: Spritesheet) => {
   // Populate gardenbeds with animations
   gardenStore.garden!.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
+  gardenStore.newBed.animation = sheet.animations[gardenStore.newBed.plant]
 }
 
 watch(

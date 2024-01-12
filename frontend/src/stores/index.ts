@@ -3,19 +3,24 @@ import { ClickMode, type Position } from '@/types'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { fakeGarden } from '@/config'
+import { defaultNewBed } from '@/config/shapes'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
-  const clickMode = ref<ClickMode>(ClickMode.add)
-  const globalCursor = ref({ x: 0, y: 0 })
-
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
+  const clickMode = ref<ClickMode>(ClickMode.add)
 
-  const gardenCursor = computed(() => {
-    const x = (globalCursor.value.x - position.value.x) / position.value.scale
-    const y = (globalCursor.value.y - position.value.y) / position.value.scale
-    return { x, y }
-  })
+  const newBed = ref<Bed>(defaultNewBed)
+
+  const gardenCursor = ref({ x: 0, y: 0 })
+  const updateCursor = (cursor: { x: number; y: number }) => {
+    gardenCursor.value = {
+      x: (cursor.x - position.value.x) / position.value.scale,
+      y: (cursor.y - position.value.y) / position.value.scale
+    }
+
+    newBed.value.location = gardenCursor.value
+  }
 
   const bounds = computed(() => {
     let [xMin, xMax, yMin, yMax] = [1e6, -1e6, 1e6, -1e6]
@@ -27,5 +32,5 @@ export const useGardenStore = defineStore('garden', () => {
     })
     return { xMin, xMax, yMin, yMax }
   })
-  return { garden, clickMode, globalCursor, bounds, position, gardenCursor }
+  return { garden, clickMode, bounds, position, gardenCursor, newBed, updateCursor }
 })
