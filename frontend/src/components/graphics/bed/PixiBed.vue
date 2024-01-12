@@ -1,10 +1,11 @@
 <template>
-  <container :ref="(el) => (containerRef = el)" :x="bed.location.x" :y="bed.location.y">
+  <container :ref="(el) => (containerRef = el)" :position="bed.location">
     <graphics @render="drawDropShadow">
       <blur-filter :quality="2" :blur="4" />
     </graphics>
     <graphics ref="el" @render="drawBed" :hitArea="hitArea" @click="bedClicked">
       <animated-sprite
+        v-if="bed.animation.length"
         :textures="bed.animation"
         playing
         :animation-speed="0.04"

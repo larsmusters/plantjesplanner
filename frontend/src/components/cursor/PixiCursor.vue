@@ -1,17 +1,18 @@
 <template>
   <container :position="position">
-    <AddBed />
     <ToolTip v-if="tooltipEnabled" :cursor="position" />
   </container>
 </template>
 
 <script setup lang="ts">
-import AddBed from './AddBed.vue'
 import ToolTip from './ToolTip.vue'
 import type { FederatedPointerEvent } from 'pixi.js'
 import { useEventListener } from '@vueuse/core'
 import { reactive } from 'vue'
 import { useStage, onReady } from 'vue3-pixi'
+import { useGardenStore } from '@/stores'
+
+const gardenStore = useGardenStore()
 
 // from: https://vue3-pixi.vercel.app/examples/events/pointer-tracker.html
 const stageRef = useStage()
@@ -30,6 +31,8 @@ onReady((app) => {
 const onPointerEvent = (event: FederatedPointerEvent) => {
   const newLocation = { x: event.global.x, y: event.global.y }
   Object.assign(position, newLocation)
+
+  gardenStore.globalCursor = newLocation
 }
 
 useEventListener(stageRef, 'pointermove', onPointerEvent)

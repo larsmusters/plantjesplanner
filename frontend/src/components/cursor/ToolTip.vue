@@ -1,9 +1,10 @@
 <template>
   <graphics :position="position" @render="drawToolTip" />
-  <text :position="position" :text="tooltipText" :style="textStyle" />
+  <text :position="position" :text="gardenStore.clickMode.valueOf()" :style="textStyle" />
 </template>
 
 <script setup lang="ts">
+import { useGardenStore } from '@/stores'
 import { Colours } from '@/types/colours'
 import type { Graphics } from 'pixi.js'
 import { computed } from 'vue'
@@ -13,6 +14,8 @@ const props = defineProps<{
   cursor: { x: number; y: number }
 }>()
 
+const gardenStore = useGardenStore()
+
 const app = useApplication()
 
 const textStyle = {
@@ -21,7 +24,6 @@ const textStyle = {
   wordWrap: true,
   wordWrapWidth: 100
 }
-const tooltipText = 'Mode: select'
 
 const drawToolTip = (g: Graphics) => {
   g.beginFill(Colours.white, 0.9)

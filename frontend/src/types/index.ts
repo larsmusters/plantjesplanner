@@ -1,6 +1,6 @@
 export enum ClickMode {
-  add,
-  select
+  add = 'Add',
+  select = 'Select'
 }
 
 export interface Position {

@@ -1,7 +1,9 @@
 <template>
   <div class="app-container">
     <div class="header">Plantjesplanner</div>
-    <div class="menu">Menu</div>
+    <div class="menu">
+      <AppMenu />
+    </div>
     <div ref="graph" class="graph">
       <PixiApp :width="graphWidth" :height="graphHeight" />
     </div>
@@ -9,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import AppMenu from '@/components/menu/AppMenu.vue'
 import PixiApp from '@/components/structure/PixiApp.vue'
 import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
