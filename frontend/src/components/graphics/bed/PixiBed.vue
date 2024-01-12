@@ -77,7 +77,7 @@ const drawDropShadow = (g: Graphics) => {
   drawPolygon(g, styling)
 }
 
-const bedClicked = (e: any) => {
+const bedClicked = () => {
   emit('click:bed', containerRef.value)
 }
 </script>
