@@ -27,7 +27,6 @@ import { ref, watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
 import type { Position } from '@/types'
-import { fakeGarden } from '@/config'
 import { useGardenStore } from '@/stores'
 
 const props = defineProps<{
@@ -36,7 +35,6 @@ const props = defineProps<{
 }>()
 
 const gardenStore = useGardenStore()
-gardenStore.garden = fakeGarden
 
 const gardenPosition = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
 const setGardenPosition = (): void => {

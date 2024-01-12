@@ -2,8 +2,8 @@ import type { Bed, Garden } from '@/types/garden'
 import { ClickMode, type Position } from '@/types'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { fakeGarden } from '@/config'
-import { defaultNewBed } from '@/config/shapes'
+import { fakeGarden } from '@/assets/garden'
+import { defaultNewBed } from '@/assets/bed'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
