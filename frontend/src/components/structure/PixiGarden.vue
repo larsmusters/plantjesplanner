@@ -9,11 +9,6 @@
       @set-to-cursor:bed="moveBed(index)"
     />
   </template>
-  <PixiBed
-    v-if="gardenStore.clickMode === ClickMode.add"
-    :bed="gardenStore.newBed"
-    @click:bed="addBed"
-  />
 </template>
 
 <script setup lang="ts">
@@ -33,11 +28,6 @@ const raiseBedIndex = (container: Container) => {
 }
 
 const gardenStore = useGardenStore()
-const addBed = () => {
-  gardenStore.garden.beds.push({ ...gardenStore.newBed })
-  gardenStore.clickMode = ClickMode.select
-}
-
 const moveBedVertex = (vertexId: number, bedId: number) => {
   gardenStore.garden.beds[bedId].shape[vertexId].x =
     gardenStore.gardenCursor.x - gardenStore.garden.beds[bedId].location.x

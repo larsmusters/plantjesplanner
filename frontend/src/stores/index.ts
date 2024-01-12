@@ -18,8 +18,6 @@ export const useGardenStore = defineStore('garden', () => {
       x: (cursor.x - position.value.x) / position.value.scale,
       y: (cursor.y - position.value.y) / position.value.scale
     }
-
-    newBed.value.location = gardenCursor.value
   }
 
   const bounds = computed(() => {
