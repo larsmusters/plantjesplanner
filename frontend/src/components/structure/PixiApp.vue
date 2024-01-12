@@ -1,5 +1,8 @@
 <template>
   <!-- To-do's:
+    Lame things: 
+    - Put restrictions on the shape of the polygons
+
     Lame-ish things:
     - Make sure new additions are properly separated (currently adding 2 object makes them behave the same)
     - Construct a default shapes library, with proper 'inheritance'
