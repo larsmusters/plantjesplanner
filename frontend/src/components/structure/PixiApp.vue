@@ -1,7 +1,7 @@
 <template>
   <!-- To-do's:
     Lame things: 
-    - Put restrictions on the shape of the polygons
+    - Put restrictions on the shape of the polygons (non-intersecting)
 
     Lame-ish things:
     - Make sure new additions are properly separated (currently adding 2 object makes them behave the same)
