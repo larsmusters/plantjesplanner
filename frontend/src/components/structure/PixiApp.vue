@@ -21,7 +21,7 @@
   -->
 
   <Application background="white" :width="width" :height="height">
-    <World :garden-position="gardenPosition" :width="width" :height="height">
+    <World :garden-position="gardenStore.position" :width="width" :height="height">
       <Loader
         :resources="{ spritesheet: 'flowers.json' }"
         @resolved="onResolved($event.spritesheet)"
@@ -37,10 +37,9 @@
 import World from './PixiWorld.vue'
 import PixiCursor from '@/components/cursor/PixiCursor.vue'
 import PixiGarden from './PixiGarden.vue'
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
-import type { Position } from '@/types'
 import { useGardenStore } from '@/stores'
 
 const props = defineProps<{
@@ -49,8 +48,6 @@ const props = defineProps<{
 }>()
 
 const gardenStore = useGardenStore()
-
-const gardenPosition = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
 const setGardenPosition = (): void => {
   // The function provides world coordinates to center and scale the garden based on the screen size and garden bounds.
   const bounds = gardenStore.bounds
@@ -66,8 +63,7 @@ const setGardenPosition = (): void => {
   let y = -bounds.yMin * scale
   y += scale === scaleX ? (props.height - (bounds.yMax - bounds.yMin) * scaleX) / 2 : boundMargin
 
-  gardenPosition.value = { x, y, scale, rotation: 0 }
-  gardenStore.position = gardenPosition.value
+  gardenStore.position = { x, y, scale, rotation: 0 }
 }
 setGardenPosition()
 

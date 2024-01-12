@@ -1,11 +1,12 @@
 <template>
   <container :position="position">
-    <ToolTip v-if="tooltipEnabled" :cursor="position" />
     <PixiBed
       v-if="gardenStore.clickMode === ClickMode.add"
+      :scale="gardenStore.position.scale"
       :bed="gardenStore.newBed"
       @click:bed="addBed"
     />
+    <ToolTip v-if="tooltipEnabled" :cursor="position" />
   </container>
 </template>
 
