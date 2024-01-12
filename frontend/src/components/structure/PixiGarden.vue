@@ -1,7 +1,11 @@
 <template>
   <GardenShell :path="gardenStore.garden.shape" />
   <template v-for="bed in gardenStore.garden.beds" :key="bed.id">
-    <PixiBed :bed="bed" @update:hover="raiseBedIndex" />
+    <PixiBed
+      :bed="bed"
+      @update:hover="raiseBedIndex"
+      :edit-mode="gardenStore.clickMode === ClickMode.edit"
+    />
   </template>
   <PixiBed
     v-if="gardenStore.clickMode === ClickMode.add"

@@ -1,7 +1,7 @@
 import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
-import type { PolygonStyling } from '@/types/shapes'
+import type { PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
 
 const stylingDefault: PolygonStyling = {
   lineThickness: 0,
@@ -16,11 +16,7 @@ const stylingDefault: PolygonStyling = {
     { x: 5, y: 10 }
   ],
   scale: 1,
-  offset: 0,
-  vertexRadius: 0,
-  vertexAlpha: 1,
-  vertexFillColour: Colours.black,
-  vertexLineColour: Colours.black
+  offset: 0
 }
 
 export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling>) => {
@@ -38,10 +34,20 @@ export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(ps.shape, ps.scale, ps.offset), 0)
   }
-  // draw vertices
-  g.lineStyle(ps.lineThickness, ps.vertexLineColour, ps.vertexAlpha)
-  ps.shape.forEach(({ x, y }) => {
-    g.drawCircle(x, y, ps.vertexRadius)
-  })
+}
+
+const polygonVertexDefaultStyling: PolygonVertexStyling = {
+  lineThickness: 0,
+  lineColour: Colours.black,
+  alpha: 0.8,
+  fillColour: Colours.white,
+  location: {x:0, y:0},
+  radius: 5
+}
+
+export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonVertexStyling>) => {
+  const pvs: PolygonVertexStyling = { ...polygonVertexDefaultStyling, ...polygonStyling }
+  g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
+  g.drawCircle(pvs.location.x, pvs.location.y, pvs.radius)
   g.endFill()
 }

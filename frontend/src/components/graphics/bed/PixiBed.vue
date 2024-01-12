@@ -13,6 +13,15 @@
         :scale="scaleAnimated * bed.animationScale"
       />
     </graphics>
+    <template v-if="editMode">
+      <graphics
+        v-for="point in props.bed.shape"
+        :key="point"
+        @render="(g: Graphics) => drawEditPoint(g, point)"
+        :hit-area="getEditPointHitArea(point)"
+        @click="editPointClicked"
+      />
+    </template>
   </container>
 </template>
 
@@ -22,14 +31,21 @@ import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Bed } from '@/types/garden'
+import type { Bed, PolygonPoint } from '@/types/garden'
 import type { Container } from 'pixi.js'
-import { drawPolygon } from '@/utils/builder'
+import { drawPolygon, drawPolygonVertex } from '@/utils/builder'
 import type { PolygonStyling } from '@/types/shapes'
+import { Circle } from 'pixi.js'
 
-const props = defineProps<{
-  bed: Bed
-}>()
+const props = withDefaults(
+  defineProps<{
+    bed: Bed
+    editMode?: boolean
+  }>(),
+  {
+    editMode: false
+  }
+)
 
 const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
@@ -75,6 +91,26 @@ const drawDropShadow = (g: Graphics) => {
     offset: 7.5
   }
   drawPolygon(g, styling)
+}
+
+const drawEditPoint = (g: Graphics, p: PolygonPoint) => {
+  const styling = {
+    shape: props.bed.shape,
+    scale: scaleAnimated.value,
+    lineThickness: 2,
+    fillColour: Colours.black,
+    location: p
+  }
+  drawPolygonVertex(g, styling)
+}
+
+const getEditPointHitArea = (p: PolygonPoint) => {
+  const radius = 5
+  return new Circle(p.x, p.y, radius)
+}
+
+const editPointClicked = () => {
+  console.log('clicked')
 }
 
 const bedClicked = () => {

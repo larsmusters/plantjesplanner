@@ -11,8 +11,13 @@ export interface PolygonStyling {
   shape: PolygonPoint[]
   scale: number
   offset: number
-  vertexRadius: number
-  vertexLineColour: number
-  vertexFillColour: number
-  vertexAlpha: number
+}
+
+export interface PolygonVertexStyling {
+  location: PolygonPoint
+  radius: number
+  lineThickness: number
+  lineColour: number
+  fillColour: number
+  alpha: number
 }
