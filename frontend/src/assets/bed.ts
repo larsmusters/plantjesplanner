@@ -13,7 +13,7 @@ export const defaultBed: Bed = {
 }
 
 export const defaultNewBed: Bed = {
-  id: 4,
+  id: 0,
   shape: [
     { x: -30, y: -30, radius: 0 },
     { x: 30, y: -30, radius: 0 },

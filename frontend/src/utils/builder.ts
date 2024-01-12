@@ -42,13 +42,14 @@ const polygonVertexDefaultStyling: PolygonVertexStyling = {
   alpha: 0.8,
   fillColour: Colours.white,
   location: { x: 0, y: 0 },
-  radius: 5
+  radius: 10
 }
 
 export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonVertexStyling>) => {
   const pvs: PolygonVertexStyling = { ...polygonVertexDefaultStyling, ...polygonStyling }
   g.clear()
   g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
+  g.beginFill(pvs.fillColour, pvs.alpha)
   g.drawCircle(pvs.location.x, pvs.location.y, pvs.radius)
   g.endFill()
 }

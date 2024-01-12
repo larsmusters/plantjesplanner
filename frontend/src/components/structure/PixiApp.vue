@@ -10,6 +10,9 @@
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
 
+    Must do things:
+    - BedVertex.vue styling is currently not associated with a garden/bed, but it should be.
+    
     Fun things:
     - Make a grid and snap vertices to the grid
     - Allow adding of different standard bed shapes

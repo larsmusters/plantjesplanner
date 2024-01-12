@@ -26,14 +26,14 @@ const emit = defineEmits<{
 const drawEditPoint = (g: Graphics, p: PolygonPoint) => {
   const styling = {
     lineThickness: 2,
-    fillColour: Colours.black,
+    fillColour: Colours.green,
     location: p
   }
   drawPolygonVertex(g, styling)
 }
 
 const getEditPointHitArea = (p: PolygonPoint) => {
-  const radius = 5
+  const radius = 10
   return new Circle(p.x, p.y, radius)
 }
 
