@@ -1,7 +1,15 @@
 <template>
   <!-- To-do's:
+    Lame-ish things:
+    - Make sure new additions are properly separated (currently adding 2 object makes them behave the same)
+    - Construct a default shapes library, with proper 'inheritance'
+
+    Fun-ish things:
+    Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
+
     Fun things:
-    - Start building the yard construction tool, (build polygon with clicks),
+    - Make a grid and snap vertices to the grid
+    - Allow adding of different standard bed shapes
     - Display information on the component that is being hovered,
     - Collect more information on plants.
   -->

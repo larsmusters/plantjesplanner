@@ -24,7 +24,6 @@ import { type ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
-import type { Bed } from '@/types/garden'
 
 const app = ref<ApplicationInst>()
 const raiseBedIndex = (container: Container) => {
