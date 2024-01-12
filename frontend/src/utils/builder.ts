@@ -41,7 +41,7 @@ const polygonVertexDefaultStyling: PolygonVertexStyling = {
   lineColour: Colours.black,
   alpha: 0.8,
   fillColour: Colours.white,
-  location: {x:0, y:0},
+  location: { x: 0, y: 0 },
   radius: 5
 }
 
