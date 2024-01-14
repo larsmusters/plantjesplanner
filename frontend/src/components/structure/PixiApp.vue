@@ -5,6 +5,9 @@
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
+    
+    Important things:
+    - Make a physical mapping from distances to pixels -> already kind of done, as I scale everything to screen width anyway
 
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)

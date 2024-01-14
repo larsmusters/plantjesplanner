@@ -31,7 +31,7 @@ const drawGrid = (g: Graphics) => {
 
 const drawVertices = (g: Graphics) => {
   g.clear()
-  g.lineStyle(1, Colours.black)
+  g.lineStyle(1, Colours.black, 0.25)
 
   gridStore.vertices.forEach((v) => {
     g.drawCircle(v.x, v.y, 2)
