@@ -8,7 +8,6 @@ export const defaultBed: Bed = {
   location: { x: 0, y: 0 },
   plant: 'default',
   heightOnHover: 1.04,
-  animation: [],
   animationScale: 1
 }
 
@@ -24,6 +23,5 @@ export const defaultNewBed: Bed = {
   location: { x: 0, y: 0 },
   plant: 'madelief',
   heightOnHover: 1.05,
-  animation: [],
   animationScale: 0.5
 }
