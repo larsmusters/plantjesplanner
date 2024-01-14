@@ -25,8 +25,10 @@
       >
         <PixiGarden />
       </Loader>
+      <!-- Grid is in garden space (everything in World is) -->
       <Grid />
     </World>
+    <!-- Cursor in screen space, because it interacts with the edges of the screen -->
     <PixiCursor />
   </Application>
 </template>

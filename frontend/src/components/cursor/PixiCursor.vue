@@ -1,8 +1,8 @@
 <template>
   <container :position="position">
-    <AddBed />
     <ToolTip v-if="tooltipEnabled" :cursor="position" />
   </container>
+  <AddBed />
 </template>
 
 <script setup lang="ts">

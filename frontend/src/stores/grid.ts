@@ -9,16 +9,16 @@ export const useGridStore = defineStore('grid', () => {
   const columns = computed(() => {
     const gardenStore = useGardenStore()
 
-    const array = new Array(nLines.value.columns + 1).fill(1)
-    const resolution = gardenStore.bounds.width / nLines.value.columns
+    const array = new Array(nLines.value.columns).fill(1)
+    const resolution = gardenStore.bounds.width / (nLines.value.columns - 1)
     return array.map((_, i) => i * resolution + gardenStore.bounds.x)
   })
 
   const rows = computed(() => {
     const gardenStore = useGardenStore()
 
-    const array = new Array(nLines.value.rows + 1).fill(1)
-    const resolution = gardenStore.bounds.height / nLines.value.rows
+    const array = new Array(nLines.value.rows).fill(1)
+    const resolution = gardenStore.bounds.height / (nLines.value.rows - 1)
     return array.map((_, i) => i * resolution + gardenStore.bounds.y)
   })
 
