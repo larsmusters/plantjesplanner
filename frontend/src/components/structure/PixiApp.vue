@@ -4,7 +4,6 @@
     - Put restrictions on the shape of the polygons (non-intersecting)
 
     Lame-ish things:
-    - Make sure new additions are properly separated (currently adding 2 object makes them behave the same)
     - Construct a default shapes library, with proper 'inheritance'
 
     Fun-ish things:
@@ -15,6 +14,7 @@
 
     Fun things:
     - Make a grid and snap vertices to the grid
+    - Allow moving by edge (now only by bed and vertex).
     - Allow adding of different standard bed shapes
     - Display information on the component that is being hovered,
     - Collect more information on plants.
@@ -68,9 +68,7 @@ const setGardenPosition = (): void => {
 setGardenPosition()
 
 const onResolved = (sheet: Spritesheet) => {
-  // Populate gardenbeds with animations
-  gardenStore.garden!.beds.forEach((bed) => (bed.animation = sheet.animations[bed.plant]))
-  gardenStore.newBed.animation = sheet.animations[gardenStore.newBed.plant]
+  gardenStore.spritesheet = sheet
 }
 
 watch(

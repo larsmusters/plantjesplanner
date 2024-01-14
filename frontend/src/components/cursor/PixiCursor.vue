@@ -1,32 +1,20 @@
 <template>
   <container :position="position">
-    <PixiBed
-      v-if="gardenStore.clickMode === ClickMode.add"
-      :scale="gardenStore.position.scale"
-      :bed="gardenStore.newBed"
-      @click:bed="addBed"
-    />
+    <AddBed />
     <ToolTip v-if="tooltipEnabled" :cursor="position" />
   </container>
 </template>
 
 <script setup lang="ts">
-import PixiBed from '../graphics/bed/PixiBed.vue'
+import AddBed from './AddBed.vue'
 import ToolTip from './ToolTip.vue'
 import type { FederatedPointerEvent } from 'pixi.js'
 import { useEventListener } from '@vueuse/core'
 import { reactive } from 'vue'
 import { useStage, onReady } from 'vue3-pixi'
 import { useGardenStore } from '@/stores'
-import { ClickMode } from '@/types'
 
 const gardenStore = useGardenStore()
-
-const addBed = () => {
-  const location = gardenStore.gardenCursor
-  gardenStore.garden.beds.push({ ...gardenStore.newBed, location })
-  gardenStore.clickMode = ClickMode.select
-}
 
 // from: https://vue3-pixi.vercel.app/examples/events/pointer-tracker.html
 const stageRef = useStage()

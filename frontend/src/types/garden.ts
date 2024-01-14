@@ -19,6 +19,5 @@ export interface Bed {
   location: IPointData
   plant: string
   heightOnHover: number
-  animation: Texture[]
   animationScale: number
 }

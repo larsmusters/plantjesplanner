@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { fakeGarden } from '@/assets/garden'
 import { defaultNewBed } from '@/assets/bed'
+import { Spritesheet } from 'pixi.js'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
@@ -11,6 +12,7 @@ export const useGardenStore = defineStore('garden', () => {
   const clickMode = ref<ClickMode>(ClickMode.add)
 
   const newBed = ref<Bed>(defaultNewBed)
+  const spritesheet = ref<Spritesheet>()
 
   const gardenCursor = ref({ x: 0, y: 0 })
   const updateCursor = (cursor: { x: number; y: number }) => {
@@ -30,5 +32,5 @@ export const useGardenStore = defineStore('garden', () => {
     })
     return { xMin, xMax, yMin, yMax }
   })
-  return { garden, clickMode, bounds, position, gardenCursor, newBed, updateCursor }
+  return { garden, clickMode, bounds, position, gardenCursor, newBed, updateCursor, spritesheet }
 })

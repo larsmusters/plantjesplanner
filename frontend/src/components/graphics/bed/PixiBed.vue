@@ -13,8 +13,8 @@
       @pointerupoutside="onDragEnd"
     >
       <animated-sprite
-        v-if="bed.animation.length"
-        :textures="bed.animation"
+        v-if="animation.length"
+        :textures="animation"
         playing
         :animation-speed="0.04"
         :anchor="0.5"
@@ -44,6 +44,7 @@ import type { Container } from 'pixi.js'
 import { drawPolygon } from '@/utils/builder'
 import type { PolygonStyling } from '@/types/shapes'
 import { useStage } from 'vue3-pixi'
+import { useGardenStore } from '@/stores'
 
 const props = withDefaults(
   defineProps<{
@@ -65,6 +66,9 @@ const emit = defineEmits<{
 const hitArea = new Polygon(props.bed.shape)
 const el = ref()
 const hovering = useElementHover(el)
+
+const gardenStore = useGardenStore()
+const animation = computed(() => gardenStore.spritesheet?.animations[props.bed.plant] || [])
 
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
 const scaleAnimated = useTransition(scale, {
