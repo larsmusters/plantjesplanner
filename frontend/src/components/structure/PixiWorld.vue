@@ -1,6 +1,6 @@
 <template>
   <container ref="world">
-    <graphics @render="drawWorld"></graphics>
+    <graphics @render="drawWorld" />
     <container
       :x="gardenPosition.x"
       :y="gardenPosition.y"

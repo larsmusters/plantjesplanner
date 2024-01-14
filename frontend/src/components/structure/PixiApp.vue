@@ -9,9 +9,6 @@
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
 
-    Must do things:
-    - BedVertex.vue styling (radius) is currently not associated with a garden/bed, but it should be.
-
     Fun things:
     - Make a grid and snap vertices to the grid
     - Allow moving by edge (now only by bed and vertex).
@@ -28,12 +25,14 @@
       >
         <PixiGarden />
       </Loader>
+      <Grid />
     </World>
     <PixiCursor />
   </Application>
 </template>
 
 <script setup lang="ts">
+import Grid from './PixiGrid.vue'
 import World from './PixiWorld.vue'
 import PixiCursor from '@/components/cursor/PixiCursor.vue'
 import PixiGarden from './PixiGarden.vue'
