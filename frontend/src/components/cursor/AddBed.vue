@@ -15,12 +15,13 @@ import PixiBed from '../graphics/bed/PixiBed.vue'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
 import { computed } from 'vue'
+import { gardenToWorld, vectorSum, pointsDistance, worldToGarden } from '@/utils'
 
 const gardenStore = useGardenStore()
 
 const addBed = () => {
   // Get nested data from new or uniquely referenced data
-  const location = { ...gridStore.vertices[closestVertex.value] }
+  const location = worldToGarden(position.value)
   const shape = JSON.parse(JSON.stringify(gardenStore.newBed.shape))
   const newBed = Object.assign({ ...gardenStore.newBed, location, shape })
   gardenStore.garden.beds.push(newBed)
@@ -30,25 +31,36 @@ const addBed = () => {
 
 const gridStore = useGridStore()
 
-const closestVertex = computed(() => {
-  // vertices in gardenspace
-  const dists = gridStore.vertices.map((v) => {
-    const xDist = gardenStore.gardenCursor.x - v.x
-    const yDist = gardenStore.gardenCursor.y - v.y
-    return Math.sqrt(xDist * xDist + yDist * yDist)
+const closestVertices = computed(() => {
+  // Garden space
+  const newBedVertices = gardenStore.newBed.shape.map((point) => {
+    return vectorSum(gardenStore.gardenCursor, point)
   })
-  const minValue = Math.min(...dists)
-  const minIndex = dists.indexOf(minValue)
 
-  return minIndex
+  return newBedVertices.reduce(
+    (closestMatch, bedVertex, i) => {
+      // For one vertex on the bed, find the nearest grid point
+      const closestPoint = gridStore.vertices.reduce(
+        (closestPoint, v, i) => {
+          const dist = pointsDistance(bedVertex, v)
+          return dist < closestPoint.dist ? { id: i, dist: dist } : closestPoint
+        },
+        { id: -1, dist: 1000 }
+      )
+      // Replace closest match when one bed vertex has a better match than the other
+      return closestPoint.dist < closestMatch.dist
+        ? { bedId: i, gridId: closestPoint.id, dist: closestPoint.dist }
+        : closestMatch
+    },
+    { bedId: -1, gridId: -1, dist: 1000 }
+  )
 })
 
+// World space
 const position = computed(() => {
-  // these are in world space, as the cursor is outside the World component
-  const x =
-    gridStore.vertices[closestVertex.value].x * gardenStore.position.scale + gardenStore.position.x
-  const y =
-    gridStore.vertices[closestVertex.value].y * gardenStore.position.scale + gardenStore.position.y
-  return { x, y }
+  // Garden space
+  const matchLocationGrid = gridStore.vertices[closestVertices.value.gridId]
+  const matchLocationBed = gardenStore.newBed.shape[closestVertices.value.bedId]
+  return gardenToWorld(vectorSum(matchLocationBed, matchLocationGrid, -1, 1))
 })
 </script>

@@ -14,10 +14,10 @@ export const defaultBed: Bed = {
 export const defaultNewBed: Bed = {
   id: 0,
   shape: [
-    { x: -30, y: -30, radius: 0 },
-    { x: 30, y: -30, radius: 0 },
-    { x: 30, y: 30, radius: 0 },
-    { x: -30, y: 30, radius: 0 }
+    { x: -25, y: -25, radius: 0 },
+    { x: 25, y: -25, radius: 0 },
+    { x: 25, y: 25, radius: 0 },
+    { x: -25, y: 25, radius: 0 }
   ],
   color: Colours.blue,
   location: { x: 0, y: 0 },

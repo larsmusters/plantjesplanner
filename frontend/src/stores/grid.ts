@@ -4,7 +4,7 @@ import { useGardenStore } from '.'
 import type { PolygonPoint } from '@/types/garden'
 
 export const useGridStore = defineStore('grid', () => {
-  const nLines = ref({ columns: 15, rows: 15 })
+  const nLines = ref({ columns: 11, rows: 11 })
 
   const columns = computed(() => {
     const gardenStore = useGardenStore()
