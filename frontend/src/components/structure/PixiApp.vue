@@ -52,15 +52,20 @@ const setGardenPosition = (): void => {
   const bounds = gardenStore.bounds
   const boundMargin = 18 // Screen pixels
 
-  const scaleY = (props.height - 2 * boundMargin) / (bounds.yMax - bounds.yMin)
-  const scaleX = (props.width - 2 * boundMargin) / (bounds.xMax - bounds.xMin)
-  const scale = scaleY < scaleX ? scaleY : scaleX
+  const scaleY = (props.height - 2 * boundMargin) / bounds.height
+  const scaleX = (props.width - 2 * boundMargin) / bounds.width
 
-  // Always move to zero, and move either to the middle, or the margin away from the boundary
-  let x = -bounds.xMin * scale
-  x += scale === scaleY ? (props.width - (bounds.xMax - bounds.xMin) * scaleY) / 2 : boundMargin
-  let y = -bounds.yMin * scale
-  y += scale === scaleX ? (props.height - (bounds.yMax - bounds.yMin) * scaleX) / 2 : boundMargin
+  let scale, x, y
+  if (scaleY < scaleX) {
+    scale = scaleY
+    // Move to zero, and move either to the middle, or the margin away from the boundary
+    x = -bounds.x * scale + (props.width - bounds.width * scale) / 2
+    y = -bounds.y * scale + boundMargin
+  } else {
+    scale = scaleX
+    x = -bounds.x * scale + boundMargin
+    y = -bounds.y * scale + (props.height - bounds.height * scale) / 2
+  }
 
   gardenStore.position = { x, y, scale, rotation: 0 }
 }

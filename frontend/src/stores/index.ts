@@ -8,6 +8,8 @@ import { Spritesheet } from 'pixi.js'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
+  const gardenRef = ref()
+
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
   const clickMode = ref<ClickMode>(ClickMode.add)
 
@@ -30,7 +32,18 @@ export const useGardenStore = defineStore('garden', () => {
       yMin = yMin > point.y ? point.y : yMin
       yMax = yMax < point.y ? point.y : yMax
     })
-    return { xMin, xMax, yMin, yMax }
+    return { x: xMin, y: yMin, width: xMax - xMin, height: yMax - yMin }
   })
-  return { garden, clickMode, bounds, position, gardenCursor, newBed, updateCursor, spritesheet }
+
+  return {
+    garden,
+    clickMode,
+    bounds,
+    position,
+    gardenCursor,
+    newBed,
+    updateCursor,
+    spritesheet,
+    gardenRef
+  }
 })
