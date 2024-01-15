@@ -19,6 +19,8 @@ import { type ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
+import { useGridStore } from '@/stores/grid'
+import { bedToGarden, vectorSum } from '@/utils'
 
 const app = ref<ApplicationInst>()
 const raiseBedIndex = (container: Container) => {
@@ -28,14 +30,21 @@ const raiseBedIndex = (container: Container) => {
 }
 
 const gardenStore = useGardenStore()
+const gridStore = useGridStore()
+
 const moveBedVertex = (vertexId: number, bedId: number) => {
-  gardenStore.garden.beds[bedId].shape[vertexId].x =
-    gardenStore.gardenCursor.x - gardenStore.garden.beds[bedId].location.x
-  gardenStore.garden.beds[bedId].shape[vertexId].y =
-    gardenStore.gardenCursor.y - gardenStore.garden.beds[bedId].location.y
+  const snapLocation = gridStore.getSnappingVertex([gardenStore.gardenCursor])
+
+  const newPoint = vectorSum(gardenStore.garden.beds[bedId].location, snapLocation, -1)
+  gardenStore.garden.beds[bedId].shape[vertexId] = newPoint
 }
 
 const moveBed = (bedId: number) => {
-  gardenStore.garden.beds[bedId].location = gardenStore.gardenCursor
+  const bedVertices = bedToGarden(gardenStore.garden.beds[bedId].shape, gardenStore.gardenCursor)
+  const closestVertices = gridStore.findClosestVertices(bedVertices)
+
+  const matchLocationBed = gardenStore.newBed.shape[closestVertices.id]
+  const matchLocationGrid = gridStore.vertices[closestVertices.gridId]
+  gardenStore.garden.beds[bedId].location = vectorSum(matchLocationBed, matchLocationGrid, -1, 1)
 }
 </script>

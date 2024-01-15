@@ -15,7 +15,7 @@ import PixiBed from '../graphics/bed/PixiBed.vue'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
 import { computed } from 'vue'
-import { gardenToWorld, vectorSum, worldToGarden } from '@/utils'
+import { bedToGarden, gardenToWorld, vectorSum, worldToGarden } from '@/utils'
 
 const gardenStore = useGardenStore()
 
@@ -32,11 +32,9 @@ const addBed = () => {
 const gridStore = useGridStore()
 
 const closestVertices = computed(() => {
-  // Garden space
-  const newBedVertices = gardenStore.newBed.shape.map((point) => {
-    return vectorSum(gardenStore.gardenCursor, point)
-  })
-  return gridStore.findClosestVertices(newBedVertices)
+  // To garden space
+  const bedVertices = bedToGarden(gardenStore.newBed.shape, gardenStore.gardenCursor)
+  return gridStore.findClosestVertices(bedVertices)
 })
 
 // World space

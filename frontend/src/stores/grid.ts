@@ -46,6 +46,13 @@ export const useGridStore = defineStore('grid', () => {
     )
   }
 
+  const getSnappingVertex = (
+    points: { x: number; y: number }[]
+  ): { id: number; x: number; y: number } => {
+    const data = findClosestVertices(points)
+    return { id: data.id, x: vertices.value[data.gridId].x, y: vertices.value[data.gridId].y }
+  }
+
   const findClosestVertices = (
     points: { x: number; y: number }[]
   ): { gridId: number; id: number; dist: number } => {
@@ -59,5 +66,12 @@ export const useGridStore = defineStore('grid', () => {
     )
   }
 
-  return { columns, rows, vertices, findClosestVertex, findClosestVertices }
+  return {
+    columns,
+    rows,
+    vertices,
+    findClosestVertex,
+    findClosestVertices,
+    getSnappingVertex
+  }
 })

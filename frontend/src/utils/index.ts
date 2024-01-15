@@ -19,6 +19,15 @@ export const gardenToWorld = (point: { x: number; y: number }) => {
   }
 }
 
+export const bedToGarden = (
+  points: { x: number; y: number }[],
+  bedLocation: { x: number; y: number }
+) => {
+  return points.map((point) => {
+    return vectorSum(bedLocation, point)
+  })
+}
+
 export const worldToGarden = (point: { x: number; y: number }) => {
   const gardenStore = useGardenStore()
   return {
