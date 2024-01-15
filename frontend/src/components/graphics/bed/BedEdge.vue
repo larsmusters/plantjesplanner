@@ -1,7 +1,7 @@
 <template>
   <graphics
-    @render="(g: Graphics) => drawEditPoint(g, point)"
-    :hit-area="getEditPointHitArea(point)"
+    @render="(g: Graphics) => drawEdge(g, edge)"
+    :hit-area="getEdgeHitArea(edge)"
     @pointerdown="onDragStart"
     @pointerup="onDragEnd"
     @pointerupoutside="onDragEnd"
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { useGardenStore } from '@/stores'
 import { Colours } from '@/types/colours'
-import type { Point } from '@/types/garden'
+import type { BedEdge } from '@/types/garden'
 import { drawPolygonVertex } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
 import { Circle } from 'pixi.js'
@@ -18,7 +18,7 @@ import { computed } from 'vue'
 import { useStage } from 'vue3-pixi'
 
 defineProps<{
-  point: Point
+  edge: BedEdge
 }>()
 
 const emit = defineEmits<{
@@ -29,7 +29,7 @@ const gardenStore = useGardenStore()
 
 const radius = computed(() => 10 / gardenStore.position.scale)
 
-const drawEditPoint = (g: Graphics, p: Point) => {
+const drawEditPoint = (g: Graphics, e: BedEdge) => {
   const styling = {
     lineThickness: 2,
     fillColour: Colours.green,
@@ -39,7 +39,7 @@ const drawEditPoint = (g: Graphics, p: Point) => {
   drawPolygonVertex(g, styling)
 }
 
-const getEditPointHitArea = (p: Point) => {
+const getEditPointHitArea = (e: BedEdge) => {
   return new Circle(p.x, p.y, radius.value)
 }
 

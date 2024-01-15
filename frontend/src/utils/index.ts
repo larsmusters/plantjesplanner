@@ -1,5 +1,5 @@
 import { useGardenStore } from '@/stores'
-import type { PolygonPoint } from '@/types/garden'
+import type { Point, PolygonPoint } from '@/types/garden'
 
 export const buildPolygon = (
   path: PolygonPoint[],
@@ -11,7 +11,7 @@ export const buildPolygon = (
   })
 }
 
-export const gardenToWorld = (point: { x: number; y: number }) => {
+export const gardenToWorld = (point: Point) => {
   const gardenStore = useGardenStore()
   return {
     x: point.x * gardenStore.position.scale + gardenStore.position.x,
@@ -19,16 +19,13 @@ export const gardenToWorld = (point: { x: number; y: number }) => {
   }
 }
 
-export const bedToGarden = (
-  points: { x: number; y: number }[],
-  bedLocation: { x: number; y: number }
-) => {
+export const bedToGarden = (points: Point[], bedLocation: Point) => {
   return points.map((point) => {
     return vectorSum(bedLocation, point)
   })
 }
 
-export const worldToGarden = (point: { x: number; y: number }) => {
+export const worldToGarden = (point: Point) => {
   const gardenStore = useGardenStore()
   return {
     x: (point.x - gardenStore.position.x) / gardenStore.position.scale,
@@ -36,22 +33,14 @@ export const worldToGarden = (point: { x: number; y: number }) => {
   }
 }
 
-export const vectorSum = (
-  point1: { x: number; y: number },
-  point2: { x: number; y: number },
-  multiply1?: number,
-  multiply2?: number
-) => {
+export const vectorSum = (point1: Point, point2: Point, multiply1?: number, multiply2?: number) => {
   return {
     x: point1.x * (multiply1 || 1) + point2.x * (multiply2 || 1),
     y: point1.y * (multiply1 || 1) + point2.y * (multiply2 || 1)
   }
 }
 
-export const pointsDistance = (
-  point1: { x: number; y: number },
-  point2: { x: number; y: number }
-) => {
+export const pointsDistance = (point1: Point, point2: Point) => {
   const xDist = point1.x - point2.x
   const yDist = point1.y - point2.y
   return Math.sqrt(xDist * xDist + yDist * yDist)

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref, type ComputedRef } from 'vue'
 import { useGardenStore } from '.'
-import type { PolygonPoint } from '@/types/garden'
+import type { Point, PolygonPoint } from '@/types/garden'
 import { pointsDistance } from '@/utils'
 
 export const useGridStore = defineStore('grid', () => {
@@ -23,9 +23,9 @@ export const useGridStore = defineStore('grid', () => {
     return array.map((_, i) => i * resolution + gardenStore.bounds.y)
   })
 
-  const vertices: ComputedRef<PolygonPoint[]> = computed(() => {
+  const vertices: ComputedRef<Point[]> = computed(() => {
     // current grid is very simple: all points on intersections between rows and columns
-    const v: PolygonPoint[] = []
+    const v: Point[] = []
 
     columns.value.forEach((x) => {
       rows.value.forEach((y) => {
@@ -35,7 +35,7 @@ export const useGridStore = defineStore('grid', () => {
     return v
   })
 
-  const findClosestVertex = (point: { x: number; y: number }): { gridId: number; dist: number } => {
+  const findClosestVertex = (point: Point): { gridId: number; dist: number } => {
     // 'point' has to be in garden space.
     return vertices.value.reduce(
       (closestPoint, v, i) => {
@@ -46,16 +46,12 @@ export const useGridStore = defineStore('grid', () => {
     )
   }
 
-  const getSnappingVertex = (
-    points: { x: number; y: number }[]
-  ): { id: number; x: number; y: number } => {
+  const getSnappingVertex = (points: Point[]): { id: number; x: number; y: number } => {
     const data = findClosestVertices(points)
     return { ...vertices.value[data.gridId], id: data.id }
   }
 
-  const findClosestVertices = (
-    points: { x: number; y: number }[]
-  ): { gridId: number; id: number; dist: number } => {
+  const findClosestVertices = (points: Point[]): { gridId: number; id: number; dist: number } => {
     // 'points' has to be in garden space.
     return points.reduce(
       (closestMatch, v, i) => {

@@ -1,4 +1,4 @@
-import type { Bed, Garden } from '@/types/garden'
+import type { Bed, Garden, Point } from '@/types/garden'
 import { ClickMode, type Position } from '@/types'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
@@ -17,7 +17,7 @@ export const useGardenStore = defineStore('garden', () => {
   const spritesheet = ref<Spritesheet>()
 
   const gardenCursor = ref({ x: 0, y: 0 })
-  const updateCursor = (cursor: { x: number; y: number }) => {
+  const updateCursor = (cursor: Point) => {
     gardenCursor.value = {
       x: (cursor.x - position.value.x) / position.value.scale,
       y: (cursor.y - position.value.y) / position.value.scale

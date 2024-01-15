@@ -28,6 +28,12 @@
         :point="point"
         @set-to-cursor:point="editPoint(index)"
       />
+      <BedEdge
+        v-for="(edge, index) in edges"
+        :key="index"
+        :edge="edge"
+        @set-to-cursor:edge="editEdge(index)"
+      />
     </template>
   </container>
 </template>
@@ -39,7 +45,7 @@ import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Bed } from '@/types/garden'
+import type { Bed, BedEdge } from '@/types/garden'
 import type { Container } from 'pixi.js'
 import { drawPolygon } from '@/utils/builder'
 import type { PolygonStyling } from '@/types/shapes'
@@ -61,6 +67,7 @@ const emit = defineEmits<{
   (e: 'click:bed', container: Container): void
   (e: 'set-to-cursor:bed-vertex', index: number): void
   (e: 'set-to-cursor:bed'): void
+  (e: 'set-to-cursor:bed-edge', index: number): void
 }>()
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
@@ -107,12 +114,28 @@ const drawDropShadow = (g: Graphics) => {
   drawPolygon(g, styling)
 }
 
+const edges = computed((): BedEdge[] => {
+  const edges: BedEdge[] = []
+  props.bed.shape.forEach((point, i) => {
+    const iPrev = i - 1 < 0 ? props.bed.shape.length - 1 : i - 1
+    const p0 = { id: iPrev, ...props.bed.shape[iPrev] }
+    const p1 = { id: i, ...point }
+    edges.push({ p0, p1 })
+  })
+  console.log(edges)
+  return edges
+})
+
 const bedClicked = () => {
   emit('click:bed', containerRef.value)
 }
 
 const editPoint = (index: number) => {
   emit('set-to-cursor:bed-vertex', index)
+}
+
+const editEdge = (index: number) => {
+  emit('set-to-cursor:bed-edge', index)
 }
 
 const stage = useStage()

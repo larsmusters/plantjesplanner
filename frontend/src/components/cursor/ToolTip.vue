@@ -6,12 +6,13 @@
 <script setup lang="ts">
 import { useGardenStore } from '@/stores'
 import { Colours } from '@/types/colours'
+import type { Point } from '@/types/garden'
 import type { Graphics } from 'pixi.js'
 import { computed } from 'vue'
 import { useApplication } from 'vue3-pixi'
 
 const props = defineProps<{
-  cursor: { x: number; y: number }
+  cursor: Point
 }>()
 
 const gardenStore = useGardenStore()

@@ -5,12 +5,12 @@
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
+    - When moving a bed, use the pick-up from where you clicked, not the center of the bed.
     
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
 
     Fun things:
-    - Make sure all kinds of shapes work with the snapping (currently only 1x1 square)
     - Allow moving by edge (now only by bed and vertex).
     - Allow adding of different standard bed shapes
     - Display information on the component that is being hovered,
