@@ -61,7 +61,6 @@ const moveBedEdge = (v1Id: number, v2Id: number, bedId: number) => {
   ]
 
   const closestVertices = gridStore.findClosestVertices(vertices)
-  console.log(closestVertices, v1Id, v2Id)
 
   if (closestVertices.id === 0) {
     const v1New = gridStore.vertices[closestVertices.gridId]
