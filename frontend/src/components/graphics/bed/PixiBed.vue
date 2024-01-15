@@ -63,7 +63,7 @@ const emit = defineEmits<{
   (e: 'set-to-cursor:bed'): void
 }>()
 
-const hitArea = new Polygon(props.bed.shape)
+const hitArea = computed(() => new Polygon(props.bed.shape))
 const el = ref()
 const hovering = useElementHover(el)
 
@@ -87,7 +87,7 @@ const drawBed = (g: Graphics) => {
   const styling: Partial<PolygonStyling> = {
     shape: props.bed.shape,
     scale: scaleAnimated.value,
-    lineThickness: 1,
+    lineThickness: 1 / gardenStore.position.scale,
     lineColour: props.bed.color,
     fillColour: props.bed.color,
     lineAlpha: 0.9,
@@ -102,7 +102,7 @@ const drawDropShadow = (g: Graphics) => {
     scale: scaleAnimated.value,
     fillAlpha: (scaleAnimated.value - 1) * 2,
     fillColour: Colours.black,
-    offset: 7.5
+    offset: 7.5 / gardenStore.position.scale
   }
   drawPolygon(g, styling)
 }

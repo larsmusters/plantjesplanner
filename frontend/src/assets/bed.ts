@@ -14,14 +14,14 @@ export const defaultBed: Bed = {
 export const defaultNewBed: Bed = {
   id: 0,
   shape: [
-    { x: -25, y: -25, radius: 0 },
-    { x: 25, y: -25, radius: 0 },
-    { x: 25, y: 25, radius: 0 },
-    { x: -25, y: 25, radius: 0 }
+    { x: -250, y: -250, radius: 30 },
+    { x: 250, y: -250, radius: 30 },
+    { x: 250, y: 250, radius: 30 },
+    { x: -250, y: 250, radius: 30 }
   ],
   color: Colours.blue,
   location: { x: 0, y: 0 },
   plant: 'madelief',
   heightOnHover: 1.05,
-  animationScale: 0.5
+  animationScale: 5
 }

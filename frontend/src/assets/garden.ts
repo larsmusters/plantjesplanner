@@ -2,12 +2,13 @@ import { Colours } from '../types/colours'
 import type { Garden } from '../types/garden'
 import { defaultBed } from './bed'
 
+// Garden-space is in mm: x = 1000mm, y = 1000mm, etc. It is later scaled to screen
 export const fakeGarden: Garden = {
   shape: [
     { x: 0, y: 0, radius: 5 },
-    { x: 500, y: 0, radius: 5 },
-    { x: 500, y: 500, radius: 5 },
-    { x: 0, y: 500, radius: 5 }
+    { x: 5000, y: 0, radius: 5 },
+    { x: 5000, y: 5000, radius: 5 },
+    { x: 0, y: 5000, radius: 5 }
   ],
   beds: [
     {
@@ -15,28 +16,28 @@ export const fakeGarden: Garden = {
       id: 1,
       color: Colours.brownFlower,
       shape: [
-        { x: 30, y: -30, radius: 5 },
-        { x: 60, y: 30, radius: 5 },
-        { x: -30, y: 30, radius: 5 },
-        { x: -60, y: -30, radius: 5 }
+        { x: 500, y: -500, radius: 30 },
+        { x: -500, y: -500, radius: 30 },
+        { x: -500, y: 500, radius: 30 },
+        { x: 500, y: 500, radius: 30 }
       ],
-      location: { x: 300, y: 100 },
+      location: { x: 500, y: 500 },
       plant: 'brown',
-      animationScale: 0.7
+      animationScale: 15
     },
     {
       ...defaultBed,
       id: 2,
       color: Colours.violetFlower,
       shape: [
-        { x: 30, y: -30, radius: 5 },
-        { x: 45, y: 60, radius: 5 },
-        { x: -30, y: 60, radius: 5 },
-        { x: -30, y: -30, radius: 5 }
+        { x: 1000, y: -2000, radius: 5 },
+        { x: -1000, y: -2000, radius: 5 },
+        { x: -1000, y: 2000, radius: 5 },
+        { x: 1000, y: 2000, radius: 5 }
       ],
-      location: { x: 160, y: 180 },
+      location: { x: 3000, y: 2000 },
       plant: 'pink',
-      animationScale: 0.8
+      animationScale: 15
     }
   ]
 }

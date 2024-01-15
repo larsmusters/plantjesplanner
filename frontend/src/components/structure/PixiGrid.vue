@@ -16,7 +16,7 @@ const gridStore = useGridStore()
 
 const drawGrid = (g: Graphics) => {
   g.clear()
-  g.lineStyle(1, Colours.black, 0.25)
+  g.lineStyle(1 / gardenStore.position.scale, Colours.black, 0.25)
 
   const bounds = gardenStore.bounds
   gridStore.columns.forEach((c) => {
@@ -31,10 +31,10 @@ const drawGrid = (g: Graphics) => {
 
 const drawVertices = (g: Graphics) => {
   g.clear()
-  g.lineStyle(1, Colours.black, 0.25)
+  g.lineStyle(1 / gardenStore.position.scale, Colours.black, 0.25)
 
   gridStore.vertices.forEach((v) => {
-    g.drawCircle(v.x, v.y, 2)
+    g.drawCircle(v.x, v.y, 2 / gardenStore.position.scale)
   })
 }
 </script>
