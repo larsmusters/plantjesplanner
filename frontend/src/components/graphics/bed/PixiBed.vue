@@ -22,17 +22,17 @@
       />
     </graphics>
     <template v-if="editMode">
+      <BedEdgeVue
+        v-for="(edge, index) in edges"
+        :key="index"
+        :edge="edge"
+        @set-to-cursor:edge="editEdge"
+      />
       <BedVertex
         v-for="(point, index) in props.bed.shape"
         :key="index"
         :point="point"
         @set-to-cursor:point="editPoint(index)"
-      />
-      <BedEdge
-        v-for="(edge, index) in edges"
-        :key="index"
-        :edge="edge"
-        @set-to-cursor:edge="editEdge(index)"
       />
     </template>
   </container>
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import BedVertex from './BedVertex.vue'
+import BedEdgeVue from './BedEdge.vue'
 import { computed, ref, watch } from 'vue'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
@@ -67,7 +68,7 @@ const emit = defineEmits<{
   (e: 'click:bed', container: Container): void
   (e: 'set-to-cursor:bed-vertex', index: number): void
   (e: 'set-to-cursor:bed'): void
-  (e: 'set-to-cursor:bed-edge', index: number): void
+  (e: 'set-to-cursor:bed-edge', v1Id: number, v2Id: number): void
 }>()
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
@@ -122,7 +123,6 @@ const edges = computed((): BedEdge[] => {
     const p1 = { id: i, ...point }
     edges.push({ p0, p1 })
   })
-  console.log(edges)
   return edges
 })
 
@@ -134,8 +134,8 @@ const editPoint = (index: number) => {
   emit('set-to-cursor:bed-vertex', index)
 }
 
-const editEdge = (index: number) => {
-  emit('set-to-cursor:bed-edge', index)
+const editEdge = (v1Id: number, v2Id: number) => {
+  emit('set-to-cursor:bed-edge', v1Id, v2Id)
 }
 
 const stage = useStage()

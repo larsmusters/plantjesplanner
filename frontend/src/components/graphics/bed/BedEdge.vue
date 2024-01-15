@@ -11,36 +11,34 @@
 import { useGardenStore } from '@/stores'
 import { Colours } from '@/types/colours'
 import type { BedEdge } from '@/types/garden'
-import { drawPolygonVertex } from '@/utils/builder'
+import { drawPolygonEdge, buildPolygonEdge } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
-import { Circle } from 'pixi.js'
+import { Polygon } from 'pixi.js'
 import { computed } from 'vue'
 import { useStage } from 'vue3-pixi'
 
-defineProps<{
+const props = defineProps<{
   edge: BedEdge
 }>()
 
 const emit = defineEmits<{
-  (e: 'set-to-cursor:point'): void
+  (e: 'set-to-cursor:edge', v1Id: number, v2Id: number): void
 }>()
 
 const gardenStore = useGardenStore()
 
-const radius = computed(() => 10 / gardenStore.position.scale)
+const thickness = computed(() => 8 / gardenStore.position.scale)
 
-const drawEditPoint = (g: Graphics, e: BedEdge) => {
+const drawEdge = (g: Graphics, e: BedEdge) => {
   const styling = {
-    lineThickness: 2,
-    fillColour: Colours.green,
-    location: p,
-    radius: radius.value
+    lineThickness: thickness.value,
+    fillColour: Colours.green
   }
-  drawPolygonVertex(g, styling)
+  drawPolygonEdge(g, e, styling)
 }
 
-const getEditPointHitArea = (e: BedEdge) => {
-  return new Circle(p.x, p.y, radius.value)
+const getEdgeHitArea = (e: BedEdge) => {
+  return new Polygon(buildPolygonEdge(e, thickness.value))
 }
 
 const stage = useStage()
@@ -54,6 +52,6 @@ const onDragEnd = () => {
 }
 
 const onDrag = () => {
-  emit('set-to-cursor:point')
+  emit('set-to-cursor:edge', props.edge.p0.id, props.edge.p1.id)
 }
 </script>

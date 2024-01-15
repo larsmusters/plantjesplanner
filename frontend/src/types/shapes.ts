@@ -21,3 +21,9 @@ export interface PolygonVertexStyling {
   fillColour: number
   alpha: number
 }
+
+export interface PolygonEdgeStyling {
+  lineThickness: number
+  lineColour: number
+  alpha: number
+}

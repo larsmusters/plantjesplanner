@@ -1,7 +1,8 @@
 import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
-import type { PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
+import type { PolygonEdgeStyling, PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
+import type { BedEdge, Point } from '@/types/garden'
 
 const stylingDefault: PolygonStyling = {
   lineThickness: 0,
@@ -51,5 +52,68 @@ export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonV
   g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
   g.beginFill(pvs.fillColour, pvs.alpha)
   g.drawCircle(pvs.location.x, pvs.location.y, pvs.radius)
+  g.endFill()
+}
+
+const polygonEdgeDefaultStyling: PolygonEdgeStyling = {
+  lineThickness: 0,
+  lineColour: Colours.black,
+  alpha: 0.8
+}
+
+export const buildPolygonEdge = (edge: BedEdge, thickness: number): Point[] => {
+  // Build a thick line (so that it is clickable)
+  const start = edge.p0
+  const end = edge.p1
+
+  // Step 1: Calculate the length of the line
+  const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
+
+  // Step 2: Calculate the unit vector u
+  const u = {
+    x: (end.x - start.x) / length,
+    y: (end.y - start.y) / length
+  }
+
+  // Step 3: Calculate the perpendicular vector v
+  const v = {
+    x: -u.y,
+    y: u.x
+  }
+
+  // Step 4: Calculate rectangle vertices
+  const halfThickness = thickness / 2
+  const rectangle = [
+    {
+      x: start.x - halfThickness * v.x,
+      y: start.y - halfThickness * v.y
+    },
+    {
+      x: start.x + halfThickness * v.x,
+      y: start.y + halfThickness * v.y
+    },
+    {
+      x: end.x + halfThickness * v.x,
+      y: end.y + halfThickness * v.y
+    },
+    {
+      x: end.x - halfThickness * v.x,
+      y: end.y - halfThickness * v.y
+    }
+  ]
+  return rectangle
+}
+
+export const drawPolygonEdge = (
+  g: Graphics,
+  edge: BedEdge,
+  polygonStyling?: Partial<PolygonEdgeStyling>
+) => {
+  const pes: PolygonEdgeStyling = { ...polygonEdgeDefaultStyling, ...polygonStyling }
+  const points = buildPolygonEdge(edge, pes.lineThickness)
+
+  g.clear()
+  g.beginFill(pes.lineColour, pes.alpha)
+  g.drawPolygon(points)
   g.endFill()
 }

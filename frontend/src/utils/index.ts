@@ -25,6 +25,12 @@ export const bedToGarden = (points: Point[], bedLocation: Point) => {
   })
 }
 
+export const gardenToBed = (points: Point[], bedLocation: Point) => {
+  return points.map((point) => {
+    return vectorSum(bedLocation, point, -1)
+  })
+}
+
 export const worldToGarden = (point: Point) => {
   const gardenStore = useGardenStore()
   return {
@@ -44,4 +50,10 @@ export const pointsDistance = (point1: Point, point2: Point) => {
   const xDist = point1.x - point2.x
   const yDist = point1.y - point2.y
   return Math.sqrt(xDist * xDist + yDist * yDist)
+}
+
+export const getMidpoint = (v1: Point, v2: Point) => {
+  const xMid = (v1.x + v2.x) / 2
+  const yMid = (v1.y + v2.y) / 2
+  return { x: xMid, y: yMid }
 }
