@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 import { computed, ref, type ComputedRef } from 'vue'
 import { useGardenStore } from '.'
 import type { PolygonPoint } from '@/types/garden'
+import { pointsDistance } from '@/utils'
 
 export const useGridStore = defineStore('grid', () => {
-  const nLines = ref({ columns: 11, rows: 11 })
+  const nLines = ref({ columns: 21, rows: 21 })
 
   const columns = computed(() => {
     const gardenStore = useGardenStore()
@@ -34,5 +35,29 @@ export const useGridStore = defineStore('grid', () => {
     return v
   })
 
-  return { columns, rows, vertices }
+  const findClosestVertex = (point: { x: number; y: number }): { gridId: number; dist: number } => {
+    // 'point' has to be in garden space.
+    return vertices.value.reduce(
+      (closestPoint, v, i) => {
+        const dist = pointsDistance(point, v)
+        return dist < closestPoint.dist ? { gridId: i, dist: dist } : closestPoint
+      },
+      { gridId: -1, dist: 1000 }
+    )
+  }
+
+  const findClosestVertices = (
+    points: { x: number; y: number }[]
+  ): { gridId: number; id: number; dist: number } => {
+    // 'points' has to be in garden space.
+    return points.reduce(
+      (closestMatch, v, i) => {
+        const closestPoint = findClosestVertex(v)
+        return closestPoint.dist < closestMatch.dist ? { ...closestPoint, id: i } : closestMatch
+      },
+      { id: -1, gridId: -1, dist: 1000 }
+    )
+  }
+
+  return { columns, rows, vertices, findClosestVertex, findClosestVertices }
 })
