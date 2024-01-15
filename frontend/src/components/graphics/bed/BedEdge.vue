@@ -32,7 +32,7 @@ const thickness = computed(() => 8 / gardenStore.position.scale)
 const drawEdge = (g: Graphics, e: BedEdge) => {
   const styling = {
     lineThickness: thickness.value,
-    fillColour: Colours.green
+    lineColour: Colours.blue
   }
   drawPolygonEdge(g, e, styling)
 }

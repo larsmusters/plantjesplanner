@@ -58,7 +58,7 @@ export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonV
 const polygonEdgeDefaultStyling: PolygonEdgeStyling = {
   lineThickness: 0,
   lineColour: Colours.black,
-  alpha: 0.8
+  alpha: 0.75
 }
 
 export const buildPolygonEdge = (edge: BedEdge, thickness: number): Point[] => {
