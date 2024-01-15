@@ -11,7 +11,7 @@ export const useGardenStore = defineStore('garden', () => {
   const gardenRef = ref()
 
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
-  const clickMode = ref<ClickMode>(ClickMode.add)
+  const clickMode = ref<ClickMode>(ClickMode.edit)
 
   const newBed = ref<Bed>(defaultNewBed)
   const spritesheet = ref<Spritesheet>()

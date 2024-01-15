@@ -50,7 +50,7 @@ export const useGridStore = defineStore('grid', () => {
     points: { x: number; y: number }[]
   ): { id: number; x: number; y: number } => {
     const data = findClosestVertices(points)
-    return { id: data.id, x: vertices.value[data.gridId].x, y: vertices.value[data.gridId].y }
+    return { ...vertices.value[data.gridId], id: data.id }
   }
 
   const findClosestVertices = (

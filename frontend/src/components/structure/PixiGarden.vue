@@ -43,8 +43,8 @@ const moveBed = (bedId: number) => {
   const bedVertices = bedToGarden(gardenStore.garden.beds[bedId].shape, gardenStore.gardenCursor)
   const closestVertices = gridStore.findClosestVertices(bedVertices)
 
-  const matchLocationBed = gardenStore.newBed.shape[closestVertices.id]
+  const matchLocationBed = gardenStore.garden.beds[bedId].shape[closestVertices.id]
   const matchLocationGrid = gridStore.vertices[closestVertices.gridId]
-  gardenStore.garden.beds[bedId].location = vectorSum(matchLocationBed, matchLocationGrid, -1, 1)
+  gardenStore.garden.beds[bedId].location = vectorSum(matchLocationBed, matchLocationGrid, -1)
 }
 </script>
