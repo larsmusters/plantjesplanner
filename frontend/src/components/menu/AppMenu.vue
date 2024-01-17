@@ -1,6 +1,6 @@
 <template>
   <div class="menu-grid">
-    <ShapeSelector class="shape-selector" />
+    <ShapeSelector />
     <PlantSelector />
   </div>
 </template>
@@ -14,9 +14,8 @@ import PlantSelector from './PlantSelector.vue'
 .menu-grid {
   display: grid;
   height: 100%;
-}
-
-.shape-selector {
-  border-bottom: 1px solid rgb(200, 200, 200);
+  > :first-child {
+    border-bottom: 1px solid rgb(200, 200, 200);
+  }
 }
 </style>

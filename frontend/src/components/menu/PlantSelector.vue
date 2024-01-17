@@ -1,9 +1,3 @@
 <template>
-  <div class="plant-selector">Plant Selector</div>
+  <div class="p-4">Plant Selector</div>
 </template>
-
-<style scoped lang="scss">
-.plant-selector {
-  padding: 1em;
-}
-</style>

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   /* Keep margin, so you ensure visually everything is still on the screen */
   background: purple;
