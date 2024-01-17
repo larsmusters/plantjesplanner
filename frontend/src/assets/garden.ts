@@ -13,21 +13,25 @@ export const fakeGarden: Garden = {
   beds: [
     {
       ...bedLibrary[2],
+      shape: JSON.parse(JSON.stringify(bedLibrary[2].shape)),
       location: { x: 1000, y: 500 },
       plant: plantLibrary[0]
     },
     {
       ...bedLibrary[4],
+      shape: JSON.parse(JSON.stringify(bedLibrary[4].shape)),
       location: { x: 3000, y: 2000 },
       plant: plantLibrary[1]
     },
     {
       ...bedLibrary[6],
+      shape: JSON.parse(JSON.stringify(bedLibrary[6].shape)),
       location: { x: 1500, y: 2500 },
       plant: plantLibrary[2]
     },
     {
       ...bedLibrary[3],
+      shape: JSON.parse(JSON.stringify(bedLibrary[3].shape)),
       location: { x: 3900, y: 750 },
       plant: plantLibrary[3]
     }

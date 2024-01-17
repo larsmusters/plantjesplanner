@@ -5,6 +5,9 @@
     - On longer hovers, allow selection through an object (to select objects lower in the viewing index)
     - On edit mode, allow adding a vertex by clicking on the midpoint of an edge.
     - On edit mode, allow removing a vertex by clicking on the vertex with some shortcut or mode enabled
+    - On edit mode, allow removing a bed.
+    - On edit mode, allow rotation of beds (90 degree angles, by pressing a button).
+    - On edit mode, allow mirroring of beds (vertical and horizontal mirror). It is applied to the whole library.
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
@@ -13,9 +16,9 @@
 
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
+    - Add image of plant to plant selector
 
     Fun things:
-    - ! Allow selecting different plants
     - ! Display information on the component that is being hovered,
     - ! Collect more information on plants.
   -->
