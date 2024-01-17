@@ -1,5 +1,6 @@
 <template>
   <graphics
+    ref="el"
     @render="(g: Graphics) => drawEditPoint(g, point)"
     :hit-area="getEditPointHitArea(point)"
     @pointerdown="onDragStart"
@@ -14,8 +15,9 @@ import type { Point } from '@/types/garden'
 import { drawPolygonVertex } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
 import { Circle } from 'pixi.js'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
+import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 
 defineProps<{
   point: Point
@@ -27,20 +29,28 @@ const emit = defineEmits<{
 
 const gardenStore = useGardenStore()
 
-const radius = computed(() => 10 / gardenStore.position.scale)
+const el = ref()
+const hovering = useElementHover(el)
+const scale = computed(() => (hovering.value ? 1.5 : 1))
+const scaleAnimated = useTransition(scale, {
+  duration: 100,
+  transition: TransitionPresets.easeOutQuad
+})
+
+const radius = computed(() => 5 / gardenStore.position.scale)
 
 const drawEditPoint = (g: Graphics, p: Point) => {
   const styling = {
     lineThickness: 2,
-    fillColour: Colours.green,
+    fillColour: Colours.black,
     location: p,
-    radius: radius.value
+    radius: radius.value * scaleAnimated.value
   }
   drawPolygonVertex(g, styling)
 }
 
 const getEditPointHitArea = (p: Point) => {
-  return new Circle(p.x, p.y, radius.value)
+  return new Circle(p.x, p.y, radius.value * 1.5)
 }
 
 const stage = useStage()

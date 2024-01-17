@@ -1,5 +1,6 @@
 <template>
   <graphics
+    ref="el"
     @render="(g: Graphics) => drawEdge(g, start, end)"
     :hit-area="getEdgeHitArea(start, end)"
     @pointerdown="onDragStart"
@@ -18,6 +19,7 @@ import type { Graphics } from 'pixi.js'
 import { Polygon } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
+import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 
 const props = defineProps<{
   start: { x: number; y: number; id: number }
@@ -31,18 +33,26 @@ const emit = defineEmits<{
 
 const gardenStore = useGardenStore()
 
-const thickness = computed(() => 8 / gardenStore.position.scale)
+const el = ref()
+const hovering = useElementHover(el)
+const scale = computed(() => (hovering.value ? 1.5 : 1))
+const scaleAnimated = useTransition(scale, {
+  duration: 100,
+  transition: TransitionPresets.easeOutQuad
+})
+
+const thickness = computed(() => 5 / gardenStore.position.scale)
 
 const drawEdge = (g: Graphics, start: Point, end: Point) => {
   const styling = {
-    lineThickness: thickness.value,
-    lineColour: Colours.blue
+    lineThickness: thickness.value * scaleAnimated.value,
+    lineColour: Colours.black
   }
   drawPolygonEdge(g, start, end, styling)
 }
 
 const getEdgeHitArea = (start: Point, end: Point) => {
-  return new Polygon(buildPolygonEdge(start, end, thickness.value))
+  return new Polygon(buildPolygonEdge(start, end, thickness.value * 2.5))
 }
 
 const stage = useStage()

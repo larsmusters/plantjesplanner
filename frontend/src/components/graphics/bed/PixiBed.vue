@@ -81,7 +81,6 @@ const emit = defineEmits<{
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
 const el = ref()
-const hovering = useElementHover(el)
 
 const gardenStore = useGardenStore()
 const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
@@ -90,6 +89,7 @@ const animation = computed(
   () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
 )
 
+const hovering = useElementHover(el)
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
 const scaleAnimated = useTransition(scale, {
   duration: 100,
