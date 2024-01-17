@@ -77,7 +77,6 @@ const quickButonsHeightCSS = quickButonsHeight.toString() + 'px'
 .quick-buttons {
   grid-area: quick-buttons;
   border-bottom: 1px solid rgb(200, 200, 200);
-  padding: 0.25em;
 }
 
 .graph {

@@ -45,7 +45,7 @@ export const findClosestVertex = (
       const dist = pointsDistance(point, v)
       return dist < closestVertex.dist ? { id, dist } : closestVertex
     },
-    { id: -1, dist: 1000 }
+    { id: -1, dist: 1e9 }
   )
 }
 
@@ -63,6 +63,6 @@ export const findClosestPair = (
         ? { vertexId: pair.id, dist: pair.dist, pointId }
         : closestPair
     },
-    { pointId: -1, vertexId: -1, dist: 1000 }
+    { pointId: -1, vertexId: -1, dist: 1e9 }
   )
 }

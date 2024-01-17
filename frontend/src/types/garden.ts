@@ -19,6 +19,7 @@ export interface Garden {
 
 export interface Bed {
   id: number
+  name: string
   shape: PolygonPoint[]
   color: Colours
   location: IPointData

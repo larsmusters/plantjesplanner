@@ -1,8 +1,16 @@
 <template>
-  <button @click="changeMode(ClickMode.add)">Add Mode</button>
-  <button @click="changeMode(ClickMode.select)">Select Mode</button>
-  <button @click="changeMode(ClickMode.edit)">edit Mode</button>
-  <button @click="randomiseNewFlower">Randomise new flower</button>
+  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.add)">
+    Add Mode
+  </button>
+  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.select)">
+    Select Mode
+  </button>
+  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.edit)">
+    edit Mode
+  </button>
+  <button class="border border-2 border-black m-1" @click="randomiseNewFlower">
+    Randomise new flower
+  </button>
 </template>
 
 <script setup lang="ts">

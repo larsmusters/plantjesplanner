@@ -1,3 +1,3 @@
 <template>
-  <div class="p-4">Plant Selector</div>
+  <div class="p-4">Plants</div>
 </template>

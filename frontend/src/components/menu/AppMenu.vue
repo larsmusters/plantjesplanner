@@ -13,6 +13,7 @@ import PlantSelector from './PlantSelector.vue'
 <style scoped lang="scss">
 .menu-grid {
   display: grid;
+  grid-template-rows: 50% 50%;
   height: 100%;
   > :first-child {
     border-bottom: 1px solid rgb(200, 200, 200);
