@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import { bedLibrary } from '@/config/bedLibrary'
 import { ClickMode } from '@/types'
 import type { Bed } from '@/types/garden'

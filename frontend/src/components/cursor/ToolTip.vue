@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import { Colours } from '@/types/colours'
 import type { Point } from '@/types/garden'
 import type { Graphics } from 'pixi.js'

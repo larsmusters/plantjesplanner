@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { bedLibrary } from '@/config/bedLibrary'
 import { plantLibrary } from '@/config/plantLibrary'
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import { ClickMode } from '@/types'
 
 const gardenStore = useGardenStore()

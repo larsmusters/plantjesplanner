@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { useGridStore } from '@/stores/grid'
 import PixiBed from '../graphics/bed/PixiBed.vue'
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import { ClickMode } from '@/types'
 import { computed } from 'vue'
 import { findClosestPair } from '@/utils/grid'

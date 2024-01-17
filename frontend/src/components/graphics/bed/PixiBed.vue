@@ -59,7 +59,7 @@ import type { Bed, BedEdge, Point } from '@/types/garden'
 import type { PolygonStyling } from '@/types/shapes'
 import { drawPolygon } from '@/utils/builder'
 import { gardenToRelative, worldToGarden } from '@/utils'
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 
 const props = withDefaults(
   defineProps<{

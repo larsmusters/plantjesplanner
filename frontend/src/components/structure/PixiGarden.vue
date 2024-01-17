@@ -20,7 +20,7 @@ import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import { ref } from 'vue'
 import { type ApplicationInst } from 'vue3-pixi'
 import { Container } from 'pixi.js'
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import { ClickMode } from '@/types'
 import { useGridStore } from '@/stores/grid'
 import {

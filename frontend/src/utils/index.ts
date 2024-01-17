@@ -1,4 +1,4 @@
-import { useGardenStore } from '@/stores'
+import { useGardenStore } from '@/stores/garden'
 import type { Bed, Point, PolygonPoint } from '@/types/garden'
 
 export const buildPolygon = (
