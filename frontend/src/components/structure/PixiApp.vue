@@ -1,7 +1,6 @@
 <template>
   <!-- To-do's:
     Difficult things: 
-    - Put restrictions on the shape of the polygons (non-intersecting)
     - On longer hovers, allow selection through an object (to select objects lower in the viewing index)
     - On edit mode, allow adding a vertex by clicking on the midpoint of an edge.
     - On edit mode, allow removing a vertex by clicking on the vertex with some shortcut or mode enabled
@@ -9,19 +8,21 @@
     - On edit mode, allow rotation of beds (90 degree angles, by pressing a button).
     - On edit mode, allow mirroring of beds (vertical and horizontal mirror). It is applied to the whole library.
 
-    Lame-ish things:
-    - Construct a default shapes library, with proper 'inheritance'
-    - Make bed visual not dependent on bed.location (it moves unwantedly)
-    
     Fun-ish things:
     - Add the ability to add other things in the garden (such as a 'path')
     - Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
-    - Add image of plant to plant selector
-    
-    Fun things:
-    - In edit mode, scale vertex and edges when hovered and improve visuasl of vertices and edges.
-    - ! Display information on the component that is being hovered,
-    - ! Collect more information on plants.
+    - Add image of plant to plant selector (and think about how to deal with 1000 images in the future...)
+
+    After these things (pending more stuff):
+    - Build backend to store garden
+    - Allow selecting a different garden (and a garden edit page?)
+    - Build a section where you can alter the shape library
+    - Build a section where you can alter the plant library (and with that any active plants)
+
+    After these things (pending more stuff):
+    - Add info on plants: (height(t), colour(time))
+    - Add visuals designs for heights and colours
+    - Add a slider to visualise the garden each month
   -->
 
   <Application background="white" :width="width" :height="height">
