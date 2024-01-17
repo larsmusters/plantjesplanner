@@ -15,9 +15,9 @@
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
 
     Fun things:
-    - Allow adding of different standard bed shapes
-    - Display information on the component that is being hovered,
-    - Collect more information on plants.
+    - ! Allow adding of different standard bed shapes
+    - ! Display information on the component that is being hovered,
+    - ! Collect more information on plants.
   -->
 
   <Application background="white" :width="width" :height="height">
