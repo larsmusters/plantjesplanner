@@ -1,5 +1,6 @@
 export enum Colours {
   green = 0x66ff66,
+  orange = 0xffa500,
   grass = 0xdaffb3,
   brownFlower = 0xdc816f,
   violetFlower = 0xed5d9f,

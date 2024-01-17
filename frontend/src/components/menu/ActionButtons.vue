@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { plantLibrary } from '@/config/plantLibrary'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
 
@@ -24,8 +25,6 @@ const changeMode = (mode: ClickMode) => {
 }
 
 const randomiseNewFlower = () => {
-  const items = ['pink', 'madelief', 'brown', 'orange']
-
-  gardenStore.newBed.plant = items[Math.floor(Math.random() * items.length)]
+  gardenStore.newBed.plant = plantLibrary[Math.floor(Math.random() * plantLibrary.length)]
 }
 </script>

@@ -18,13 +18,18 @@ export interface Garden {
 }
 
 export interface Bed {
-  id: number
   name: string
   shape: PolygonPoint[]
-  color: Colours
   location: IPointData
-  plant: string
+  plant: Plant
   heightOnHover: number
+}
+
+export interface Plant {
+  name: string
+  nameLatin?: string
+  color: Colours
+  animationId: string
   animationScale: number
 }
 

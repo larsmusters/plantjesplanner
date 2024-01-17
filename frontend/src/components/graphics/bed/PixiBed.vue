@@ -1,5 +1,5 @@
 <template>
-  <container :ref="(el) => (containerRef = el)" :position="bed.location">
+  <container :ref="(el: Container) => (containerRef = el)" :position="bed.location">
     <graphics @render="drawDropShadow">
       <blur-filter :quality="2" :blur="4" />
     </graphics>
@@ -18,7 +18,7 @@
         playing
         :animation-speed="0.04"
         :anchor="0.5"
-        :scale="scaleAnimated * bed.animationScale"
+        :scale="scaleAnimated * bed.plant.animationScale"
       />
     </graphics>
     <template v-if="editMode">
@@ -43,19 +43,23 @@
 <script setup lang="ts">
 import BedVertex from './BedVertex.vue'
 import BedEdgeVue from './BedEdge.vue'
-import { computed, ref, watch } from 'vue'
-import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
-import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
-import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Bed, BedEdge, Point } from '@/types/garden'
-import type { Container } from 'pixi.js'
-import { drawPolygon } from '@/utils/builder'
-import type { PolygonStyling } from '@/types/shapes'
+import { computed, ref, watch } from 'vue'
 import { useStage } from 'vue3-pixi'
-import { useGardenStore } from '@/stores'
-import type { FederatedPointerEvent } from 'pixi.js'
+import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
+import {
+  Graphics,
+  Polygon,
+  AnimatedSprite,
+  type FederatedPointerEvent,
+  type Container
+} from 'pixi.js'
+import { Colours } from '@/types/colours'
+import type { Bed, BedEdge, Point } from '@/types/garden'
+import type { PolygonStyling } from '@/types/shapes'
+import { drawPolygon } from '@/utils/builder'
 import { gardenToRelative, worldToGarden } from '@/utils'
+import { useGardenStore } from '@/stores'
 
 const props = withDefaults(
   defineProps<{
@@ -82,7 +86,9 @@ const hovering = useElementHover(el)
 const gardenStore = useGardenStore()
 const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
 
-const animation = computed(() => gardenStore.spritesheet?.animations[props.bed.plant] || [])
+const animation = computed(
+  () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
+)
 
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
 const scaleAnimated = useTransition(scale, {
@@ -102,8 +108,7 @@ const drawBed = (g: Graphics) => {
     shape: props.bed.shape,
     scale: scaleAnimated.value,
     lineThickness: 1 / gardenStore.position.scale,
-    lineColour: props.bed.color,
-    fillColour: props.bed.color,
+    fillColour: props.bed.plant.color,
     lineAlpha: 0.9,
     fillAlpha: 0.4
   }
