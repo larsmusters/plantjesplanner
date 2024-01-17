@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="header">Plantjesplanner</div>
     <div class="quick-buttons"><ActionButtons /></div>
-    <div class="menu">
+    <div class="menu-grid">
       <AppMenu />
     </div>
     <div ref="graph" class="graph">
@@ -42,7 +42,7 @@ const menuWidthCSS = menuWidth.toString() + 'px'
 const quickButonsHeightCSS = quickButonsHeight.toString() + 'px'
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .app-container {
   background-color: white;
   width: v-bind(appWidth);
@@ -69,7 +69,7 @@ const quickButonsHeightCSS = quickButonsHeight.toString() + 'px'
   font-size: 1.5em;
 }
 
-.menu {
+.menu-grid {
   grid-area: menu;
   border-right: 1px solid rgb(200, 200, 200);
 }

@@ -1,22 +1,15 @@
 <template>
-  <div class="menu-grid">
-    <ShapeSelector />
-    <PlantSelector />
-  </div>
+  <MenuTabs />
+  <AddMenu v-if="viewportStore.activeTab === Tab.add" />
+  <InfoMenu v-else-if="viewportStore.activeTab === Tab.info" />
 </template>
 
 <script setup lang="ts">
-import ShapeSelector from './ShapeSelector.vue'
-import PlantSelector from './PlantSelector.vue'
-</script>
+import MenuTabs from './MenuTabs.vue'
+import { Tab } from '@/types'
+import AddMenu from './AddMenu/AddMenu.vue'
+import InfoMenu from './InfoMenu.vue'
+import { useViewportStore } from '@/stores/viewport'
 
-<style scoped lang="scss">
-.menu-grid {
-  display: grid;
-  grid-template-rows: 50% 50%;
-  height: 100%;
-  > :first-child {
-    border-bottom: 1px solid rgb(200, 200, 200);
-  }
-}
-</style>
+const viewportStore = useViewportStore()
+</script>

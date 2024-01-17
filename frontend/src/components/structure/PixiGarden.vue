@@ -10,6 +10,7 @@
         (dragLoc: Point, ids: number[]) => moveBedVertices(dragLoc, index, ids)
       "
       @set-to-cursor:bed="(dragLoc: Point) => moveBedVertices(dragLoc, index)"
+      @click:bed="bedClicked(bed)"
     />
   </template>
 </template>
@@ -31,7 +32,8 @@ import {
   gardenToRelativeArray
 } from '@/utils'
 import { movePointToGrid, findClosestPair } from '@/utils/grid'
-import type { Point } from '@/types/garden'
+import type { Bed, Point } from '@/types/garden'
+import { useViewportStore } from '@/stores/viewport'
 
 const app = ref<ApplicationInst>()
 const raiseBedIndex = (container: Container) => {
@@ -75,5 +77,11 @@ const moveBedVertices = (dragLoc: Point, bedId: number, ids?: number[]) => {
   }
 
   bed.location = newBedLocation
+}
+
+const viewportStore = useViewportStore()
+const bedClicked = (bed: Bed) => {
+  viewportStore.plantInfo = bed.plant
+  viewportStore.showInfo()
 }
 </script>

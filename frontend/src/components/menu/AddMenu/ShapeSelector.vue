@@ -1,14 +1,14 @@
 <template>
   <div class="shape-selector">
-    <h2 class="p-2">Plants</h2>
+    <h2 class="p-2">Available shapes</h2>
     <div class="library-grid">
       <button
-        v-for="(plant, index) in plantLibrary"
+        v-for="(bed, index) in bedLibrary"
         :key="index"
         class="library-option"
-        @click="optionClicked(plant)"
+        @click="optionClicked(bed)"
       >
-        {{ plant.name }}
+        {{ bed.name }}
       </button>
     </div>
   </div>
@@ -16,14 +16,14 @@
 
 <script setup lang="ts">
 import { useGardenStore } from '@/stores/garden'
+import { bedLibrary } from '@/config/bedLibrary'
 import { ClickMode } from '@/types'
-import type { Plant } from '@/types/garden'
-import { plantLibrary } from '@/config/plantLibrary'
+import type { Bed } from '@/types/garden'
 
 const gardenStore = useGardenStore()
 
-const optionClicked = (plant: Plant) => {
-  gardenStore.newBed.plant = plant
+const optionClicked = (bed: Bed) => {
+  gardenStore.newBed = { ...bed, plant: gardenStore.newBed.plant }
   gardenStore.clickMode = ClickMode.add
 }
 </script>
@@ -32,6 +32,7 @@ const optionClicked = (plant: Plant) => {
 .shape-selector {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .library-grid {
@@ -45,12 +46,12 @@ const optionClicked = (plant: Plant) => {
   display: grid;
   gap: 0.5em;
   padding: 0.5em;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .library-option {
-  border: 1px solid rgb(50, 178, 50);
-  background-color: rgb(245, 255, 245);
+  border: 1px solid rgb(50, 82, 178);
+  background-color: rgb(245, 247, 255);
   height: 5em;
 
   &:hover {

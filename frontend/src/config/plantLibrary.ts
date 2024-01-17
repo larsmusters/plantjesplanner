@@ -11,6 +11,7 @@ export const plantLibrary: Plant[] = [
     ...LIBRARY_PLANT_BASE,
     color: Colours.grass,
     name: 'Madelief',
+    nameLatin: 'Bellis perennis',
     animationId: 'madelief',
     animationScale: 5
   },

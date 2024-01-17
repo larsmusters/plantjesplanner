@@ -4,6 +4,11 @@ export enum ClickMode {
   edit = 'Edit'
 }
 
+export enum Tab {
+  add = 'Add',
+  info = 'Info'
+}
+
 export interface Position {
   x: number
   y: number
