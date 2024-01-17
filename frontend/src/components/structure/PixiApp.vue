@@ -1,12 +1,13 @@
 <template>
   <!-- To-do's:
-    Lame things: 
+    Difficult things: 
     - Put restrictions on the shape of the polygons (non-intersecting)
-    - ! Re-factor the moving of vertices, as it is a bit of a mess now.
+    - On longer hovers, allow selection through an object (to select objects lower in the viewing index)
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
-    - ! When moving a bed, use the pick-up from where you clicked, not the center of the bed.
+    - Make bed visual not dependent on bed.location (it moves unwantedly)
+    - In edit mode, scale vertex and edges when hovered.
 
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
