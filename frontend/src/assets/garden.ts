@@ -19,6 +19,7 @@ export const fakeGarden: Garden = {
         { x: 500, y: -500, radius: 30 },
         { x: -500, y: -500, radius: 30 },
         { x: -500, y: 500, radius: 30 },
+        { x: 250, y: 750, radius: 30 },
         { x: 500, y: 500, radius: 30 }
       ],
       location: { x: 500, y: 500 },

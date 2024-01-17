@@ -2,11 +2,11 @@
   <!-- To-do's:
     Lame things: 
     - Put restrictions on the shape of the polygons (non-intersecting)
-    - Re-factor the moving of vertices, as it is a bit of a mess now.
+    - ! Re-factor the moving of vertices, as it is a bit of a mess now.
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
-    - When moving a bed, use the pick-up from where you clicked, not the center of the bed.
+    - ! When moving a bed, use the pick-up from where you clicked, not the center of the bed.
 
     Fun-ish things:
     Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)

@@ -61,11 +61,8 @@ const polygonEdgeDefaultStyling: PolygonEdgeStyling = {
   alpha: 0.75
 }
 
-export const buildPolygonEdge = (edge: BedEdge, thickness: number): Point[] => {
+export const buildPolygonEdge = (start: Point, end: Point, thickness: number): Point[] => {
   // Build a thick line (so that it is clickable)
-  const start = edge.p0
-  const end = edge.p1
-
   // Step 1: Calculate the length of the line
   const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
 
@@ -106,11 +103,12 @@ export const buildPolygonEdge = (edge: BedEdge, thickness: number): Point[] => {
 
 export const drawPolygonEdge = (
   g: Graphics,
-  edge: BedEdge,
+  start: Point,
+  end: Point,
   polygonStyling?: Partial<PolygonEdgeStyling>
 ) => {
   const pes: PolygonEdgeStyling = { ...polygonEdgeDefaultStyling, ...polygonStyling }
-  const points = buildPolygonEdge(edge, pes.lineThickness)
+  const points = buildPolygonEdge(start, end, pes.lineThickness)
 
   g.clear()
   g.beginFill(pes.lineColour, pes.alpha)

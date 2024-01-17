@@ -6,8 +6,10 @@
       @update:hover="raiseBedIndex"
       :edit-mode="gardenStore.clickMode === ClickMode.edit"
       @set-to-cursor:bed-vertex="(vertexId: number) => moveBedVertex(vertexId, index)"
-      @set-to-cursor:bed-edge="(v1Id: number, v2Id: number) => moveBedEdge(v1Id, v2Id, index)"
-      @set-to-cursor:bed="moveBed(index)"
+      @set-to-cursor:bed-vertices="
+        (dragLoc: Point, ids: number[]) => moveBedVertices(dragLoc, index, ids)
+      "
+      @set-to-cursor:bed="(dragLoc: Point) => moveBedVertices(dragLoc, index)"
     />
   </template>
 </template>
@@ -21,7 +23,15 @@ import { Container } from 'pixi.js'
 import { useGardenStore } from '@/stores'
 import { ClickMode } from '@/types'
 import { useGridStore } from '@/stores/grid'
-import { bedToGarden, vectorSum, getMidpoint, gardenToBed } from '@/utils'
+import {
+  relativeToGardenArray,
+  vectorSum,
+  gardenToRelative,
+  moveOriginArray,
+  gardenToRelativeArray
+} from '@/utils'
+import { movePointToGrid, findClosestPair } from '@/utils/grid'
+import type { Point } from '@/types/garden'
 
 const app = ref<ApplicationInst>()
 const raiseBedIndex = (container: Container) => {
@@ -34,57 +44,35 @@ const gardenStore = useGardenStore()
 const gridStore = useGridStore()
 
 const moveBedVertex = (vertexId: number, bedId: number) => {
-  const snapLocation = gridStore.getSnappingVertex([gardenStore.gardenCursor])
-
-  const newPoint = vectorSum(gardenStore.garden.beds[bedId].location, snapLocation, -1)
-  gardenStore.garden.beds[bedId].shape[vertexId] = newPoint
+  const snapLocation = movePointToGrid(gardenStore.cursor, gridStore.vertices)
+  const newBedPoint = gardenToRelative(gardenStore.garden.beds[bedId].location, snapLocation)
+  gardenStore.garden.beds[bedId].shape[vertexId] = newBedPoint
 }
 
-const moveBedEdge = (v1Id: number, v2Id: number, bedId: number) => {
-  // Get halfway-point as that is where the cursor should be.
+const moveBedVertices = (dragLoc: Point, bedId: number, ids?: number[]) => {
   const bed = gardenStore.garden.beds[bedId]
-  const shape = bed.shape
+  // if ids is not given, all vertices of the bed are moved.
+  let moveIds = ids ? ids : bed.shape.map((_, i) => i)
+  let bedVertices: Point[] = moveIds.map((id) => bed.shape[id])
+  bedVertices = moveOriginArray(bedVertices, dragLoc)
+  bedVertices = relativeToGardenArray(gardenStore.cursor, bedVertices)
 
-  // Bed space
-  const v1 = shape[v1Id]
-  const v2 = shape[v2Id]
-  const midpoint = getMidpoint(v1, v2)
+  const closestVertices = findClosestPair(bedVertices, gridStore.vertices)
+  const matchLocationBed = bed.shape[moveIds[closestVertices.pointId]]
+  const matchLocationGrid = gridStore.vertices[closestVertices.vertexId]
+  // gridPoint - bedPoint = bed.location
+  const newBedLocation = vectorSum(matchLocationGrid, matchLocationBed, 1, -1)
 
-  // Get pointing vector to the two vertices
-  const midpointToV1 = vectorSum(midpoint, v1, -1, 1)
-  const midpointToV2 = vectorSum(midpoint, v2, -1, 1)
-
-  // vertices in garden space
-  const vertices = [
-    vectorSum(gardenStore.gardenCursor, midpointToV1),
-    vectorSum(gardenStore.gardenCursor, midpointToV2)
-  ]
-
-  const closestVertices = gridStore.findClosestVertices(vertices)
-
-  if (closestVertices.id === 0) {
-    const v1New = gridStore.vertices[closestVertices.gridId]
-    const v1Bed = gardenToBed([v1New], bed.location)[0]
-    gardenStore.garden.beds[bedId].shape[v1Id] = v1Bed
-
-    const v1ToV2 = vectorSum(v1, v2, -1, 1)
-    gardenStore.garden.beds[bedId].shape[v2Id] = vectorSum(v1Bed, v1ToV2)
-  } else {
-    const v2New = gridStore.vertices[closestVertices.gridId]
-    const v2Bed = gardenToBed([v2New], bed.location)[0]
-    gardenStore.garden.beds[bedId].shape[v2Id] = v2Bed
-
-    const v2ToV1 = vectorSum(v2, v1, -1, 1)
-    gardenStore.garden.beds[bedId].shape[v1Id] = vectorSum(v2Bed, v2ToV1)
+  if (ids) {
+    // To move only part of a bed, you have to move the bed ánd move unselected vertices in the opposite direction.
+    let unmovedVertices = relativeToGardenArray(bed.location, bed.shape)
+    unmovedVertices = gardenToRelativeArray(newBedLocation, unmovedVertices)
+    unmovedVertices.forEach((unmovedVertex, i) => {
+      if (ids.includes(i)) return
+      bed.shape[i] = unmovedVertex
+    })
   }
-}
 
-const moveBed = (bedId: number) => {
-  const bedVertices = bedToGarden(gardenStore.garden.beds[bedId].shape, gardenStore.gardenCursor)
-  const closestVertices = gridStore.findClosestVertices(bedVertices)
-
-  const matchLocationBed = gardenStore.garden.beds[bedId].shape[closestVertices.id]
-  const matchLocationGrid = gridStore.vertices[closestVertices.gridId]
-  gardenStore.garden.beds[bedId].location = vectorSum(matchLocationBed, matchLocationGrid, -1)
+  bed.location = newBedLocation
 }
 </script>

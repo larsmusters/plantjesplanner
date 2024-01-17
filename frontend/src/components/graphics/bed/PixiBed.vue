@@ -25,8 +25,10 @@
       <BedEdgeVue
         v-for="(edge, index) in edges"
         :key="index"
-        :edge="edge"
-        @set-to-cursor:edge="editEdge"
+        :start="edge.p0"
+        :end="edge.p1"
+        :bed-id="bedId"
+        @set-to-cursor:vertices="editEdge"
       />
       <BedVertex
         v-for="(point, index) in props.bed.shape"
@@ -46,12 +48,14 @@ import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { Graphics, Polygon, AnimatedSprite } from 'pixi.js'
 import { Colours } from '@/types/colours'
 import '@pixi/graphics-extras'
-import type { Bed, BedEdge } from '@/types/garden'
+import type { Bed, BedEdge, Point } from '@/types/garden'
 import type { Container } from 'pixi.js'
 import { drawPolygon } from '@/utils/builder'
 import type { PolygonStyling } from '@/types/shapes'
 import { useStage } from 'vue3-pixi'
 import { useGardenStore } from '@/stores'
+import type { FederatedPointerEvent } from 'pixi.js'
+import { gardenToRelative, worldToGarden } from '@/utils'
 
 const props = withDefaults(
   defineProps<{
@@ -67,8 +71,8 @@ const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
   (e: 'click:bed', container: Container): void
   (e: 'set-to-cursor:bed-vertex', index: number): void
-  (e: 'set-to-cursor:bed'): void
-  (e: 'set-to-cursor:bed-edge', v1Id: number, v2Id: number): void
+  (e: 'set-to-cursor:bed', dragLoc: Point): void
+  (e: 'set-to-cursor:bed-vertices', dragLoc: Point, ids: number[]): void
 }>()
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
@@ -76,6 +80,8 @@ const el = ref()
 const hovering = useElementHover(el)
 
 const gardenStore = useGardenStore()
+const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
+
 const animation = computed(() => gardenStore.spritesheet?.animations[props.bed.plant] || [])
 
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
@@ -134,12 +140,15 @@ const editPoint = (index: number) => {
   emit('set-to-cursor:bed-vertex', index)
 }
 
-const editEdge = (v1Id: number, v2Id: number) => {
-  emit('set-to-cursor:bed-edge', v1Id, v2Id)
+const editEdge = (dragLoc: Point, ids: number[]) => {
+  emit('set-to-cursor:bed-vertices', dragLoc, ids)
 }
 
 const stage = useStage()
-const onDragStart = () => {
+const dragLoc = ref<Point>()
+const onDragStart = (e: FederatedPointerEvent) => {
+  const gardenLoc = worldToGarden(e.global)
+  dragLoc.value = gardenToRelative(props.bed.location, gardenLoc)
   if (props.editMode) {
     stage.value!.addEventListener('pointermove', onDrag)
   }
@@ -150,6 +159,6 @@ const onDragEnd = () => {
 }
 
 const onDrag = () => {
-  emit('set-to-cursor:bed')
+  emit('set-to-cursor:bed', dragLoc.value!)
 }
 </script>

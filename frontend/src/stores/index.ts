@@ -5,24 +5,17 @@ import { ref, computed } from 'vue'
 import { fakeGarden } from '@/assets/garden'
 import { defaultNewBed } from '@/assets/bed'
 import { Spritesheet } from 'pixi.js'
+import { worldToGarden } from '@/utils'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
-  const gardenRef = ref()
-
-  const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
-  const clickMode = ref<ClickMode>(ClickMode.edit)
-
   const newBed = ref<Bed>(defaultNewBed)
   const spritesheet = ref<Spritesheet>()
+  const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
+  const clickMode = ref<ClickMode>(ClickMode.edit)
+  const cursor = ref<Point>({ x: 0, y: 0 })
 
-  const gardenCursor = ref({ x: 0, y: 0 })
-  const updateCursor = (cursor: Point) => {
-    gardenCursor.value = {
-      x: (cursor.x - position.value.x) / position.value.scale,
-      y: (cursor.y - position.value.y) / position.value.scale
-    }
-  }
+  const updateCursor = (newCursor: Point) => (cursor.value = worldToGarden(newCursor))
 
   const bounds = computed(() => {
     let [xMin, xMax, yMin, yMax] = [1e6, -1e6, 1e6, -1e6]
@@ -40,10 +33,9 @@ export const useGardenStore = defineStore('garden', () => {
     clickMode,
     bounds,
     position,
-    gardenCursor,
+    cursor,
     newBed,
     updateCursor,
-    spritesheet,
-    gardenRef
+    spritesheet
   }
 })

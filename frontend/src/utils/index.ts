@@ -1,5 +1,5 @@
 import { useGardenStore } from '@/stores'
-import type { Point, PolygonPoint } from '@/types/garden'
+import type { Bed, Point, PolygonPoint } from '@/types/garden'
 
 export const buildPolygon = (
   path: PolygonPoint[],
@@ -19,18 +19,6 @@ export const gardenToWorld = (point: Point) => {
   }
 }
 
-export const bedToGarden = (points: Point[], bedLocation: Point) => {
-  return points.map((point) => {
-    return vectorSum(bedLocation, point)
-  })
-}
-
-export const gardenToBed = (points: Point[], bedLocation: Point) => {
-  return points.map((point) => {
-    return vectorSum(bedLocation, point, -1)
-  })
-}
-
 export const worldToGarden = (point: Point) => {
   const gardenStore = useGardenStore()
   return {
@@ -39,7 +27,36 @@ export const worldToGarden = (point: Point) => {
   }
 }
 
-export const vectorSum = (point1: Point, point2: Point, multiply1?: number, multiply2?: number) => {
+export const bedToGardenArray = (bed: Bed) => {
+  return relativeToGardenArray(bed.location, bed.shape)
+}
+
+export const relativeToGarden = (relativeTo: Point, point: Point): Point => {
+  return vectorSum(relativeTo, point)
+}
+
+export const relativeToGardenArray = (relativeTo: Point, points: Point[]): Point[] => {
+  return points.map((point) => relativeToGarden(relativeTo, point))
+}
+
+export const gardenToRelative = (relativeTo: Point, point: Point): Point => {
+  return vectorSum(relativeTo, point, -1)
+}
+
+export const gardenToRelativeArray = (relativeTo: Point, points: Point[]): Point[] => {
+  return points.map((point) => gardenToRelative(relativeTo, point))
+}
+
+export const moveOriginArray = (points: Point[], newOrigin: Point): Point[] => {
+  return points.map((point) => vectorSum(newOrigin, point, -1))
+}
+
+export const vectorSum = (
+  point1: Point,
+  point2: Point,
+  multiply1?: number,
+  multiply2?: number
+): Point => {
   return {
     x: point1.x * (multiply1 || 1) + point2.x * (multiply2 || 1),
     y: point1.y * (multiply1 || 1) + point2.y * (multiply2 || 1)
@@ -50,10 +67,4 @@ export const pointsDistance = (point1: Point, point2: Point) => {
   const xDist = point1.x - point2.x
   const yDist = point1.y - point2.y
   return Math.sqrt(xDist * xDist + yDist * yDist)
-}
-
-export const getMidpoint = (v1: Point, v2: Point) => {
-  const xMid = (v1.x + v2.x) / 2
-  const yMid = (v1.y + v2.y) / 2
-  return { x: xMid, y: yMid }
 }

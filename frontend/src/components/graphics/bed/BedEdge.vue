@@ -1,7 +1,7 @@
 <template>
   <graphics
-    @render="(g: Graphics) => drawEdge(g, edge)"
-    :hit-area="getEdgeHitArea(edge)"
+    @render="(g: Graphics) => drawEdge(g, start, end)"
+    :hit-area="getEdgeHitArea(start, end)"
     @pointerdown="onDragStart"
     @pointerup="onDragEnd"
     @pointerupoutside="onDragEnd"
@@ -10,40 +10,47 @@
 <script setup lang="ts">
 import { useGardenStore } from '@/stores'
 import { Colours } from '@/types/colours'
-import type { BedEdge } from '@/types/garden'
+import type { Point } from '@/types/garden'
+import { gardenToRelative, worldToGarden } from '@/utils'
 import { drawPolygonEdge, buildPolygonEdge } from '@/utils/builder'
+import type { FederatedPointerEvent } from 'pixi.js'
 import type { Graphics } from 'pixi.js'
 import { Polygon } from 'pixi.js'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 
 const props = defineProps<{
-  edge: BedEdge
+  start: { x: number; y: number; id: number }
+  end: { x: number; y: number; id: number }
+  bedId: number
 }>()
 
 const emit = defineEmits<{
-  (e: 'set-to-cursor:edge', v1Id: number, v2Id: number): void
+  (e: 'set-to-cursor:vertices', dragLoc: Point, ids: number[]): void
 }>()
 
 const gardenStore = useGardenStore()
 
 const thickness = computed(() => 8 / gardenStore.position.scale)
 
-const drawEdge = (g: Graphics, e: BedEdge) => {
+const drawEdge = (g: Graphics, start: Point, end: Point) => {
   const styling = {
     lineThickness: thickness.value,
     lineColour: Colours.blue
   }
-  drawPolygonEdge(g, e, styling)
+  drawPolygonEdge(g, start, end, styling)
 }
 
-const getEdgeHitArea = (e: BedEdge) => {
-  return new Polygon(buildPolygonEdge(e, thickness.value))
+const getEdgeHitArea = (start: Point, end: Point) => {
+  return new Polygon(buildPolygonEdge(start, end, thickness.value))
 }
 
 const stage = useStage()
 
-const onDragStart = () => {
+const dragLoc = ref<Point>()
+const onDragStart = (e: FederatedPointerEvent) => {
+  const gardenLoc = worldToGarden(e.global)
+  dragLoc.value = gardenToRelative(gardenStore.garden.beds[props.bedId].location, gardenLoc)
   stage.value!.addEventListener('pointermove', onDrag)
 }
 
@@ -52,6 +59,6 @@ const onDragEnd = () => {
 }
 
 const onDrag = () => {
-  emit('set-to-cursor:edge', props.edge.p0.id, props.edge.p1.id)
+  emit('set-to-cursor:vertices', dragLoc.value!, [props.start.id, props.end.id])
 }
 </script>
