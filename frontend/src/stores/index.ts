@@ -12,7 +12,7 @@ export const useGardenStore = defineStore('garden', () => {
   const newBed = ref<Bed>(bedLibrary[0])
   const spritesheet = ref<Spritesheet>()
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
-  const clickMode = ref<ClickMode>(ClickMode.edit)
+  const clickMode = ref<ClickMode>(ClickMode.select)
   const cursor = ref<Point>({ x: 0, y: 0 })
 
   const updateCursor = (newCursor: Point) => (cursor.value = worldToGarden(newCursor))

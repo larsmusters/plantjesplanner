@@ -35,39 +35,9 @@ export const useGridStore = defineStore('grid', () => {
     return v
   })
 
-  const findClosestVertex = (point: Point): { gridId: number; dist: number } => {
-    // 'point' has to be in garden space.
-    return vertices.value.reduce(
-      (closestPoint, v, i) => {
-        const dist = pointsDistance(point, v)
-        return dist < closestPoint.dist ? { gridId: i, dist: dist } : closestPoint
-      },
-      { gridId: -1, dist: 1000 }
-    )
-  }
-
-  const getSnappingVertex = (points: Point[]): { id: number; x: number; y: number } => {
-    const data = findClosestVertices(points)
-    return { ...vertices.value[data.gridId], id: data.id }
-  }
-
-  const findClosestVertices = (points: Point[]): { gridId: number; id: number; dist: number } => {
-    // 'points' has to be in garden space.
-    return points.reduce(
-      (closestMatch, v, i) => {
-        const closestPoint = findClosestVertex(v)
-        return closestPoint.dist < closestMatch.dist ? { ...closestPoint, id: i } : closestMatch
-      },
-      { id: -1, gridId: -1, dist: 1000 }
-    )
-  }
-
   return {
     columns,
     rows,
-    vertices,
-    findClosestVertex,
-    findClosestVertices,
-    getSnappingVertex
+    vertices
   }
 })

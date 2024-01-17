@@ -28,7 +28,7 @@ export const fakeGarden: Garden = {
     },
     {
       ...bedLibrary[3],
-      location: { x: 4000, y: 500 },
+      location: { x: 3900, y: 750 },
       plant: plantLibrary[3]
     }
   ]
