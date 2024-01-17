@@ -3,6 +3,7 @@
     Difficult things: 
     - Put restrictions on the shape of the polygons (non-intersecting)
     - On longer hovers, allow selection through an object (to select objects lower in the viewing index)
+    - On edit mode, allow adding a vertex by clicking on the midpoint of an edge.
 
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
