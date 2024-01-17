@@ -27,7 +27,8 @@ export interface Bed {
 
 export interface Plant {
   name: string
-  nameLatin?: string
+  nameLatin: string
+  info: string
   color: Colours
   animationId: string
   animationScale: number

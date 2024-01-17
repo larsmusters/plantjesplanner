@@ -8,7 +8,7 @@
         class="library-option"
         @click="optionClicked(plant)"
       >
-        {{ plant.name }}
+        <span class="plant-name"> {{ plant.name }} </span>
       </button>
     </div>
   </div>
@@ -46,16 +46,21 @@ const optionClicked = (plant: Plant) => {
   display: grid;
   gap: 0.5em;
   padding: 0.5em;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 31%);
 }
 
 .library-option {
   border: 1px solid rgb(50, 178, 50);
   background-color: rgb(245, 255, 245);
   height: 5em;
+  padding: 0.3em;
 
   &:hover {
     box-shadow: 0 0 5px rgb(206, 206, 206);
   }
+}
+.plant-name {
+  word-wrap: break-word;
+  font-size: small;
 }
 </style>

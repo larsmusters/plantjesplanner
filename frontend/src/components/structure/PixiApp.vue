@@ -12,13 +12,14 @@
     Lame-ish things:
     - Construct a default shapes library, with proper 'inheritance'
     - Make bed visual not dependent on bed.location (it moves unwantedly)
-    - In edit mode, scale vertex and edges when hovered.
-
+    
     Fun-ish things:
-    Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
+    - Add the ability to add other things in the garden (such as a 'path')
+    - Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
     - Add image of plant to plant selector
-
+    
     Fun things:
+    - In edit mode, scale vertex and edges when hovered and improve visuasl of vertices and edges.
     - ! Display information on the component that is being hovered,
     - ! Collect more information on plants.
   -->
