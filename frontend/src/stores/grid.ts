@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { computed, ref, type ComputedRef } from 'vue'
 import { useGardenStore } from '.'
 import type { Point } from '@/types/garden'
-import { pointsDistance } from '@/utils'
 
 export const useGridStore = defineStore('grid', () => {
   const nLines = ref({ columns: 21, rows: 21 })

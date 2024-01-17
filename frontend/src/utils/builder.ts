@@ -2,7 +2,7 @@ import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
 import type { PolygonEdgeStyling, PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
-import type { BedEdge, Point } from '@/types/garden'
+import type { Point } from '@/types/garden'
 
 const stylingDefault: PolygonStyling = {
   lineThickness: 0,
