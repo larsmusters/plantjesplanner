@@ -50,15 +50,15 @@ export const bedLibrary: Bed[] = [
   },
   {
     ...LIBRARY_BED_BASE,
-    name: 'Hexagon',
+    name: 'Circle',
     id: 0,
     shape: [
-      { x: 400, y: 0, radius },
-      { x: 200, y: 346.41, radius },
-      { x: -200, y: 346.41, radius },
-      { x: -400, y: 0, radius },
-      { x: -200, y: -346.41, radius },
-      { x: 200, y: -346.41, radius }
+      { x: 400, y: 0, radius: 400 },
+      { x: 200, y: 346.41, radius: 400 },
+      { x: -200, y: 346.41, radius: 400 },
+      { x: -400, y: 0, radius: 400 },
+      { x: -200, y: -346.41, radius: 400 },
+      { x: 200, y: -346.41, radius: 400 }
     ]
   },
 

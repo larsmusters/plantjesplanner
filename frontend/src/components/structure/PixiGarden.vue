@@ -44,9 +44,10 @@ const gardenStore = useGardenStore()
 const gridStore = useGridStore()
 
 const moveBedVertex = (vertexId: number, bedId: number) => {
+  const bed = gardenStore.garden.beds[bedId]
   const snapLocation = movePointToGrid(gardenStore.cursor, gridStore.vertices)
-  const newBedPoint = gardenToRelative(gardenStore.garden.beds[bedId].location, snapLocation)
-  gardenStore.garden.beds[bedId].shape[vertexId] = newBedPoint
+  const newBedPoint = gardenToRelative(bed.location, snapLocation)
+  bed.shape[vertexId] = { ...bed.shape[vertexId], ...newBedPoint }
 }
 
 const moveBedVertices = (dragLoc: Point, bedId: number, ids?: number[]) => {
@@ -69,7 +70,7 @@ const moveBedVertices = (dragLoc: Point, bedId: number, ids?: number[]) => {
     unmovedVertices = gardenToRelativeArray(newBedLocation, unmovedVertices)
     unmovedVertices.forEach((unmovedVertex, i) => {
       if (ids.includes(i)) return
-      bed.shape[i] = unmovedVertex
+      bed.shape[i] = { ...bed.shape[i], ...unmovedVertex }
     })
   }
 
