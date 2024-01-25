@@ -25,11 +25,26 @@ export interface Bed {
   heightOnHover: number
 }
 
+interface PlantPart {
+  colour: Colours
+  scale: number
+  id: number
+}
+
+export interface Leaf extends PlantPart {}
+
+export interface Fruit extends PlantPart {}
+
+export interface Flower extends PlantPart {}
+
 export interface Plant {
   name: string
   nameLatin: string
   info: string
   color: Colours
+  leaf?: Leaf
+  fruit?: Fruit
+  flower?: Flower
   animationId: string
   animationScale: number
 }

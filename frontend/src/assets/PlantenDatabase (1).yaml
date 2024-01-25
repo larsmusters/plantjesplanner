@@ -1,0 +1,146 @@
+
+#       PlantjeA:
+# str     Latijnse naam:"Nome Latinum Plantinum"
+# int     Onderhoud: 0 = weinig, 1 = een beetje, 2 = veel
+#         Kleuren:
+# str[]     Bloem: ["Blauw", "Geel", "Groen"] - Kleuren van de bloemen "" = Geen bloem
+# str[]     Blad: ["Rood", "Geel", "Groen"] - Kleuren van de bladeren, "" = Geen blad
+# int[]   Hoogte: [80,100] - Minimale tot maximale lengte in cm
+# bool    Eetbaar: False - Voor mensen
+# str     Eettip: ""
+# int[]   StraalOmPlant: [20,25] range van afstand die minimaal om de plant heen nodig is in cm
+#         Zaaiperiode:
+# int[]     Binnen: [4,5] 1-12 voor elke maand van het jaar, 0 is nvt
+# int[]     Buiten: [5,6] 1-12 voor elke maand van het jaar, 0 is nvt
+# int[]   Bloeiperiode: [6,7,8,9] 1-12 voor elke maand van het jaar
+# int[]   Snoeiperiode: [0] 1-12 voor elke maand van het jaar 0 = niet snoeien
+# int[]   Standplaats: 0 = Schaduw, 1 = Halfschaduw, 2 = Volle zon
+# int     Waterbehoefte: 0= weinig/zelfvoorzienend, 1 = gemiddeld, 2= veel
+# bool    Vast: True = vaste plant, False, = Eenjarig
+# bool    Vorstbestendig: True
+# bool    InheemsNL: True - Is de plant wel of niet inheems in NL
+# int[]   GiftigKat:  0 = niet giftig, 1 = milde klachten, 2 = hevige klachten, 3 = dodelijk
+# bool    BijBlij: True - Specifiek goed voor bijen, hommels en vlinders
+# str[]   BeestAfstotend: ["Wesp", "Slak"]
+
+Template:
+  Latijnse naam: ""
+  Onderhoud:
+  Kleuren: 
+    Bloem: [""]
+    Blad: ""
+  Hoogte: []
+  Eetbaar: 
+  Eettip: ""
+  StraalOmPlant: []
+  Zaaiperiode: 
+    Binnen: 
+    Buiten: []
+  Bloeiperiode: []
+  Snoeiperiode: 
+  Standplaats: 
+  Waterbehoefte: 
+  Vast: 
+  Vorstbestendig:
+  InheemsNL: 
+  GiftigKat: 
+  BijBlij: 
+  BeestAfstotend: ""
+
+
+Korenbloem:
+  Latijnse naam: "Centaurea cyanus"
+  Onderhoud: 0
+  Kleuren: 
+    Bloem: ["Blauw", "Paars", "Lila", "Roze", "LichtRoze", "Wit"]
+    Blad: "Groen"
+  Hoogte: [30,80]
+  Eetbaar: True
+  Eettip: "Zoetig, lekker om thee, boter en salades mee te maken"
+  StraalOmPlant: [15]
+  Zaaiperiode: 
+    Binnen: 3
+    Buiten: [4,5]
+  Bloeiperiode: [5,6,7,8,9]
+  Snoeiperiode: 0
+  Standplaats: 2
+  Waterbehoefte: 0
+  Vast: False
+  Vorstbestendig: True
+  InheemsNL: True
+  GiftigKat: 0
+  BijBlij: True
+  BeestAfstotend: ""
+
+Groot Kaasjeskruid:
+  Latijnse naam: "Malva sylvestris"
+  Onderhoud: 0
+  Kleuren: 
+    Bloem: ["Paars", "Donkerroze", "Roze"]
+    Blad: "Groen"
+  Hoogte: [80,150]
+  Eetbaar: True
+  Eettip: "Bloemen en blad eetbaar in salade, of blad te koken als spinazie. Nootachtige smaak"
+  StraalOmPlant: [15,25]
+  Zaaiperiode: 
+    Binnen: [2,3]
+    Buiten: [4,5,10,11]
+  Bloeiperiode: [6,7,8,9]
+  Snoeiperiode: 0
+  Standplaats: [1,2]
+  Waterbehoefte: 0
+  Vast: False
+  Vorstbestendig: False
+  InheemsNL: True
+  GiftigKat: 0
+  BijBlij: True
+  BeestAfstotend: ""
+
+Lavatera:
+  Latijnse naam: "Lavatera"
+  Onderhoud: 0
+  Kleuren: 
+    Bloem: ["Roze", "Lichtroze", "Wit"]
+    Blad: "Groen"
+  Hoogte: [60,200]
+  Eetbaar: True
+  Eettip: ""
+  StraalOmPlant: [50]
+  Zaaiperiode: 
+    Binnen: [3,4]
+    Buiten: [4,5]
+  Bloeiperiode: [6,7,8,9,10]
+  Snoeiperiode: 5 
+  Standplaats: 2
+  Waterbehoefte: 0
+  Vast: True
+  Vorstbestendig: False
+  InheemsNL: False
+  GiftigKat: False
+  BijBlij: True
+  BeestAfstotend: ""
+
+Pluimhortensia:
+  Latijnse naam: "Hydrangea paniculata"
+  Onderhoud: 2
+  Kleuren: 
+    Bloem: ["Wit", "Lichtroze", "Roze", "Donkerroze"]
+    Blad: [Groen"]
+  Hoogte: [100,200]
+  Eetbaar: False
+  Eettip: ""
+  StraalOmPlant: [100,150]
+  Zaaiperiode: 
+    Binnen: 0
+    Buiten: 0
+  Bloeiperiode: [8,9]
+  Snoeiperiode: [2,3]
+  Standplaats: [1,2]
+  Waterbehoefte: 2
+  Vast: True	
+  Vorstbestendig: True
+  InheemsNL: False
+  GiftigKat: 2
+  BijBlij: True
+  BeestAfstotend: ""
+

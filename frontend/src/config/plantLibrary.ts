@@ -18,6 +18,30 @@ export const plantLibrary: Plant[] = [
   },
   {
     ...LIBRARY_PLANT_BASE,
+    name: 'Centaureau cyanus',
+    animationId: 'madelief',
+    leaf: { colour: Colours.green, scale: 1, id: 1 },
+    flower: { colour: Colours.blue, scale: 1, id: 1 },
+    animationScale: 2
+  },
+  {
+    ...LIBRARY_PLANT_BASE,
+    name: 'Malva sylvestris',
+    animationId: 'madelief',
+    leaf: { colour: Colours.green, scale: 1, id: 1 },
+    flower: { colour: Colours.violetFlower, scale: 1, id: 1 },
+    animationScale: 2
+  },
+  {
+    ...LIBRARY_PLANT_BASE,
+    name: 'Centaureau cyanus',
+    leaf: { colour: Colours.green, scale: 1, id: 1 },
+    flower: { colour: Colours.white, scale: 1, id: 1 },
+    animationId: 'madelief',
+    animationScale: 2
+  },
+  {
+    ...LIBRARY_PLANT_BASE,
     name: 'Hortensia',
     nameLatin: 'Hydrangea',
     info: 'Hortensia is een geslacht uit de hortensiafamilie. Het gaat vooral om groenblijvende en bladverliezende struiken en een enkele boom. Bij elkaar gaat het om bijna honderd soorten die groeien in Amerika en in China en Japan.',
