@@ -1,5 +1,7 @@
 <template>
-  <graphics ref="el" @render="drawEdge" />
+  <container :cache-as-bitmap="true">
+    <graphics ref="el" @render="drawEdge" />
+  </container>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
   <GardenShell :path="gardenStore.garden.shape" />
+  <Grid />
   <template v-for="(bed, index) in gardenStore.garden.beds" :key="bed.id">
     <PixiBed
       :bed="bed"
@@ -16,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import Grid from './PixiGrid.vue'
 import PixiBed from '@/components/graphics/bed/PixiBed.vue'
 import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import { ref } from 'vue'

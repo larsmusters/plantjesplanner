@@ -34,8 +34,6 @@
       >
         <PixiGarden />
       </Loader>
-      <!-- Grid is in garden space (everything in World is) -->
-      <Grid />
     </World>
     <!-- Cursor in screen space, because it interacts with the edges of the screen -->
     <PixiCursor />
@@ -43,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import Grid from './PixiGrid.vue'
 import World from './PixiWorld.vue'
 import PixiCursor from '@/components/cursor/PixiCursor.vue'
 import PixiGarden from './PixiGarden.vue'

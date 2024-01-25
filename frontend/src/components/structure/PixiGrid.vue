@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <container :cache-as-bitmap="true">
     <graphics @render="drawGrid" />
     <graphics @render="drawVertices" />
   </container>
