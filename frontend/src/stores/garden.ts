@@ -28,6 +28,17 @@ export const useGardenStore = defineStore('garden', () => {
     return { x: xMin, y: yMin, width: xMax - xMin, height: yMax - yMin }
   })
 
+  const getBounds = (bed: Bed) => {
+    let [xMin, xMax, yMin, yMax] = [1e6, -1e6, 1e6, -1e6]
+    bed.shape.forEach((point) => {
+      xMin = xMin > point.x ? point.x : xMin
+      xMax = xMax < point.x ? point.x : xMax
+      yMin = yMin > point.y ? point.y : yMin
+      yMax = yMax < point.y ? point.y : yMax
+    })
+    return { x: xMin, y: yMin, width: xMax - xMin, height: yMax - yMin }
+  }
+
   return {
     garden,
     clickMode,
@@ -36,6 +47,7 @@ export const useGardenStore = defineStore('garden', () => {
     cursor,
     newBed,
     updateCursor,
-    spritesheet
+    spritesheet,
+    getBounds
   }
 })

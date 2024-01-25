@@ -12,14 +12,18 @@
       @pointerup="onDragEnd"
       @pointerupoutside="onDragEnd"
     >
-      <animated-sprite
-        v-if="animation.length"
-        :textures="animation"
-        playing
-        :animation-speed="0.04"
-        :anchor="0.5"
-        :scale="scaleAnimated * bed.plant.animationScale"
-      />
+      <template v-if="animation.length">
+        <animated-sprite
+          v-for="(loc, index) in animationLocations"
+          :key="index"
+          :textures="animation"
+          playing
+          :animation-speed="0.04"
+          :x="loc.x"
+          :y="loc.y"
+          :scale="scaleAnimated * bed.plant.animationScale"
+        />
+      </template>
     </graphics>
     <template v-if="editMode">
       <BedEdgeVue
@@ -58,8 +62,9 @@ import { Colours } from '@/types/colours'
 import type { Bed, BedEdge, Point } from '@/types/garden'
 import type { PolygonStyling } from '@/types/shapes'
 import { drawPolygon } from '@/utils/builder'
-import { gardenToRelative, worldToGarden } from '@/utils'
+import { gardenToRelative, gardenToRelativeArray, worldToGarden } from '@/utils'
 import { useGardenStore } from '@/stores/garden'
+import { useGridStore } from '@/stores/grid'
 
 const props = withDefaults(
   defineProps<{
@@ -88,6 +93,26 @@ const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
 const animation = computed(
   () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
 )
+
+const gridStore = useGridStore()
+const animationLocations = computed(() => {
+  const bounds = gardenStore.getBounds(props.bed)
+  const points = gardenToRelativeArray(props.bed.location, gridStore.vertices)
+  const filteredPoints = points.filter((point) => {
+    if (point.x <= bounds.x) return false
+    if (point.x >= bounds.x + bounds.width) return false
+    if (point.y <= bounds.y) return false
+    if (point.y >= bounds.y + bounds.height) return false
+    return true
+  })
+  const scale = 200
+  return filteredPoints.map((point) => {
+    return {
+      x: point.x + (Math.random() - 0.5) * scale,
+      y: point.y + (Math.random() - 0.5) * scale
+    }
+  })
+})
 
 const hovering = useElementHover(el)
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))

@@ -31,20 +31,6 @@ export const bedLibrary: Bed[] = [
   },
   {
     ...LIBRARY_BED_BASE,
-    name: 'T-piece',
-    shape: [
-      { x: -750, y: -500, radius },
-      { x: 750, y: -500, radius },
-      { x: 750, y: 0, radius },
-      { x: 250, y: 0, radius },
-      { x: 250, y: 500, radius },
-      { x: -250, y: 500, radius },
-      { x: -250, y: 0, radius },
-      { x: -750, y: 0, radius }
-    ]
-  },
-  {
-    ...LIBRARY_BED_BASE,
     name: 'Circle',
     shape: [
       { x: 400, y: 0, radius: 400 },
@@ -53,19 +39,6 @@ export const bedLibrary: Bed[] = [
       { x: -400, y: 0, radius: 400 },
       { x: -200, y: -346.41, radius: 400 },
       { x: 200, y: -346.41, radius: 400 }
-    ]
-  },
-
-  {
-    ...LIBRARY_BED_BASE,
-    name: 'L-piece',
-    shape: [
-      { x: -250, y: 250, radius },
-      { x: 750, y: 250, radius },
-      { x: 750, y: -250, radius },
-      { x: 250, y: -250, radius },
-      { x: 250, y: -1250, radius },
-      { x: -250, y: -1250, radius }
     ]
   },
   {

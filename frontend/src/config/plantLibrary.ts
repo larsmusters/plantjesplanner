@@ -14,7 +14,7 @@ export const plantLibrary: Plant[] = [
     name: 'Default',
     nameLatin: 'Defaultis elegantis',
     animationId: 'madelief',
-    animationScale: 5
+    animationScale: 2
   },
   {
     ...LIBRARY_PLANT_BASE,
@@ -22,7 +22,7 @@ export const plantLibrary: Plant[] = [
     nameLatin: 'Hydrangea',
     info: 'Hortensia is een geslacht uit de hortensiafamilie. Het gaat vooral om groenblijvende en bladverliezende struiken en een enkele boom. Bij elkaar gaat het om bijna honderd soorten die groeien in Amerika en in China en Japan.',
     animationId: 'madelief',
-    animationScale: 5
+    animationScale: 2
   },
   {
     ...LIBRARY_PLANT_BASE,
@@ -30,7 +30,7 @@ export const plantLibrary: Plant[] = [
     nameLatin: 'vinca minor',
     info: 'De kleine maagdenpalm is een van de twee maagdenpalmsoorten die in België en Nederland voorkomen. De soort komt van oorsprong uit het Middellandse Zeegebied. In de Nederlandse natuurgebieden is de plant vrij zeldzaam maar ontsnapt veel uit tuinen of verspreidt zich via tuinafval. Hij komt in België algemeen voor. ',
     animationId: 'madelief',
-    animationScale: 5
+    animationScale: 2
   },
   {
     ...LIBRARY_PLANT_BASE,
@@ -38,7 +38,7 @@ export const plantLibrary: Plant[] = [
     nameLatin: 'Cenchrus',
     info: 'Lampenpoetsergras is een geslacht uit de grassenfamilie. De soorten komen voor in Azië, Afrika, Australië, Amerika en talrijke Oceanische eilanden.',
     animationId: 'pink',
-    animationScale: 10
+    animationScale: 3
   },
   {
     ...LIBRARY_PLANT_BASE,
