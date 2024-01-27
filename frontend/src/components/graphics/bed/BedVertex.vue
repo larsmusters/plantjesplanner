@@ -11,7 +11,6 @@
   </container>
 </template>
 <script setup lang="ts">
-import { useGardenStore } from '@/stores/garden'
 import { Colours } from '@/types/colours'
 import type { Vector } from '@/types/garden'
 import { type Graphics, Circle } from 'pixi.js'
@@ -20,15 +19,14 @@ import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import type { PolygonVertexStyling } from '@/types/shapes'
 
-defineProps<{
+const props = defineProps<{
   point: Vector
+  worldScale: number
 }>()
 
 const emit = defineEmits<{
   (e: 'drag'): void
 }>()
-
-const gardenStore = useGardenStore()
 
 const el = ref()
 const hovering = useElementHover(el)
@@ -38,7 +36,7 @@ const scale = useTransition(scaleTarget, {
   transition: TransitionPresets.easeOutQuad
 })
 
-const radius = computed(() => 5 / gardenStore.position.scale)
+const radius = computed(() => 5 / props.worldScale)
 
 const drawEditPoint = (g: Graphics) => {
   const styling = {

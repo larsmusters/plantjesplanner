@@ -15,6 +15,8 @@
         :start="edge.p0"
         :end="edge.p1"
         :bed-id="bedId"
+        :world-scale="gardenStore.position.scale"
+        :com="bed.location"
         @drag="editEdge"
       />
       <BedVertex
@@ -99,6 +101,7 @@ const editEdge = (dragLoc: Vector, ids: number[]) => {
 }
 
 const editBed = (dragLoc: Vector) => {
+  if (!appStore.isEditMode) return
   if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }

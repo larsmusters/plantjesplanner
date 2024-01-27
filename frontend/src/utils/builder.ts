@@ -1,8 +1,7 @@
 import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
-import type { PolygonEdgeStyling, PolygonStyling } from '@/types/shapes'
-import type { Vector } from '@/types/garden'
+import type { PolygonStyling } from '@/types/shapes'
 
 const stylingDefault: PolygonStyling = {
   lineThickness: 0,
@@ -35,65 +34,4 @@ export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(ps.shape, ps.scale, ps.offset), 0)
   }
-}
-
-const polygonEdgeDefaultStyling: PolygonEdgeStyling = {
-  lineThickness: 0,
-  lineColour: Colours.black,
-  alpha: 0.75
-}
-
-export const buildPolygonEdge = (start: Vector, end: Vector, thickness: number): Vector[] => {
-  // Build a thick line (so that it is clickable)
-  // Step 1: Calculate the length of the line
-  const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
-
-  // Step 2: Calculate the unit vector u
-  const u = {
-    x: (end.x - start.x) / length,
-    y: (end.y - start.y) / length
-  }
-
-  // Step 3: Calculate the perpendicular vector v
-  const v = {
-    x: -u.y,
-    y: u.x
-  }
-
-  // Step 4: Calculate rectangle vertices
-  const halfThickness = thickness / 2
-  const rectangle = [
-    {
-      x: start.x - halfThickness * v.x,
-      y: start.y - halfThickness * v.y
-    },
-    {
-      x: start.x + halfThickness * v.x,
-      y: start.y + halfThickness * v.y
-    },
-    {
-      x: end.x + halfThickness * v.x,
-      y: end.y + halfThickness * v.y
-    },
-    {
-      x: end.x - halfThickness * v.x,
-      y: end.y - halfThickness * v.y
-    }
-  ]
-  return rectangle
-}
-
-export const drawPolygonEdge = (
-  g: Graphics,
-  start: Vector,
-  end: Vector,
-  polygonStyling?: Partial<PolygonEdgeStyling>
-) => {
-  const pes: PolygonEdgeStyling = { ...polygonEdgeDefaultStyling, ...polygonStyling }
-  const points = buildPolygonEdge(start, end, pes.lineThickness)
-
-  g.clear()
-  g.beginFill(pes.lineColour, pes.alpha)
-  g.drawPolygon(points)
-  g.endFill()
 }

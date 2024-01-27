@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGardenStore } from '@/stores/garden'
 import type { Bed, Vector } from '@/types/garden'
 import type { PolygonStyling } from '@/types/shapes'
 import { drawPolygon } from '@/utils/builder'
@@ -29,11 +28,11 @@ import type { FederatedPointerEvent } from 'pixi.js'
 import { Polygon } from 'pixi.js'
 import { worldToGarden } from '@/utils'
 import { VectorUtil } from '@/utils/vectorUtil'
-import { useAppStore } from '@/stores/app'
 
 const props = defineProps<{
   bed: Bed
   scaleTarget: number
+  worldScale: number
 }>()
 
 const emit = defineEmits<{
@@ -41,8 +40,6 @@ const emit = defineEmits<{
   (e: 'click'): void
 }>()
 
-const gardenStore = useGardenStore()
-const appStore = useAppStore()
 const VUtil = new VectorUtil()
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
@@ -55,7 +52,7 @@ const drawBed = (g: Graphics) => {
   const styling: Partial<PolygonStyling> = {
     shape: props.bed.shape,
     scale: scale.value,
-    lineThickness: 1 / gardenStore.position.scale,
+    lineThickness: 1 / props.worldScale,
     fillColour: props.bed.plant.color,
     lineAlpha: 0.9,
     fillAlpha: 0.4
@@ -69,7 +66,7 @@ const drawDropShadow = (g: Graphics) => {
     scale: scale.value,
     fillAlpha: (scale.value - 1) * 2,
     fillColour: Colours.black,
-    offset: 7.5 / gardenStore.position.scale
+    offset: 7.5 / props.worldScale
   }
   drawPolygon(g, styling)
 }
@@ -77,11 +74,9 @@ const drawDropShadow = (g: Graphics) => {
 const stage = useStage()
 const dragLoc = ref<Vector>()
 const onDragStart = (e: FederatedPointerEvent) => {
-  if (appStore.isEditMode) {
-    const gardenLoc = worldToGarden(e.global)
-    dragLoc.value = VUtil.moveOrigin(props.bed.location, gardenLoc)
-    stage.value!.addEventListener('pointermove', onDrag)
-  }
+  const gardenLoc = worldToGarden(e.global)
+  dragLoc.value = VUtil.moveOrigin(props.bed.location, gardenLoc)
+  stage.value!.addEventListener('pointermove', onDrag)
 }
 
 const onDragEnd = () => {

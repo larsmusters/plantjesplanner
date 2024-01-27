@@ -28,7 +28,7 @@ const addBed = () => {
   const newBed = Object.assign({ ...gardenStore.newBed, location, shape })
   gardenStore.garden.beds.push(newBed)
 
-  appStore.setClickMode('select')
+  appStore.setClickMode('edit')
 }
 
 const gridStore = useGridStore()
