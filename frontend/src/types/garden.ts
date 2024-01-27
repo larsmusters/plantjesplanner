@@ -1,25 +1,25 @@
 import type { IPointData } from 'pixi.js'
 import type { Colours } from '@/types/colours'
 
-export interface PolygonPoint {
+export interface Vertex {
   x: number
   y: number
   radius?: number
 }
 
-export interface Point {
+export interface Vector {
   x: number
   y: number
 }
 
 export interface Garden {
-  shape: PolygonPoint[]
+  shape: Vertex[]
   beds: Bed[]
 }
 
 export interface Bed {
   name: string
-  shape: PolygonPoint[]
+  shape: Vertex[]
   location: IPointData
   plant: Plant
   heightOnHover: number

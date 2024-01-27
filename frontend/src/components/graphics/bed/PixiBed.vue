@@ -13,6 +13,7 @@
       @pointerupoutside="onDragEnd"
     >
       <template v-if="animation.length">
+        <!-- <BedContent v-for="(loc, index) in animationLocations" :bed="bed" /> -->
         <animated-sprite
           v-for="(loc, index) in animationLocations"
           :key="index"
@@ -25,7 +26,7 @@
         />
       </template>
     </graphics>
-    <template v-if="editMode">
+    <template v-if="gardenStore.isEditMode">
       <BedEdgeVue
         v-for="(edge, index) in edges"
         :key="index"
@@ -59,29 +60,27 @@ import {
   type Container
 } from 'pixi.js'
 import { Colours } from '@/types/colours'
-import type { Bed, BedEdge, Point } from '@/types/garden'
+import type { Bed, BedEdge, Vector } from '@/types/garden'
 import type { PolygonStyling } from '@/types/shapes'
 import { drawPolygon } from '@/utils/builder'
-import { gardenToRelative, gardenToRelativeArray, worldToGarden } from '@/utils'
+import { worldToGarden } from '@/utils'
 import { useGardenStore } from '@/stores/garden'
 import { useGridStore } from '@/stores/grid'
+import { useViewportStore } from '@/stores/viewport'
+import { VectorUtil } from '@/utils/vectorUtil'
 
-const props = withDefaults(
-  defineProps<{
-    bed: Bed
-    editMode?: boolean
-  }>(),
-  {
-    editMode: false
-  }
-)
+const VUtil = new VectorUtil()
+
+const props = defineProps<{
+  bed: Bed
+}>()
 
 const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
   (e: 'click:bed', container: Container): void
   (e: 'set-to-cursor:bed-vertex', index: number): void
-  (e: 'set-to-cursor:bed', dragLoc: Point): void
-  (e: 'set-to-cursor:bed-vertices', dragLoc: Point, ids: number[]): void
+  (e: 'set-to-cursor:bed', dragLoc: Vector): void
+  (e: 'set-to-cursor:bed-vertices', dragLoc: Vector, ids: number[]): void
 }>()
 
 const hitArea = computed(() => new Polygon(props.bed.shape))
@@ -97,7 +96,7 @@ const animation = computed(
 const gridStore = useGridStore()
 const animationLocations = computed(() => {
   const bounds = gardenStore.getBounds(props.bed)
-  const points = gardenToRelativeArray(props.bed.location, gridStore.vertices)
+  const points = VUtil.moveOrigins(props.bed.location, gridStore.vertices)
   const filteredPoints = points.filter((point) => {
     if (point.x <= bounds.x) return false
     if (point.x >= bounds.x + bounds.width) return false
@@ -162,24 +161,27 @@ const edges = computed((): BedEdge[] => {
   return edges
 })
 
+const viewportStore = useViewportStore()
 const bedClicked = () => {
   emit('click:bed', containerRef.value)
+  viewportStore.plantInfo = props.bed.plant
+  viewportStore.showInfo()
 }
 
 const editPoint = (index: number) => {
   emit('set-to-cursor:bed-vertex', index)
 }
 
-const editEdge = (dragLoc: Point, ids: number[]) => {
+const editEdge = (dragLoc: Vector, ids: number[]) => {
   emit('set-to-cursor:bed-vertices', dragLoc, ids)
 }
 
 const stage = useStage()
-const dragLoc = ref<Point>()
+const dragLoc = ref<Vector>()
 const onDragStart = (e: FederatedPointerEvent) => {
   const gardenLoc = worldToGarden(e.global)
-  dragLoc.value = gardenToRelative(props.bed.location, gardenLoc)
-  if (props.editMode) {
+  dragLoc.value = VUtil.moveOrigin(props.bed.location, gardenLoc)
+  if (gardenStore.isEditMode) {
     stage.value!.addEventListener('pointermove', onDrag)
   }
 }

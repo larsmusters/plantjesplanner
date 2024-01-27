@@ -2,7 +2,7 @@ import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
 import type { PolygonEdgeStyling, PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
-import type { Point } from '@/types/garden'
+import type { Vector } from '@/types/garden'
 
 const stylingDefault: PolygonStyling = {
   lineThickness: 0,
@@ -61,7 +61,7 @@ const polygonEdgeDefaultStyling: PolygonEdgeStyling = {
   alpha: 0.75
 }
 
-export const buildPolygonEdge = (start: Point, end: Point, thickness: number): Point[] => {
+export const buildPolygonEdge = (start: Vector, end: Vector, thickness: number): Vector[] => {
   // Build a thick line (so that it is clickable)
   // Step 1: Calculate the length of the line
   const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
@@ -103,8 +103,8 @@ export const buildPolygonEdge = (start: Point, end: Point, thickness: number): P
 
 export const drawPolygonEdge = (
   g: Graphics,
-  start: Point,
-  end: Point,
+  start: Vector,
+  end: Vector,
   polygonStyling?: Partial<PolygonEdgeStyling>
 ) => {
   const pes: PolygonEdgeStyling = { ...polygonEdgeDefaultStyling, ...polygonStyling }

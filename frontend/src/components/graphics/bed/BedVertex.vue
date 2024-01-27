@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { useGardenStore } from '@/stores/garden'
 import { Colours } from '@/types/colours'
-import type { Point } from '@/types/garden'
+import type { Vector } from '@/types/garden'
 import { drawPolygonVertex } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
 import { Circle } from 'pixi.js'
@@ -20,7 +20,7 @@ import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 
 defineProps<{
-  point: Point
+  point: Vector
 }>()
 
 const emit = defineEmits<{
@@ -39,7 +39,7 @@ const scaleAnimated = useTransition(scale, {
 
 const radius = computed(() => 5 / gardenStore.position.scale)
 
-const drawEditPoint = (g: Graphics, p: Point) => {
+const drawEditPoint = (g: Graphics, p: Vector) => {
   const styling = {
     lineThickness: 2,
     fillColour: Colours.black,
@@ -49,7 +49,7 @@ const drawEditPoint = (g: Graphics, p: Point) => {
   drawPolygonVertex(g, styling)
 }
 
-const getEditPointHitArea = (p: Point) => {
+const getEditPointHitArea = (p: Vector) => {
   return new Circle(p.x, p.y, radius.value * 1.5)
 }
 
