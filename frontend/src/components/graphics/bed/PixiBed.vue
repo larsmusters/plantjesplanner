@@ -89,17 +89,17 @@ const bedClicked = () => {
 const bedMover = useBedMover()
 
 const editPoint = (index: number) => {
-  if (!props.bedId) return
+  if (props.bedId === undefined) return
   bedMover.moveBedVertex(index, props.bedId)
 }
 
 const editEdge = (dragLoc: Vector, ids: number[]) => {
-  if (!props.bedId) return
+  if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId, ids)
 }
 
 const editBed = (dragLoc: Vector) => {
-  if (!props.bedId) return
+  if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }
 </script>

@@ -6,6 +6,7 @@
     ref="el"
     @render="drawBed"
     :hitArea="hitArea"
+    @click="emit('click')"
     @pointerdown="onDragStart"
     @pointerup="onDragEnd"
     @pointerupoutside="onDragEnd"
@@ -37,6 +38,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'drag', dragLoc: Vector): void
+  (e: 'click'): void
 }>()
 
 const gardenStore = useGardenStore()
