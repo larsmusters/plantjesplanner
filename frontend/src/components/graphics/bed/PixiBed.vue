@@ -5,6 +5,7 @@
       :scaleTarget="scale"
       @click="bedClicked"
       @drag="(dragLoc: Vector) => editBed(dragLoc)"
+      :world-scale="gardenStore.position.scale"
     >
       <Plant :bed="bed" />
     </BedShell>
@@ -24,6 +25,7 @@
         :key="index"
         :point="point"
         @drag="editPoint(index)"
+        :world-scale="gardenStore.position.scale"
       />
     </template>
   </container>
