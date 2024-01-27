@@ -1,7 +1,7 @@
 <template>
   <container :position="position">
     <PixiBed
-      v-if="gardenStore.clickMode === ClickMode.add"
+      v-if="appStore.isAddmode"
       :scale="gardenStore.position.scale"
       :bed="gardenStore.newBed"
       @click:bed="addBed"
@@ -13,12 +13,13 @@
 import { useGridStore } from '@/stores/grid'
 import PixiBed from '../graphics/bed/PixiBed.vue'
 import { useGardenStore } from '@/stores/garden'
-import { ClickMode } from '@/types'
 import { computed } from 'vue'
 import { gardenToWorld, worldToGarden } from '@/utils'
 import { VectorUtil } from '@/utils/vectorUtil'
+import { useAppStore } from '@/stores/app'
 
 const gardenStore = useGardenStore()
+const appStore = useAppStore()
 
 const addBed = () => {
   // Get nested data from new or uniquely referenced data
@@ -27,7 +28,7 @@ const addBed = () => {
   const newBed = Object.assign({ ...gardenStore.newBed, location, shape })
   gardenStore.garden.beds.push(newBed)
 
-  gardenStore.clickMode = ClickMode.select
+  appStore.setClickMode('select')
 }
 
 const gridStore = useGridStore()

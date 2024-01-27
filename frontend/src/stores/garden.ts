@@ -1,5 +1,5 @@
-import type { Bed, Garden, Point } from '@/types/garden'
-import { ClickMode, type Position } from '@/types'
+import type { Bed, Garden, Vector } from '@/types/garden'
+import { type Position } from '@/types'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { fakeGarden } from '@/assets/garden'
@@ -12,12 +12,9 @@ export const useGardenStore = defineStore('garden', () => {
   const newBed = ref<Bed>(bedLibrary[0])
   const spritesheet = ref<Spritesheet>()
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
-  const cursor = ref<Point>({ x: 0, y: 0 })
+  const cursor = ref<Vector>({ x: 0, y: 0 })
 
-  const clickMode = ref<ClickMode>(ClickMode.select)
-  const isEditMode = computed(() => clickMode.value === ClickMode.edit)
-
-  const updateCursor = (newCursor: Point) => (cursor.value = worldToGarden(newCursor))
+  const updateCursor = (newCursor: Vector) => (cursor.value = worldToGarden(newCursor))
 
   const bounds = computed(() => {
     let [xMin, xMax, yMin, yMax] = [1e6, -1e6, 1e6, -1e6]
@@ -43,8 +40,6 @@ export const useGardenStore = defineStore('garden', () => {
 
   return {
     garden,
-    clickMode,
-    isEditMode,
     bounds,
     position,
     cursor,

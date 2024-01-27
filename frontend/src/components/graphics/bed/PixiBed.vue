@@ -1,32 +1,14 @@
 <template>
   <container :ref="(el: Container) => (containerRef = el)" :position="bed.location">
-    <graphics @render="drawDropShadow">
-      <blur-filter :quality="2" :blur="4" />
-    </graphics>
-    <graphics
-      ref="el"
-      @render="drawBed"
-      :hitArea="hitArea"
+    <BedShell
+      :bed="bed"
+      :scaleTarget="scale"
       @click="bedClicked"
-      @pointerdown="onDragStart"
-      @pointerup="onDragEnd"
-      @pointerupoutside="onDragEnd"
+      @drag="(dragLoc: Vector) => editBed(dragLoc)"
     >
-      <template v-if="animation.length">
-        <!-- <BedContent v-for="(loc, index) in animationLocations" :bed="bed" /> -->
-        <animated-sprite
-          v-for="(loc, index) in animationLocations"
-          :key="index"
-          :textures="animation"
-          playing
-          :animation-speed="0.04"
-          :x="loc.x"
-          :y="loc.y"
-          :scale="scaleAnimated * bed.plant.animationScale"
-        />
-      </template>
-    </graphics>
-    <template v-if="gardenStore.isEditMode">
+      <Plant :bed="bed" />
+    </BedShell>
+    <template v-if="appStore.isEditMode">
       <BedEdgeVue
         v-for="(edge, index) in edges"
         :key="index"
@@ -46,79 +28,38 @@
 </template>
 
 <script setup lang="ts">
+import Plant from '@/components/graphics/PixiPlant.vue'
 import BedVertex from './BedVertex.vue'
 import BedEdgeVue from './BedEdge.vue'
 import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
-import { useStage } from 'vue3-pixi'
-import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
-import {
-  Graphics,
-  Polygon,
-  AnimatedSprite,
-  type FederatedPointerEvent,
-  type Container
-} from 'pixi.js'
-import { Colours } from '@/types/colours'
+import { useElementHover } from '@vueuse/core'
+import { type Container } from 'pixi.js'
 import type { Bed, BedEdge, Vector } from '@/types/garden'
-import type { PolygonStyling } from '@/types/shapes'
-import { drawPolygon } from '@/utils/builder'
-import { worldToGarden } from '@/utils'
 import { useGardenStore } from '@/stores/garden'
-import { useGridStore } from '@/stores/grid'
 import { useViewportStore } from '@/stores/viewport'
-import { VectorUtil } from '@/utils/vectorUtil'
-
-const VUtil = new VectorUtil()
+import BedShell from './BedShell.vue'
+import { useBedMover } from '@/composables/bedMover'
+import { useAppStore } from '@/stores/app'
 
 const props = defineProps<{
   bed: Bed
+  bedId?: number
 }>()
 
 const emit = defineEmits<{
   (e: 'update:hover', container: Container): void
   (e: 'click:bed', container: Container): void
-  (e: 'set-to-cursor:bed-vertex', index: number): void
-  (e: 'set-to-cursor:bed', dragLoc: Vector): void
-  (e: 'set-to-cursor:bed-vertices', dragLoc: Vector, ids: number[]): void
 }>()
 
-const hitArea = computed(() => new Polygon(props.bed.shape))
 const el = ref()
 
 const gardenStore = useGardenStore()
+const appStore = useAppStore()
 const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
-
-const animation = computed(
-  () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
-)
-
-const gridStore = useGridStore()
-const animationLocations = computed(() => {
-  const bounds = gardenStore.getBounds(props.bed)
-  const points = VUtil.moveOrigins(props.bed.location, gridStore.vertices)
-  const filteredPoints = points.filter((point) => {
-    if (point.x <= bounds.x) return false
-    if (point.x >= bounds.x + bounds.width) return false
-    if (point.y <= bounds.y) return false
-    if (point.y >= bounds.y + bounds.height) return false
-    return true
-  })
-  const scale = 200
-  return filteredPoints.map((point) => {
-    return {
-      x: point.x + (Math.random() - 0.5) * scale,
-      y: point.y + (Math.random() - 0.5) * scale
-    }
-  })
-})
 
 const hovering = useElementHover(el)
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
-const scaleAnimated = useTransition(scale, {
-  duration: 100,
-  transition: TransitionPresets.easeOutQuad
-})
 
 const containerRef = ref()
 watch(hovering, () => {
@@ -126,29 +67,6 @@ watch(hovering, () => {
     emit('update:hover', containerRef.value)
   }
 })
-
-const drawBed = (g: Graphics) => {
-  const styling: Partial<PolygonStyling> = {
-    shape: props.bed.shape,
-    scale: scaleAnimated.value,
-    lineThickness: 1 / gardenStore.position.scale,
-    fillColour: props.bed.plant.color,
-    lineAlpha: 0.9,
-    fillAlpha: 0.4
-  }
-  drawPolygon(g, styling)
-}
-
-const drawDropShadow = (g: Graphics) => {
-  const styling: Partial<PolygonStyling> = {
-    shape: props.bed.shape,
-    scale: scaleAnimated.value,
-    fillAlpha: (scaleAnimated.value - 1) * 2,
-    fillColour: Colours.black,
-    offset: 7.5 / gardenStore.position.scale
-  }
-  drawPolygon(g, styling)
-}
 
 const edges = computed((): BedEdge[] => {
   const edges: BedEdge[] = []
@@ -168,29 +86,20 @@ const bedClicked = () => {
   viewportStore.showInfo()
 }
 
+const bedMover = useBedMover()
+
 const editPoint = (index: number) => {
-  emit('set-to-cursor:bed-vertex', index)
+  if (!props.bedId) return
+  bedMover.moveBedVertex(index, props.bedId)
 }
 
 const editEdge = (dragLoc: Vector, ids: number[]) => {
-  emit('set-to-cursor:bed-vertices', dragLoc, ids)
+  if (!props.bedId) return
+  bedMover.moveBedVertices(dragLoc, props.bedId, ids)
 }
 
-const stage = useStage()
-const dragLoc = ref<Vector>()
-const onDragStart = (e: FederatedPointerEvent) => {
-  const gardenLoc = worldToGarden(e.global)
-  dragLoc.value = VUtil.moveOrigin(props.bed.location, gardenLoc)
-  if (gardenStore.isEditMode) {
-    stage.value!.addEventListener('pointermove', onDrag)
-  }
-}
-
-const onDragEnd = () => {
-  stage.value!.removeEventListener('pointermove', onDrag)
-}
-
-const onDrag = () => {
-  emit('set-to-cursor:bed', dragLoc.value!)
+const editBed = (dragLoc: Vector) => {
+  if (!props.bedId) return
+  bedMover.moveBedVertices(dragLoc, props.bedId)
 }
 </script>

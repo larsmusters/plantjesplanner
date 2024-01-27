@@ -1,11 +1,11 @@
 <template>
-  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.add)">
+  <button class="border border-2 border-black m-1" @click="appStore.setClickMode('add')">
     Add Mode
   </button>
-  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.select)">
+  <button class="border border-2 border-black m-1" @click="appStore.setClickMode('select')">
     Select Mode
   </button>
-  <button class="border border-2 border-black m-1" @click="changeMode(ClickMode.edit)">
+  <button class="border border-2 border-black m-1" @click="appStore.setClickMode('edit')">
     edit Mode
   </button>
   <button class="border border-2 border-black m-1" @click="randomiseNewBed">
@@ -16,18 +16,15 @@
 <script setup lang="ts">
 import { bedLibrary } from '@/config/bedLibrary'
 import { plantLibrary } from '@/config/plantLibrary'
+import { useAppStore } from '@/stores/app'
 import { useGardenStore } from '@/stores/garden'
-import { ClickMode } from '@/types'
 
 const gardenStore = useGardenStore()
-
-const changeMode = (mode: ClickMode) => {
-  gardenStore.clickMode = mode
-}
+const appStore = useAppStore()
 
 const randomiseNewBed = () => {
   gardenStore.newBed = bedLibrary[Math.floor(Math.random() * bedLibrary.length)]
   gardenStore.newBed.plant = plantLibrary[Math.floor(Math.random() * plantLibrary.length)]
-  gardenStore.clickMode = ClickMode.add
+  appStore.setClickMode('add')
 }
 </script>

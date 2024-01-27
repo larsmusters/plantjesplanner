@@ -6,13 +6,13 @@
 
 <script setup lang="ts">
 import { Colours } from '@/types/colours'
-import type { PolygonPoint } from '@/types/garden'
+import type { Vertex } from '@/types/garden'
 import type { PolygonStyling } from '@/types/shapes'
 import { drawPolygon } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
 
 const props = defineProps<{
-  path: PolygonPoint[]
+  path: Vertex[]
 }>()
 
 const drawEdge = (g: Graphics) => {

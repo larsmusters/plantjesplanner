@@ -1,7 +1,7 @@
 export enum ClickMode {
-  add = 'Add',
-  select = 'Select',
-  edit = 'Edit'
+  add = 'add',
+  select = 'select',
+  edit = 'edit'
 }
 
 export enum Tab {

@@ -1,5 +1,5 @@
 import type { Colours } from './colours'
-import type { Point, PolygonPoint } from './garden'
+import type { Vector, Vertex } from './garden'
 
 export interface PolygonStyling {
   lineThickness: number
@@ -8,13 +8,13 @@ export interface PolygonStyling {
   lineAlpha: number
   alpha?: number
   fillColour: Colours
-  shape: PolygonPoint[]
+  shape: Vertex[]
   scale: number
   offset: number
 }
 
 export interface PolygonVertexStyling {
-  location: Point
+  location: Vector
   radius: number
   lineThickness: number
   lineColour: number

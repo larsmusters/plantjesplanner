@@ -17,14 +17,15 @@
 <script setup lang="ts">
 import { useGardenStore } from '@/stores/garden'
 import { bedLibrary } from '@/config/bedLibrary'
-import { ClickMode } from '@/types'
 import type { Bed } from '@/types/garden'
+import { useAppStore } from '@/stores/app'
 
 const gardenStore = useGardenStore()
+const appStore = useAppStore()
 
 const optionClicked = (bed: Bed) => {
   gardenStore.newBed = { ...bed, plant: gardenStore.newBed.plant }
-  gardenStore.clickMode = ClickMode.add
+  appStore.setClickMode('add')
 }
 </script>
 
