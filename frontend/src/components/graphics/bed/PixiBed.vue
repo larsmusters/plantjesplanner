@@ -15,13 +15,13 @@
         :start="edge.p0"
         :end="edge.p1"
         :bed-id="bedId"
-        @set-to-cursor:vertices="editEdge"
+        @drag="editEdge"
       />
       <BedVertex
         v-for="(point, index) in props.bed.shape"
         :key="index"
         :point="point"
-        @set-to-cursor:point="editPoint(index)"
+        @drag="editPoint(index)"
       />
     </template>
   </container>

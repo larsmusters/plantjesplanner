@@ -1,7 +1,7 @@
 import { type Graphics } from 'pixi.js'
 import { buildPolygon } from '.'
 import { Colours } from '@/types/colours'
-import type { PolygonEdgeStyling, PolygonStyling, PolygonVertexStyling } from '@/types/shapes'
+import type { PolygonEdgeStyling, PolygonStyling } from '@/types/shapes'
 import type { Vector } from '@/types/garden'
 
 const stylingDefault: PolygonStyling = {
@@ -35,24 +35,6 @@ export const drawPolygon = (g: Graphics, polygonStyling?: Partial<PolygonStyling
   if (g.drawRoundedShape) {
     g.drawRoundedShape(buildPolygon(ps.shape, ps.scale, ps.offset), 0)
   }
-}
-
-const polygonVertexDefaultStyling: PolygonVertexStyling = {
-  lineThickness: 0,
-  lineColour: Colours.black,
-  alpha: 0.8,
-  fillColour: Colours.white,
-  location: { x: 0, y: 0 },
-  radius: 10
-}
-
-export const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonVertexStyling>) => {
-  const pvs: PolygonVertexStyling = { ...polygonVertexDefaultStyling, ...polygonStyling }
-  g.clear()
-  g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
-  g.beginFill(pvs.fillColour, pvs.alpha)
-  g.drawCircle(pvs.location.x, pvs.location.y, pvs.radius)
-  g.endFill()
 }
 
 const polygonEdgeDefaultStyling: PolygonEdgeStyling = {

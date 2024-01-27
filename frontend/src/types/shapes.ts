@@ -14,7 +14,6 @@ export interface PolygonStyling {
 }
 
 export interface PolygonVertexStyling {
-  location: Vector
   radius: number
   lineThickness: number
   lineColour: number

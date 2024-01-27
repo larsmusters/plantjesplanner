@@ -1,56 +1,73 @@
 <template>
-  <graphics
-    ref="el"
-    @render="(g: Graphics) => drawEditPoint(g, point)"
-    :hit-area="getEditPointHitArea(point)"
-    @pointerdown="onDragStart"
-    @pointerup="onDragEnd"
-    @pointerupoutside="onDragEnd"
-  />
+  <container :position="point" :scale="scale">
+    <graphics
+      ref="el"
+      @render="drawEditPoint"
+      :hit-area="getEditPointHitArea()"
+      @pointerdown="onDragStart"
+      @pointerup="onDragEnd"
+      @pointerupoutside="onDragEnd"
+    />
+  </container>
 </template>
 <script setup lang="ts">
 import { useGardenStore } from '@/stores/garden'
 import { Colours } from '@/types/colours'
 import type { Vector } from '@/types/garden'
-import { drawPolygonVertex } from '@/utils/builder'
-import type { Graphics } from 'pixi.js'
-import { Circle } from 'pixi.js'
+import { type Graphics, Circle } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
+import type { PolygonVertexStyling } from '@/types/shapes'
 
 defineProps<{
   point: Vector
 }>()
 
 const emit = defineEmits<{
-  (e: 'set-to-cursor:point'): void
+  (e: 'drag'): void
 }>()
 
 const gardenStore = useGardenStore()
 
 const el = ref()
 const hovering = useElementHover(el)
-const scale = computed(() => (hovering.value ? 1.5 : 1))
-const scaleAnimated = useTransition(scale, {
+const scaleTarget = computed(() => (hovering.value ? 1.5 : 1))
+const scale = useTransition(scaleTarget, {
   duration: 100,
   transition: TransitionPresets.easeOutQuad
 })
 
 const radius = computed(() => 5 / gardenStore.position.scale)
 
-const drawEditPoint = (g: Graphics, p: Vector) => {
+const drawEditPoint = (g: Graphics) => {
   const styling = {
     lineThickness: 2,
     fillColour: Colours.black,
-    location: p,
-    radius: radius.value * scaleAnimated.value
+    radius: radius.value
   }
   drawPolygonVertex(g, styling)
 }
 
-const getEditPointHitArea = (p: Vector) => {
-  return new Circle(p.x, p.y, radius.value * 1.5)
+const polygonVertexDefaultStyling: PolygonVertexStyling = {
+  lineThickness: 0,
+  lineColour: Colours.black,
+  alpha: 0.8,
+  fillColour: Colours.white,
+  radius: 10
+}
+
+const drawPolygonVertex = (g: Graphics, polygonStyling?: Partial<PolygonVertexStyling>) => {
+  const pvs: PolygonVertexStyling = { ...polygonVertexDefaultStyling, ...polygonStyling }
+  g.clear()
+  g.lineStyle(pvs.lineThickness, pvs.lineColour, pvs.alpha)
+  g.beginFill(pvs.fillColour, pvs.alpha)
+  g.drawCircle(0, 0, pvs.radius)
+  g.endFill()
+}
+
+const getEditPointHitArea = () => {
+  return new Circle(0, 0, radius.value * 1.5)
 }
 
 const stage = useStage()
@@ -64,6 +81,6 @@ const onDragEnd = () => {
 }
 
 const onDrag = () => {
-  emit('set-to-cursor:point')
+  emit('drag')
 }
 </script>

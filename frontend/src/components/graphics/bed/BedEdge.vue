@@ -14,9 +14,7 @@ import { Colours } from '@/types/colours'
 import { worldToGarden } from '@/utils'
 import type { Vector } from '@/types/garden'
 import { drawPolygonEdge, buildPolygonEdge } from '@/utils/builder'
-import type { FederatedPointerEvent } from 'pixi.js'
-import type { Graphics } from 'pixi.js'
-import { Polygon } from 'pixi.js'
+import { type FederatedPointerEvent, type Graphics, Polygon } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
@@ -29,7 +27,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'set-to-cursor:vertices', dragLoc: Vector, ids: number[]): void
+  (e: 'drag', dragLoc: Vector, ids: number[]): void
 }>()
 
 const gardenStore = useGardenStore()
@@ -71,6 +69,6 @@ const onDragEnd = () => {
 }
 
 const onDrag = () => {
-  emit('set-to-cursor:vertices', dragLoc.value!, [props.start.id, props.end.id])
+  emit('drag', dragLoc.value!, [props.start.id, props.end.id])
 }
 </script>
