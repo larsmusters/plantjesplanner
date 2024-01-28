@@ -1,24 +1,24 @@
-export enum ClickMode {
-  add = 'add',
-  select = 'select',
-  edit = 'edit'
-}
+import { ClickMode, Tab } from './app'
+import { Colours } from './colours'
 
-export enum Tab {
-  add = 'Add',
-  info = 'Info'
-}
+export { ClickMode, Tab }
+export { Colours }
 
-export interface Position {
-  x: number
-  y: number
-  scale: number
-  rotation: number
-}
+import type { Position, BoundingBox } from './app'
+import type {
+  Vertex,
+  Vector,
+  Garden,
+  Bed,
+  PlantPart,
+  Leaf,
+  Fruit,
+  Flower,
+  Plant,
+  BedEdge
+} from './garden'
+import type { AngledRectangleConfig, PolygonConfig, CircleConfig, DraggableConfig } from './shapes'
 
-export interface BoundingBox {
-  xMin: number
-  xMax: number
-  yMin: number
-  yMax: number
-}
+export type { AngledRectangleConfig, PolygonConfig, CircleConfig, DraggableConfig }
+export type { Position, BoundingBox }
+export type { Vertex, Vector, Garden, Bed, PlantPart, Leaf, Fruit, Flower, Plant, BedEdge }

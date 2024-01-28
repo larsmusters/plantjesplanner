@@ -16,8 +16,7 @@
 <script setup lang="ts">
 import { bedLibrary } from '@/config/bedLibrary'
 import { plantLibrary } from '@/config/plantLibrary'
-import { useAppStore } from '@/stores/app'
-import { useGardenStore } from '@/stores/garden'
+import { useAppStore, useGardenStore } from '@/stores'
 
 const gardenStore = useGardenStore()
 const appStore = useAppStore()

@@ -10,13 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { useGridStore } from '@/stores/grid'
 import PixiBed from '../graphics/bed/PixiBed.vue'
-import { useGardenStore } from '@/stores/garden'
+import { useGridStore, useGardenStore, useAppStore } from '@/stores'
 import { computed } from 'vue'
 import { gardenToWorld, worldToGarden } from '@/utils'
 import { VectorUtil } from '@/utils/vectorUtil'
-import { useAppStore } from '@/stores/app'
 
 const gardenStore = useGardenStore()
 const appStore = useAppStore()

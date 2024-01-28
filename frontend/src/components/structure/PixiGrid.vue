@@ -6,9 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import { useGardenStore } from '@/stores/garden'
-import { useGridStore } from '@/stores/grid'
-import { Colours } from '@/types/colours'
+import { useGridStore, useGardenStore } from '@/stores'
+import { Colours } from '@/types'
 import { Graphics } from 'pixi.js'
 
 const gardenStore = useGardenStore()

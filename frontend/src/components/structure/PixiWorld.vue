@@ -13,10 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { Colours } from '@/types/colours'
-import type { Position } from '@/types/index'
-import type { Graphics } from 'pixi.js'
-import { Container } from 'pixi.js'
+import { Colours } from '@/types'
+import type { Position } from '@/types'
+import { type Graphics, Container } from 'pixi.js'
 import { ref } from 'vue'
 
 const props = defineProps<{

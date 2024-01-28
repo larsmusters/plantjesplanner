@@ -1,4 +1,4 @@
-import type { Bed } from '@/types/garden'
+import type { Bed } from '@/types'
 import { plantLibrary } from './plantLibrary'
 
 const LIBRARY_BED_BASE = {

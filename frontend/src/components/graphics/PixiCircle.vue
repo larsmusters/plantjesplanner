@@ -14,23 +14,22 @@
 <script setup lang="ts">
 import Draggable from './PixiDraggable.vue'
 import { Colours } from '@/types/colours'
+import type { CircleConfig, DraggableConfig, Vector } from '@/types'
 import { type Graphics, Circle } from 'pixi.js'
 import { computed } from 'vue'
-import type { CircleConfig } from '@/types/shapes/circle'
-import type { DraggableConfig } from '@/types/generics/draggable'
-import type { Vector } from '@/types/garden'
 
 const defaultConfig: CircleConfig = {
   position: { x: 0, y: 0 },
   offset: { x: 0, y: 0 },
   radius: 5,
-  hitAreaRadiusFactor: 1.5,
+  hitAreaFactor: 1.5,
   hoverFactor: 1.5,
   hoverTransitionTimems: 100,
   lineThickness: 2,
   lineColour: Colours.black,
   fillColour: Colours.black,
-  alpha: 0.8
+  lineAlpha: 0.8,
+  fillAlpha: 0.8
 }
 
 const props = defineProps<{
@@ -50,14 +49,18 @@ const hitArea = computed(
     new Circle(
       fullConfig.value.offset.x,
       fullConfig.value.offset.y,
-      fullConfig.value.hitAreaRadiusFactor * fullConfig.value.radius
+      fullConfig.value.hitAreaFactor * fullConfig.value.radius
     )
 )
 
 const drawCircle = (g: Graphics) => {
   g.clear()
-  g.lineStyle(fullConfig.value.lineThickness, fullConfig.value.lineColour, fullConfig.value.alpha)
-  g.beginFill(fullConfig.value.fillColour, fullConfig.value.alpha)
+  g.lineStyle(
+    fullConfig.value.lineThickness,
+    fullConfig.value.lineColour,
+    fullConfig.value.lineAlpha
+  )
+  g.beginFill(fullConfig.value.fillColour, fullConfig.value.fillAlpha)
   g.drawCircle(fullConfig.value.offset.x, fullConfig.value.offset.y, fullConfig.value.radius)
   g.endFill()
 }

@@ -12,7 +12,7 @@ import type { FederatedPointerEvent } from 'pixi.js'
 import { useEventListener } from '@vueuse/core'
 import { reactive } from 'vue'
 import { useStage, onReady } from 'vue3-pixi'
-import { useGardenStore } from '@/stores/garden'
+import { useGardenStore } from '@/stores'
 
 const gardenStore = useGardenStore()
 

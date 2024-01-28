@@ -23,15 +23,10 @@ import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
 import { useElementHover } from '@vueuse/core'
 import { type Container } from 'pixi.js'
-import type { Bed, Vector } from '@/types/garden'
-import { useGardenStore } from '@/stores/garden'
-import { useViewportStore } from '@/stores/viewport'
+import type { Bed, Vector, CircleConfig, AngledRectangleConfig, PolygonConfig } from '@/types'
+import { useGardenStore, useViewportStore, useAppStore } from '@/stores'
 import { useBedMover } from '@/composables/bedMover'
-import { useAppStore } from '@/stores/app'
-import type { CircleConfig } from '@/types/shapes/circle'
-import type { AngledRectangleConfig } from '@/types/shapes/angledRectangle'
 import { VectorUtil } from '@/utils/vectorUtil'
-import type { PolygonConfig } from '@/types/generics/draggable'
 
 const props = defineProps<{
   bed: Bed

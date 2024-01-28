@@ -46,7 +46,7 @@ import PixiGarden from './PixiGarden.vue'
 import { watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
-import { useGardenStore } from '@/stores/garden'
+import { useGardenStore } from '@/stores'
 
 const props = defineProps<{
   width: number

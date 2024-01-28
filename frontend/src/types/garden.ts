@@ -24,7 +24,7 @@ export interface Bed {
   heightOnHover: number
 }
 
-interface PlantPart {
+export interface PlantPart {
   colour: Colours
   scale: number
   id: number

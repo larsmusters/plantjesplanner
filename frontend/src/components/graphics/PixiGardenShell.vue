@@ -6,8 +6,7 @@
 
 <script setup lang="ts">
 import { Colours } from '@/types/colours'
-import type { Vertex } from '@/types/garden'
-import type { PolygonStyling } from '@/types/shapes'
+import type { Vertex, PolygonStyling } from '@/types'
 import { drawPolygon } from '@/utils/builder'
 import type { Graphics } from 'pixi.js'
 

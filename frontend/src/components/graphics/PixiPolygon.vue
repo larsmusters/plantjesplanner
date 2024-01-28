@@ -15,11 +15,9 @@
 <script setup lang="ts">
 import Draggable from './PixiDraggable.vue'
 import { Colours } from '@/types/colours'
-import type { Vector } from '@/types/garden'
+import type { Vector, PolygonConfig, DraggableConfig } from '@/types'
 import { Graphics, Polygon } from 'pixi.js'
 import { computed } from 'vue'
-import type { PolygonConfig } from '@/types/shapes/polygon'
-import type { DraggableConfig } from '@/types/generics/draggable'
 import { VectorUtil } from '@/utils/vectorUtil'
 
 const defaultConfig: PolygonConfig = {

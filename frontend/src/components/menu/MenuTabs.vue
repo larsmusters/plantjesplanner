@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useViewportStore } from '@/stores/viewport'
+import { useViewportStore } from '@/stores'
 import { Tab } from '@/types'
 
 const tabs = [Tab.add, Tab.info]

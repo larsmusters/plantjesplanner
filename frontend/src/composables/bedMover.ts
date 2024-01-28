@@ -1,7 +1,6 @@
-import { useGardenStore } from '@/stores/garden'
 import { VectorUtil } from '@/utils/vectorUtil'
-import type { Vector, Vertex } from '@/types/garden'
-import { useGridStore } from '@/stores/grid'
+import type { Vector, Vertex } from '@/types'
+import { useGridStore, useGardenStore } from '@/stores'
 
 export function useBedMover() {
   const gardenStore = useGardenStore()

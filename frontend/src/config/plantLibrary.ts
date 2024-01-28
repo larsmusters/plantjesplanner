@@ -1,5 +1,5 @@
-import { Colours } from '@/types/colours'
-import type { Plant } from '@/types/garden'
+import { Colours } from '@/types'
+import type { Plant } from '@/types'
 
 const LIBRARY_PLANT_BASE = {
   color: Colours.black,

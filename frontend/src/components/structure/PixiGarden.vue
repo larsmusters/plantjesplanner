@@ -11,8 +11,7 @@ import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import Grid from './PixiGrid.vue'
 import PixiBed from '@/components/graphics/bed/PixiBed.vue'
 import { computed } from 'vue'
-import { useGardenStore } from '@/stores/garden'
-import { useAppStore } from '@/stores/app'
+import { useGardenStore, useAppStore } from '@/stores'
 
 const gardenStore = useGardenStore()
 const appStore = useAppStore()

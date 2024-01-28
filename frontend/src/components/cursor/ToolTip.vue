@@ -4,9 +4,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/stores/app'
-import { Colours } from '@/types/colours'
-import type { Vector } from '@/types/garden'
+import { useAppStore } from '@/stores'
+import { Colours } from '@/types'
+import type { Vector } from '@/types'
 import type { Graphics } from 'pixi.js'
 import { computed } from 'vue'
 import { useApplication } from 'vue3-pixi'

@@ -21,14 +21,13 @@
 
 <script setup lang="ts">
 import { worldToGarden } from '@/utils'
-import type { Vector } from '@/types/garden'
+import { Colours } from '@/types/colours'
+import type { Vector, DraggableConfig } from '@/types'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import { VectorUtil } from '@/utils/vectorUtil'
-import type { DraggableConfig } from '@/types/generics/draggable'
 import type { Graphics, IHitArea, IShape, FederatedPointerEvent } from 'pixi.js'
-import { Colours } from '@/types/colours'
 import { Circle } from 'pixi.js'
 
 const defaultConfig: DraggableConfig = {
@@ -62,7 +61,7 @@ const drawDropShadow = (g: Graphics) => {
   // Linearly increase shadow alpha based on hover value.
   const alpha = (scale.value - 1) / (fullConfig.value.hoverFactor - 1)
   g.clear()
-  g.beginFill(fullConfig.value.shadowColour, alpha * fullConfig.value.shadowAlpha)
+  g.beginFill(fullConfig.value.shadowColour, alpha * (fullConfig.value.shadowAlpha || 1))
   g.drawShape(props.shadowShape || new Circle(0, 0, 1))
   g.endFill()
 }

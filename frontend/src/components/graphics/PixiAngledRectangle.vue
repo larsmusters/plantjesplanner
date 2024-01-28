@@ -6,11 +6,9 @@
 
 <script setup lang="ts">
 import Polygon from './PixiPolygon.vue'
-import { Colours } from '@/types/colours'
-import type { Vector, Vertex } from '@/types/garden'
+import { Colours } from '@/types'
+import type { AngledRectangleConfig, PolygonConfig, Vector, Vertex } from '@/types'
 import { computed } from 'vue'
-import type { AngledRectangleConfig } from '@/types/shapes/angledRectangle'
-import type { PolygonConfig } from '@/types/shapes/polygon'
 
 const defaultConfig: AngledRectangleConfig = {
   position: { x: 0, y: 0 },

@@ -14,9 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { useGardenStore } from '@/stores/garden'
-import { useGridStore } from '@/stores/grid'
-import type { Bed } from '@/types/garden'
+import { useGardenStore, useGridStore } from '@/stores'
+import type { Bed } from '@/types'
 import { VectorUtil } from '@/utils/vectorUtil'
 import { computed } from 'vue'
 

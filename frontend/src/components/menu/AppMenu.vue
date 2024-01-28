@@ -9,7 +9,7 @@ import MenuTabs from './MenuTabs.vue'
 import { Tab } from '@/types'
 import AddMenu from './AddMenu/AddMenu.vue'
 import InfoMenu from './InfoMenu.vue'
-import { useViewportStore } from '@/stores/viewport'
+import { useViewportStore } from '@/stores'
 
 const viewportStore = useViewportStore()
 </script>
