@@ -7,7 +7,9 @@
       @pointerdown="onDragStart"
       @pointerup="onDragEnd"
       @pointerupoutside="onDragEnd"
-    />
+    >
+      <slot
+    /></graphics>
   </container>
 </template>
 

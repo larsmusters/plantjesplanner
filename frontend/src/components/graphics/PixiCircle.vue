@@ -73,15 +73,16 @@ const drawCircle = (g: Graphics) => {
   g.endFill()
 }
 
+const VUtil = new VectorUtil()
 const stage = useStage()
 const dragLoc = ref<Vector>({ x: 0, y: 0 })
 const onDragStart = (e: FederatedPointerEvent) => {
   const pointerInGarden = worldToGarden(e.global)
+  const originInGlobal = el.value.toGlobal(fullConfig.value.dragCOM || fullConfig.value.position)
+  const originInGarden = worldToGarden(originInGlobal)
+
   // Dragging location is 'where on the Circle are we dragging?'.
-  dragLoc.value = new VectorUtil().moveOrigin(
-    fullConfig.value.dragCOM || fullConfig.value.position,
-    pointerInGarden
-  )
+  dragLoc.value = VUtil.sub(pointerInGarden, originInGarden)
   stage.value.addEventListener('pointermove', onDrag)
 }
 const onDragEnd = () => {
