@@ -6,9 +6,9 @@ import { bedLibrary } from '@/config/bedLibrary'
 export const fakeGarden: Garden = {
   shape: [
     { x: 0, y: 0 },
-    { x: 5000, y: 0 },
-    { x: 5000, y: 5000 },
-    { x: 0, y: 5000 }
+    { x: 2500, y: 0 },
+    { x: 2500, y: 2500 },
+    { x: 0, y: 2500 }
   ],
   beds: [
     {

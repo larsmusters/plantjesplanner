@@ -1,20 +1,21 @@
 <template>
-  <!-- <container :scale="scale"> -->
-  <graphics
-    ref="el"
-    @render="drawPolygon"
-    :hit-area="hitArea"
-    @pointerdown="onDragStart"
-    @pointerup="onDragEnd"
-    @pointerupoutside="onDragEnd"
-  />
-  <!-- </container> -->
+  <container :scale="scale" :position="fullConfig.position">
+    <graphics
+      ref="el"
+      @render="drawPolygon"
+      :hit-area="hitArea"
+      @pointerdown="onDragStart"
+      @pointerup="onDragEnd"
+      @pointerupoutside="onDragEnd"
+    />
+  </container>
 </template>
+
 <script setup lang="ts">
 import { Colours } from '@/types/colours'
 import { worldToGarden } from '@/utils'
-import type { Vector } from '@/types/garden'
-import { type FederatedPointerEvent, type Graphics, Polygon } from 'pixi.js'
+import type { Vector, Vertex } from '@/types/garden'
+import { type FederatedPointerEvent, Graphics, Polygon } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
@@ -23,14 +24,15 @@ import type { PolygonConfig } from '@/types/shapes/polygon'
 
 const defaultConfig: PolygonConfig = {
   position: { x: 0, y: 0 },
-  data: { type: 'ThickEdge', start: { x: 0, y: 0 }, end: { x: 1, y: 0 }, thickness: 1 },
-  hoverFactor: 1.5,
+  vertices: [],
+  hoverFactor: 1.1,
   hoverTransitionTimems: 100,
-  hitAreaFactor: 2.5,
+  hitAreaFactor: 1,
   lineThickness: 2,
   lineColour: Colours.black,
+  lineAlpha: 1,
   fillColour: Colours.black,
-  alpha: 0.8
+  fillAlpha: 1
 }
 
 const props = defineProps<{
@@ -46,8 +48,7 @@ const fullConfig = computed((): PolygonConfig => {
 })
 
 const hitArea = computed(
-  () =>
-    new Polygon(buildPolygonEdge(fullConfig.value.data.thickness * fullConfig.value.hitAreaFactor))
+  () => new Polygon(getPolygonPoints(fullConfig.value.vertices, fullConfig.value.hitAreaFactor))
 )
 
 const el = ref()
@@ -58,67 +59,35 @@ const scale = useTransition(scaleTarget, {
   transition: TransitionPresets.easeOutQuad
 })
 
-const buildPolygonEdge = (thickness: number): Vector[] => {
-  const start = fullConfig.value.data.start
-  const end = fullConfig.value.data.end
-  // Build a thick line (so that it is clickable)
-  // Step 1: Calculate the length of the line
-  const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
-
-  // Step 2: Calculate the unit vector u
-  const u = {
-    x: (end.x - start.x) / length,
-    y: (end.y - start.y) / length
-  }
-
-  // Step 3: Calculate the perpendicular vector v
-  const v = {
-    x: -u.y,
-    y: u.x
-  }
-
-  // Step 4: Calculate rectangle vertices
-  const halfThickness = (thickness / 2) * scale.value
-  const rectangle = [
-    {
-      x: start.x - halfThickness * v.x,
-      y: start.y - halfThickness * v.y
-    },
-    {
-      x: start.x + halfThickness * v.x,
-      y: start.y + halfThickness * v.y
-    },
-    {
-      x: end.x + halfThickness * v.x,
-      y: end.y + halfThickness * v.y
-    },
-    {
-      x: end.x - halfThickness * v.x,
-      y: end.y - halfThickness * v.y
-    }
-  ]
-  return rectangle
-}
-
 const drawPolygon = (g: Graphics) => {
-  const points = buildPolygonEdge(fullConfig.value.data.thickness)
-
   g.clear()
-  g.lineStyle(fullConfig.value.lineThickness, fullConfig.value.lineColour, fullConfig.value.alpha)
-  g.beginFill(fullConfig.value.fillColour, fullConfig.value.alpha)
-  g.drawPolygon(points)
-  g.endFill()
+  g.lineStyle(
+    fullConfig.value.lineThickness,
+    fullConfig.value.lineColour,
+    fullConfig.value.lineAlpha
+  )
+  g.beginFill(fullConfig.value.fillColour, fullConfig.value.fillAlpha)
+  if (g.drawRoundedShape) {
+    g.drawRoundedShape(getPolygonPoints(fullConfig.value.vertices), 0)
+  }
 }
 
+const getPolygonPoints = (path: Vertex[], s: number = 1, o: number = 0): Vertex[] => {
+  return path.map((point) => {
+    return { x: point.x * s + o, y: point.y * s + o, radius: (point.radius || 0) * s }
+  })
+}
+
+const VUtil = new VectorUtil()
 const stage = useStage()
 const dragLoc = ref<Vector>({ x: 0, y: 0 })
 const onDragStart = (e: FederatedPointerEvent) => {
   const pointerInGarden = worldToGarden(e.global)
+  const originInGlobal = el.value.toGlobal(fullConfig.value.dragCOM || fullConfig.value.position)
+  const originInGarden = worldToGarden(originInGlobal)
+
   // Dragging location is 'where on the Polygon are we dragging?'.
-  dragLoc.value = new VectorUtil().moveOrigin(
-    fullConfig.value.dragCOM || fullConfig.value.position,
-    pointerInGarden
-  )
+  dragLoc.value = VUtil.sub(pointerInGarden, originInGarden)
   stage.value.addEventListener('pointermove', onDrag)
 }
 const onDragEnd = () => {

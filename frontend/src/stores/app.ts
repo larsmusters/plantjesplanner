@@ -8,7 +8,7 @@ type ClickModeValues = `${ClickMode}`
 export const useAppStore = defineStore('app', () => {
   const app = ref<Application<ICanvas>>()
 
-  const clickMode = ref<ClickMode>(ClickMode.select)
+  const clickMode = ref<ClickMode>(ClickMode.edit)
   const isEditMode = computed(() => clickMode.value === ClickMode.edit)
   const isAddmode = computed(() => clickMode.value === ClickMode.add)
   const isSelectmode = computed(() => clickMode.value === ClickMode.select)

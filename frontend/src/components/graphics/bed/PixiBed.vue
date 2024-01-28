@@ -10,8 +10,8 @@
       <Plant :bed="bed" />
     </BedShell>
     <template v-if="appStore.isEditMode">
-      <template v-for="(edge, index) in edges" :key="index">
-        <Polygon @drag="(loc: Vector) => editEdge(loc, edge)" :config="edgeConfig[index]" />
+      <template v-for="(edgeConfig, index) in edgeConfigs" :key="index">
+        <AngledRectangle @drag="(loc: Vector) => editEdge(loc, index)" :config="edgeConfig" />
       </template>
       <template v-for="(_, i) in bed.shape" :key="i">
         <Circle @drag="editPoint(i)" :config="circleConfig[i]" />
@@ -23,19 +23,20 @@
 <script setup lang="ts">
 import Plant from '@/components/graphics/PixiPlant.vue'
 import Circle from '../PixiCircle.vue'
-import Polygon from '../PixiPolygon.vue'
+import AngledRectangle from '../PixiAngledRectangle.vue'
 import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
 import { useElementHover } from '@vueuse/core'
 import { type Container } from 'pixi.js'
-import type { Bed, BedEdge, Vector } from '@/types/garden'
+import type { Bed, Vector } from '@/types/garden'
 import { useGardenStore } from '@/stores/garden'
 import { useViewportStore } from '@/stores/viewport'
 import BedShell from './BedShell.vue'
 import { useBedMover } from '@/composables/bedMover'
 import { useAppStore } from '@/stores/app'
 import type { CircleConfig } from '@/types/shapes/circle'
-import type { PolygonConfig } from '@/types/shapes/polygon'
+import type { AngledRectangleConfig } from '@/types/shapes/angledRectangle'
+import { VectorUtil } from '@/utils/vectorUtil'
 
 const props = defineProps<{
   bed: Bed
@@ -76,10 +77,16 @@ const editPoint = (index: number) => {
   bedMover.moveBedVertex(index, props.bedId)
 }
 
-const editEdge = (dragLoc: Vector, edge: BedEdge) => {
+const editEdge = (dragLoc: Vector, index: number) => {
   if (props.bedId === undefined) return
-  const ids = [edge.p0.id, edge.p1.id]
-  bedMover.moveBedVertices(dragLoc, props.bedId, ids)
+  // dragLoc is in Edge-space
+  const edgeConfig = edgeConfigs.value[index]
+  const pointToBed = VUtil.inverse(edgeConfig.dragCOM || edgeConfig.position!)
+  const bedDragLoc = VUtil.moveOrigin(pointToBed, dragLoc)
+
+  const iNext = index + 1 == props.bed.shape.length ? 0 : index + 1
+  const ids = [index, iNext]
+  bedMover.moveBedVertices(bedDragLoc, props.bedId, ids)
 }
 
 const editBed = (dragLoc: Vector) => {
@@ -87,17 +94,6 @@ const editBed = (dragLoc: Vector) => {
   if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }
-
-const edges = computed((): BedEdge[] => {
-  const edges: BedEdge[] = []
-  props.bed.shape.forEach((point, i) => {
-    const iPrev = i - 1 < 0 ? props.bed.shape.length - 1 : i - 1
-    const p0 = { id: iPrev, ...props.bed.shape[iPrev] }
-    const p1 = { id: i, ...point }
-    edges.push({ p0, p1 })
-  })
-  return edges
-})
 
 const circleConfig = computed((): Partial<CircleConfig>[] => {
   const baseConfig = {
@@ -109,20 +105,29 @@ const circleConfig = computed((): Partial<CircleConfig>[] => {
   })
 })
 
-const edgeConfig = computed((): Partial<PolygonConfig>[] => {
-  const baseConfig = {
-    lineThickness: 0
+const VUtil = new VectorUtil()
+const edgeConfigs = computed((): Partial<AngledRectangleConfig>[] => {
+  const baseConfig: Partial<AngledRectangleConfig> = {
+    lineThickness: 0,
+    lineAlpha: 0.9,
+    fillAlpha: 0.4,
+    fillColour: props.bed.plant.color
   }
-  return edges.value.map((edge) => {
+  return props.bed.shape.map((point, i) => {
+    const iNext = i + 1 == props.bed.shape.length ? 0 : i + 1
+    let start = point
+    let end = props.bed.shape[iNext]
+    const position = VUtil.getMidPoint(start, end)
+    start = VUtil.sub(start, position)
+    end = VUtil.sub(end, position)
+
     return {
       ...baseConfig,
-      dragCOM: props.bed.location,
-      data: {
-        type: 'ThickEdge',
-        thickness: 5 / gardenStore.position.scale,
-        start: { x: edge.p0.x, y: edge.p0.y },
-        end: { x: edge.p1.x, y: edge.p1.y }
-      }
+      dragCOM: position,
+      thickness: 5 / gardenStore.position.scale,
+      start,
+      end,
+      position
     }
   })
 })

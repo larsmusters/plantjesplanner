@@ -16,6 +16,10 @@ export class VectorMath {
     }
   }
 
+  multiply = (point: Vector, factor: number): Vector => {
+    return { x: point.x * factor, y: point.y * factor }
+  }
+
   inverse = (point: Vector): Vector => {
     return { x: -point.x, y: -point.y }
   }

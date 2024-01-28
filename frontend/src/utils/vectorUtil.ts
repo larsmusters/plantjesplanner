@@ -73,4 +73,12 @@ export class VectorUtil extends VectorMath {
 
     return this.sub(grid[pair.candidateId], toMove[pair.pointId])
   }
+
+  getMidPoint = (point1: Vector, point2: Vector) => {
+    // Points from point1 to point2
+    const fullLength = this.sub(point2, point1)
+    const halfLength = this.multiply(fullLength, 0.5)
+    const midPoint = this.sum(point1, halfLength)
+    return midPoint
+  }
 }

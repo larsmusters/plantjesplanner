@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { computed, ref, type ComputedRef } from 'vue'
 import { useGardenStore } from './garden'
-import type { Point } from '@/types/garden'
+import type { Vector } from '@/types/garden'
 
 export const useGridStore = defineStore('grid', () => {
-  const nLines = ref({ columns: 21, rows: 21 })
+  const nLines = ref({ columns: 11, rows: 11 })
 
   const columns = computed(() => {
     const gardenStore = useGardenStore()
@@ -22,9 +22,9 @@ export const useGridStore = defineStore('grid', () => {
     return array.map((_, i) => i * resolution + gardenStore.bounds.y)
   })
 
-  const vertices: ComputedRef<Point[]> = computed(() => {
+  const vertices: ComputedRef<Vector[]> = computed(() => {
     // current grid is very simple: all points on intersections between rows and columns
-    const v: Point[] = []
+    const v: Vector[] = []
 
     columns.value.forEach((x) => {
       rows.value.forEach((y) => {

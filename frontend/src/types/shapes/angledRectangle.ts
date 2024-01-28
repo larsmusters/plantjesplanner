@@ -1,9 +1,13 @@
 import type { Colours } from '../colours'
-import type { Vector, Vertex } from '../garden'
+import type { Vector } from '../garden'
 
-export interface PolygonConfig {
+export interface AngledRectangleConfig {
   position: Vector
-  vertices: Vertex[]
+  start: Vector
+  end: Vector
+  thickness: number
+  edgeRadius: number
+
   dragCOM?: Vector
   hitAreaFactor: number
   hoverFactor: number
