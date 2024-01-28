@@ -1,4 +1,3 @@
-import type { IPointData } from 'pixi.js'
 import type { Colours } from '@/types/colours'
 
 export interface Vertex {
@@ -20,7 +19,7 @@ export interface Garden {
 export interface Bed {
   name: string
   shape: Vertex[]
-  location: IPointData
+  location: Vector
   plant: Plant
   heightOnHover: number
 }

@@ -10,17 +10,9 @@
       <Plant :bed="bed" />
     </BedShell>
     <template v-if="appStore.isEditMode">
-      <Polygon
-        v-for="(edge, index) in edges"
-        :key="index"
-        :start="edge.p0"
-        :end="edge.p1"
-        :bed-id="bedId"
-        :world-scale="gardenStore.position.scale"
-        :com="bed.location"
-        @drag="editEdge"
-        :config="edgeConfig[index]"
-      />
+      <template v-for="(edge, index) in edges" :key="index">
+        <Polygon @drag="(loc: Vector) => editEdge(loc, edge)" :config="edgeConfig[index]" />
+      </template>
       <template v-for="(_, i) in bed.shape" :key="i">
         <Circle @drag="editPoint(i)" :config="circleConfig[i]" />
       </template>
@@ -59,7 +51,6 @@ const el = ref()
 
 const gardenStore = useGardenStore()
 const appStore = useAppStore()
-const bedId = computed(() => gardenStore.garden.beds.indexOf(props.bed))
 
 const hovering = useElementHover(el)
 const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
@@ -85,8 +76,9 @@ const editPoint = (index: number) => {
   bedMover.moveBedVertex(index, props.bedId)
 }
 
-const editEdge = (dragLoc: Vector, ids: number[]) => {
+const editEdge = (dragLoc: Vector, edge: BedEdge) => {
   if (props.bedId === undefined) return
+  const ids = [edge.p0.id, edge.p1.id]
   bedMover.moveBedVertices(dragLoc, props.bedId, ids)
 }
 
@@ -95,16 +87,6 @@ const editBed = (dragLoc: Vector) => {
   if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }
-
-const circleConfig = computed((): Partial<CircleConfig>[] => {
-  const baseConfig = {
-    radius: 5 / gardenStore.position.scale,
-    hitAreaRadius: 7.5 / gardenStore.position.scale
-  }
-  return props.bed.shape.map((point) => {
-    return { ...baseConfig, position: { x: point.x, y: point.y } }
-  })
-})
 
 const edges = computed((): BedEdge[] => {
   const edges: BedEdge[] = []
@@ -117,10 +99,31 @@ const edges = computed((): BedEdge[] => {
   return edges
 })
 
+const circleConfig = computed((): Partial<CircleConfig>[] => {
+  const baseConfig = {
+    radius: 5 / gardenStore.position.scale,
+    hitAreaRadius: 7.5 / gardenStore.position.scale
+  }
+  return props.bed.shape.map((point) => {
+    return { ...baseConfig, position: { x: point.x, y: point.y } }
+  })
+})
+
 const edgeConfig = computed((): Partial<PolygonConfig>[] => {
-  const baseConfig = {}
-  return edges.value.map((_) => {
-    return { ...baseConfig, dragCOM: props.bed.location }
+  const baseConfig = {
+    lineThickness: 0
+  }
+  return edges.value.map((edge) => {
+    return {
+      ...baseConfig,
+      dragCOM: props.bed.location,
+      data: {
+        type: 'ThickEdge',
+        thickness: 5 / gardenStore.position.scale,
+        start: { x: edge.p0.x, y: edge.p1.y },
+        end: { x: edge.p1.x, y: edge.p1.y }
+      }
+    }
   })
 })
 </script>
