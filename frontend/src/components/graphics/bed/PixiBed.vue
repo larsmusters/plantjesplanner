@@ -20,20 +20,16 @@
         :com="bed.location"
         @drag="editEdge"
       />
-      <BedVertex
-        v-for="(point, index) in props.bed.shape"
-        :key="index"
-        :point="point"
-        @drag="editPoint(index)"
-        :world-scale="gardenStore.position.scale"
-      />
+      <template v-for="(_, i) in bed.shape" :key="i">
+        <Circle @drag="editPoint(i)" :config="circleConfig[i]" />
+      </template>
     </template>
   </container>
 </template>
 
 <script setup lang="ts">
 import Plant from '@/components/graphics/PixiPlant.vue'
-import BedVertex from './BedVertex.vue'
+import Circle from '../PixiCircle.vue'
 import BedEdgeVue from './BedEdge.vue'
 import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
@@ -45,6 +41,7 @@ import { useViewportStore } from '@/stores/viewport'
 import BedShell from './BedShell.vue'
 import { useBedMover } from '@/composables/bedMover'
 import { useAppStore } from '@/stores/app'
+import type { CircleConfig } from '@/types/shapes/circle'
 
 const props = defineProps<{
   bed: Bed
@@ -107,4 +104,14 @@ const editBed = (dragLoc: Vector) => {
   if (props.bedId === undefined) return
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }
+
+const circleConfig = computed((): Partial<CircleConfig>[] => {
+  const baseConfig = {
+    radius: 5 / gardenStore.position.scale,
+    hitAreaRadius: 7.5 / gardenStore.position.scale
+  }
+  return props.bed.shape.map((point) => {
+    return { ...baseConfig, position: { x: point.x, y: point.y } }
+  })
+})
 </script>

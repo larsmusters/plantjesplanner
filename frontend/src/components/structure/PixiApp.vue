@@ -2,12 +2,11 @@
   <!-- To-do's:
     Difficult things: 
     - Load SVG's instead of png's? And load them in a random pattern within the bed.
-    - On longer hovers, allow selection through an object (to select objects lower in the viewing index)
-    - On edit mode, allow adding a vertex by clicking on the midpoint of an edge.
-    - On edit mode, allow removing a vertex by clicking on the vertex with some shortcut or mode enabled
     - On edit mode, allow removing a bed.
-    - On edit mode, allow rotation of beds (90 degree angles, by pressing a button).
-    - On edit mode, allow mirroring of beds (vertical and horizontal mirror). It is applied to the whole library.
+    - On edit mode, only edit the bed you have selected.
+    - Build a system that defines the looks of the beds properly (based on plants and month) 
+    - Build constraint-sets per shape-type (square, rectangle, etc)
+    - Allow reversing changes from edit mode.
 
     Fun-ish things:
     - Add the ability to add other things in the garden (such as a 'path')
