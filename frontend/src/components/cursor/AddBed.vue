@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import PixiBed from '../graphics/bed/PixiBed.vue'
+import PixiBed from '../graphics/PixiBed.vue'
 import { useGridStore, useGardenStore, useAppStore } from '@/stores'
 import { computed } from 'vue'
 import { gardenToWorld, worldToGarden } from '@/utils'

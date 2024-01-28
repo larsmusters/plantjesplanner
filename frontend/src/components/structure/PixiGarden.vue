@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import GardenShell from '@/components/graphics/PixiGardenShell.vue'
 import Grid from './PixiGrid.vue'
-import PixiBed from '@/components/graphics/bed/PixiBed.vue'
+import PixiBed from '@/components/graphics/PixiBed.vue'
 import { computed } from 'vue'
 import { useGardenStore, useAppStore } from '@/stores'
 

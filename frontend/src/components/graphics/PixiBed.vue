@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import Polygon from '../PixiPolygon.vue'
+import Polygon from './PixiPolygon.vue'
 import Plant from '@/components/graphics/PixiPlant.vue'
-import Circle from '../PixiCircle.vue'
-import AngledRectangle from '../PixiAngledRectangle.vue'
+import Circle from './PixiCircle.vue'
+import AngledRectangle from './PixiAngledRectangle.vue'
 import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
 import { useElementHover } from '@vueuse/core'
