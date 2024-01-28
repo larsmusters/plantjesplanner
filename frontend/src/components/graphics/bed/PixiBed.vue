@@ -10,7 +10,7 @@
       <Plant :bed="bed" />
     </BedShell>
     <template v-if="appStore.isEditMode">
-      <BedEdgeVue
+      <Polygon
         v-for="(edge, index) in edges"
         :key="index"
         :start="edge.p0"
@@ -19,6 +19,7 @@
         :world-scale="gardenStore.position.scale"
         :com="bed.location"
         @drag="editEdge"
+        :config="edgeConfig[index]"
       />
       <template v-for="(_, i) in bed.shape" :key="i">
         <Circle @drag="editPoint(i)" :config="circleConfig[i]" />
@@ -30,7 +31,7 @@
 <script setup lang="ts">
 import Plant from '@/components/graphics/PixiPlant.vue'
 import Circle from '../PixiCircle.vue'
-import BedEdgeVue from './BedEdge.vue'
+import Polygon from '../PixiPolygon.vue'
 import '@pixi/graphics-extras'
 import { computed, ref, watch } from 'vue'
 import { useElementHover } from '@vueuse/core'
@@ -42,6 +43,7 @@ import BedShell from './BedShell.vue'
 import { useBedMover } from '@/composables/bedMover'
 import { useAppStore } from '@/stores/app'
 import type { CircleConfig } from '@/types/shapes/circle'
+import type { PolygonConfig } from '@/types/shapes/polygon'
 
 const props = defineProps<{
   bed: Bed
@@ -67,17 +69,6 @@ watch(hovering, () => {
   if (hovering.value) {
     emit('update:hover', containerRef.value)
   }
-})
-
-const edges = computed((): BedEdge[] => {
-  const edges: BedEdge[] = []
-  props.bed.shape.forEach((point, i) => {
-    const iPrev = i - 1 < 0 ? props.bed.shape.length - 1 : i - 1
-    const p0 = { id: iPrev, ...props.bed.shape[iPrev] }
-    const p1 = { id: i, ...point }
-    edges.push({ p0, p1 })
-  })
-  return edges
 })
 
 const viewportStore = useViewportStore()
@@ -112,6 +103,24 @@ const circleConfig = computed((): Partial<CircleConfig>[] => {
   }
   return props.bed.shape.map((point) => {
     return { ...baseConfig, position: { x: point.x, y: point.y } }
+  })
+})
+
+const edges = computed((): BedEdge[] => {
+  const edges: BedEdge[] = []
+  props.bed.shape.forEach((point, i) => {
+    const iPrev = i - 1 < 0 ? props.bed.shape.length - 1 : i - 1
+    const p0 = { id: iPrev, ...props.bed.shape[iPrev] }
+    const p1 = { id: i, ...point }
+    edges.push({ p0, p1 })
+  })
+  return edges
+})
+
+const edgeConfig = computed((): Partial<PolygonConfig>[] => {
+  const baseConfig = {}
+  return edges.value.map((_) => {
+    return { ...baseConfig, dragCOM: props.bed.location }
   })
 })
 </script>

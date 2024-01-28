@@ -14,11 +14,14 @@
 </template>
 <script setup lang="ts">
 import { Colours } from '@/types/colours'
-import { type Graphics, Circle } from 'pixi.js'
+import { type Graphics, Circle, FederatedPointerEvent } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
 import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
 import type { CircleConfig } from '@/types/shapes/circle'
+import type { Vector } from '@/types/garden'
+import { worldToGarden } from '@/utils'
+import { VectorUtil } from '@/utils/vectorUtil'
 
 const defaultConfig: CircleConfig = {
   position: { x: 0, y: 0 },
@@ -38,7 +41,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'drag'): void
+  (e: 'drag', dragLoc: Vector): void
 }>()
 
 const fullConfig = computed((): CircleConfig => {
@@ -71,13 +74,20 @@ const drawCircle = (g: Graphics) => {
 }
 
 const stage = useStage()
-const onDragStart = () => {
-  stage.value!.addEventListener('pointermove', onDrag)
+const dragLoc = ref<Vector>({ x: 0, y: 0 })
+const onDragStart = (e: FederatedPointerEvent) => {
+  const pointerInGarden = worldToGarden(e.global)
+  // Dragging location is 'where on the Circle are we dragging?'.
+  dragLoc.value = new VectorUtil().moveOrigin(
+    fullConfig.value.dragCOM || fullConfig.value.position,
+    pointerInGarden
+  )
+  stage.value.addEventListener('pointermove', onDrag)
 }
 const onDragEnd = () => {
-  stage.value!.removeEventListener('pointermove', onDrag)
+  stage.value.removeEventListener('pointermove', onDrag)
 }
 const onDrag = () => {
-  emit('drag')
+  emit('drag', dragLoc.value)
 }
 </script>
