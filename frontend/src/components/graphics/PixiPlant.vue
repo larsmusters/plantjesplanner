@@ -9,7 +9,6 @@
       :x="loc.x"
       :y="loc.y"
       :scale="bed.plant.animationScale"
-      @click="console.log('clicked')"
     />
   </template>
 </template>

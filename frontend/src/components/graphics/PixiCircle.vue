@@ -1,27 +1,24 @@
 <template>
-  <container :position="fullConfig.position" :scale="scale">
-    <graphics
-      ref="el"
-      @render="drawCircle"
+  <container :position="fullConfig.position">
+    <Draggable
+      :config="draggableConfig"
       :hit-area="hitArea"
-      @pointerdown="onDragStart"
-      @pointerup="onDragEnd"
-      @pointerupoutside="onDragEnd"
+      @drag="(dragLoc: Vector) => emit('drag', dragLoc)"
     >
-      <slot />
-    </graphics>
+      <graphics ref="el" @render="drawCircle">
+        <slot />
+      </graphics>
+    </Draggable>
   </container>
 </template>
 <script setup lang="ts">
+import Draggable from './PixiDraggable.vue'
 import { Colours } from '@/types/colours'
-import { type Graphics, Circle, FederatedPointerEvent } from 'pixi.js'
-import { computed, ref } from 'vue'
-import { useStage } from 'vue3-pixi'
-import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
+import { type Graphics, Circle } from 'pixi.js'
+import { computed } from 'vue'
 import type { CircleConfig } from '@/types/shapes/circle'
+import type { DraggableConfig } from '@/types/generics/draggable'
 import type { Vector } from '@/types/garden'
-import { worldToGarden } from '@/utils'
-import { VectorUtil } from '@/utils/vectorUtil'
 
 const defaultConfig: CircleConfig = {
   position: { x: 0, y: 0 },
@@ -57,14 +54,6 @@ const hitArea = computed(
     )
 )
 
-const el = ref()
-const hovering = useElementHover(el)
-const scaleTarget = computed(() => (hovering.value ? fullConfig.value.hoverFactor : 1))
-const scale = useTransition(scaleTarget, {
-  duration: fullConfig.value.hoverTransitionTimems,
-  transition: TransitionPresets.easeOutQuad
-})
-
 const drawCircle = (g: Graphics) => {
   g.clear()
   g.lineStyle(fullConfig.value.lineThickness, fullConfig.value.lineColour, fullConfig.value.alpha)
@@ -73,22 +62,7 @@ const drawCircle = (g: Graphics) => {
   g.endFill()
 }
 
-const VUtil = new VectorUtil()
-const stage = useStage()
-const dragLoc = ref<Vector>({ x: 0, y: 0 })
-const onDragStart = (e: FederatedPointerEvent) => {
-  const pointerInGarden = worldToGarden(e.global)
-  const originInGlobal = el.value.toGlobal(fullConfig.value.dragCOM || fullConfig.value.position)
-  const originInGarden = worldToGarden(originInGlobal)
-
-  // Dragging location is 'where on the Circle are we dragging?'.
-  dragLoc.value = VUtil.sub(pointerInGarden, originInGarden)
-  stage.value.addEventListener('pointermove', onDrag)
-}
-const onDragEnd = () => {
-  stage.value.removeEventListener('pointermove', onDrag)
-}
-const onDrag = () => {
-  emit('drag', dragLoc.value)
-}
+const draggableConfig = computed((): Partial<DraggableConfig> => {
+  return { ...fullConfig.value }
+})
 </script>

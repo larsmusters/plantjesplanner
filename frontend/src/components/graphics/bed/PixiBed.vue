@@ -31,7 +31,7 @@ import { useAppStore } from '@/stores/app'
 import type { CircleConfig } from '@/types/shapes/circle'
 import type { AngledRectangleConfig } from '@/types/shapes/angledRectangle'
 import { VectorUtil } from '@/utils/vectorUtil'
-import type { PolygonConfig } from '@/types/shapes/polygon'
+import type { PolygonConfig } from '@/types/generics/draggable'
 
 const props = defineProps<{
   bed: Bed

@@ -1,37 +1,26 @@
 <template>
   <container :position="fullConfig.position">
-    <graphics
-      v-if="fullConfig.shadowEnable"
-      @render="drawDropShadow"
-      :position="fullConfig.shadowOffset"
-    >
-      <blur-filter :quality="2" :blur="4" />
-    </graphics>
-    <graphics
-      ref="el"
-      @render="drawPolygon"
+    <Draggable
+      :config="draggableConfig"
       :hit-area="hitArea"
-      :scale="scale"
+      :shadow-shape="hitArea"
+      @drag="(dragLoc: Vector) => emit('drag', dragLoc)"
       @click="emit('click')"
-      @pointerdown="onDragStart"
-      @pointerup="onDragEnd"
-      @pointerupoutside="onDragEnd"
     >
-      <slot
-    /></graphics>
+      <graphics @render="drawPolygon"> <slot /></graphics>
+    </Draggable>
   </container>
 </template>
 
 <script setup lang="ts">
+import Draggable from './PixiDraggable.vue'
 import { Colours } from '@/types/colours'
-import { worldToGarden } from '@/utils'
 import type { Vector } from '@/types/garden'
-import { type FederatedPointerEvent, Graphics, Polygon } from 'pixi.js'
-import { computed, ref } from 'vue'
-import { useStage } from 'vue3-pixi'
-import { TransitionPresets, useElementHover, useTransition } from '@vueuse/core'
-import { VectorUtil } from '@/utils/vectorUtil'
+import { Graphics, Polygon } from 'pixi.js'
+import { computed } from 'vue'
 import type { PolygonConfig } from '@/types/shapes/polygon'
+import type { DraggableConfig } from '@/types/generics/draggable'
+import { VectorUtil } from '@/utils/vectorUtil'
 
 const defaultConfig: PolygonConfig = {
   position: { x: 0, y: 0 },
@@ -63,6 +52,7 @@ const fullConfig = computed((): PolygonConfig => {
   return { ...defaultConfig, ...props.config }
 })
 
+const VUtil = new VectorUtil()
 const hitArea = computed(
   () =>
     new Polygon(
@@ -71,14 +61,6 @@ const hitArea = computed(
       )
     )
 )
-
-const el = ref()
-const hovering = useElementHover(el)
-const scaleTarget = computed(() => (hovering.value ? fullConfig.value.hoverFactor : 1))
-const scale = useTransition(scaleTarget, {
-  duration: fullConfig.value.hoverTransitionTimems,
-  transition: TransitionPresets.easeOutQuad
-})
 
 const drawPolygon = (g: Graphics) => {
   g.clear()
@@ -93,32 +75,7 @@ const drawPolygon = (g: Graphics) => {
   }
 }
 
-const drawDropShadow = (g: Graphics) => {
-  // Linearly increase shadow alpha based on hover value.
-  const alpha = (scale.value - 1) / (fullConfig.value.hoverFactor - 1)
-  g.clear()
-  g.beginFill(fullConfig.value.shadowColour, alpha * fullConfig.value.shadowAlpha)
-  if (g.drawRoundedShape) {
-    g.drawRoundedShape(fullConfig.value.vertices, 0)
-  }
-}
-
-const VUtil = new VectorUtil()
-const stage = useStage()
-const dragLoc = ref<Vector>({ x: 0, y: 0 })
-const onDragStart = (e: FederatedPointerEvent) => {
-  const pointerInGarden = worldToGarden(e.global)
-  const originInGlobal = el.value.toGlobal(fullConfig.value.dragCOM || fullConfig.value.position)
-  const originInGarden = worldToGarden(originInGlobal)
-
-  // Dragging location is 'where on the Polygon are we dragging?'.
-  dragLoc.value = VUtil.sub(pointerInGarden, originInGarden)
-  stage.value.addEventListener('pointermove', onDrag)
-}
-const onDragEnd = () => {
-  stage.value!.removeEventListener('pointermove', onDrag)
-}
-const onDrag = () => {
-  emit('drag', dragLoc.value!)
-}
+const draggableConfig = computed((): Partial<DraggableConfig> => {
+  return { ...fullConfig.value }
+})
 </script>
