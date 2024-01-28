@@ -1,14 +1,8 @@
 <template>
   <container :ref="(el: Container) => (containerRef = el)" :position="bed.location">
-    <BedShell
-      :bed="bed"
-      :scaleTarget="scale"
-      @click="bedClicked"
-      @drag="(dragLoc: Vector) => editBed(dragLoc)"
-      :world-scale="gardenStore.position.scale"
-    >
+    <Polygon :config="bedConfig" @click="bedClicked" @drag="editBed">
       <Plant :bed="bed" />
-    </BedShell>
+    </Polygon>
     <template v-if="appStore.isEditMode">
       <template v-for="(edgeConfig, index) in edgeConfigs" :key="index">
         <AngledRectangle @drag="(loc: Vector) => editEdge(loc, index)" :config="edgeConfig" />
@@ -21,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import Polygon from '../PixiPolygon.vue'
 import Plant from '@/components/graphics/PixiPlant.vue'
 import Circle from '../PixiCircle.vue'
 import AngledRectangle from '../PixiAngledRectangle.vue'
@@ -31,12 +26,12 @@ import { type Container } from 'pixi.js'
 import type { Bed, Vector } from '@/types/garden'
 import { useGardenStore } from '@/stores/garden'
 import { useViewportStore } from '@/stores/viewport'
-import BedShell from './BedShell.vue'
 import { useBedMover } from '@/composables/bedMover'
 import { useAppStore } from '@/stores/app'
 import type { CircleConfig } from '@/types/shapes/circle'
 import type { AngledRectangleConfig } from '@/types/shapes/angledRectangle'
 import { VectorUtil } from '@/utils/vectorUtil'
+import type { PolygonConfig } from '@/types/shapes/polygon'
 
 const props = defineProps<{
   bed: Bed
@@ -48,15 +43,12 @@ const emit = defineEmits<{
   (e: 'click:bed', container: Container): void
 }>()
 
-const el = ref()
-
 const gardenStore = useGardenStore()
 const appStore = useAppStore()
-
-const hovering = useElementHover(el)
-const scale = computed(() => (hovering.value ? props.bed.heightOnHover : 1))
+const VUtil = new VectorUtil()
 
 const containerRef = ref()
+const hovering = useElementHover(containerRef)
 watch(hovering, () => {
   if (hovering.value) {
     emit('update:hover', containerRef.value)
@@ -95,6 +87,21 @@ const editBed = (dragLoc: Vector) => {
   bedMover.moveBedVertices(dragLoc, props.bedId)
 }
 
+const bedConfig = computed((): Partial<PolygonConfig> => {
+  const offset = 7.5 / gardenStore.position.scale
+  const baseConfig: Partial<PolygonConfig> = {
+    lineAlpha: 0.9,
+    fillAlpha: 0.4,
+    fillColour: props.bed.plant.color,
+    lineThickness: 1 / gardenStore.position.scale,
+    vertices: props.bed.shape,
+    shadowEnable: true,
+    shadowOffset: { x: offset, y: offset },
+    hoverFactor: 1.02
+  }
+  return baseConfig
+})
+
 const circleConfig = computed((): Partial<CircleConfig>[] => {
   const baseConfig = {
     radius: 5 / gardenStore.position.scale,
@@ -105,11 +112,9 @@ const circleConfig = computed((): Partial<CircleConfig>[] => {
   })
 })
 
-const VUtil = new VectorUtil()
 const edgeConfigs = computed((): Partial<AngledRectangleConfig>[] => {
   const baseConfig: Partial<AngledRectangleConfig> = {
     lineThickness: 0,
-    lineAlpha: 0.9,
     fillAlpha: 0.4,
     fillColour: props.bed.plant.color
   }

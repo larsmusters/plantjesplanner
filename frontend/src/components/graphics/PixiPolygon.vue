@@ -1,9 +1,18 @@
 <template>
-  <container :scale="scale" :position="fullConfig.position">
+  <container :position="fullConfig.position">
+    <graphics
+      v-if="fullConfig.shadowEnable"
+      @render="drawDropShadow"
+      :position="fullConfig.shadowOffset"
+    >
+      <blur-filter :quality="2" :blur="4" />
+    </graphics>
     <graphics
       ref="el"
       @render="drawPolygon"
       :hit-area="hitArea"
+      :scale="scale"
+      @click="emit('click')"
       @pointerdown="onDragStart"
       @pointerup="onDragEnd"
       @pointerupoutside="onDragEnd"
@@ -16,7 +25,7 @@
 <script setup lang="ts">
 import { Colours } from '@/types/colours'
 import { worldToGarden } from '@/utils'
-import type { Vector, Vertex } from '@/types/garden'
+import type { Vector } from '@/types/garden'
 import { type FederatedPointerEvent, Graphics, Polygon } from 'pixi.js'
 import { computed, ref } from 'vue'
 import { useStage } from 'vue3-pixi'
@@ -34,7 +43,11 @@ const defaultConfig: PolygonConfig = {
   lineColour: Colours.black,
   lineAlpha: 1,
   fillColour: Colours.black,
-  fillAlpha: 1
+  fillAlpha: 1,
+  shadowColour: Colours.black,
+  shadowOffset: { x: 0, y: 0 },
+  shadowEnable: false,
+  shadowAlpha: 0.1
 }
 
 const props = defineProps<{
@@ -43,6 +56,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'drag', dragLoc: Vector): void
+  (e: 'click'): void
 }>()
 
 const fullConfig = computed((): PolygonConfig => {
@@ -50,7 +64,12 @@ const fullConfig = computed((): PolygonConfig => {
 })
 
 const hitArea = computed(
-  () => new Polygon(getPolygonPoints(fullConfig.value.vertices, fullConfig.value.hitAreaFactor))
+  () =>
+    new Polygon(
+      fullConfig.value.vertices.map((point) =>
+        VUtil.multiply(point, fullConfig.value.hitAreaFactor)
+      )
+    )
 )
 
 const el = ref()
@@ -70,14 +89,18 @@ const drawPolygon = (g: Graphics) => {
   )
   g.beginFill(fullConfig.value.fillColour, fullConfig.value.fillAlpha)
   if (g.drawRoundedShape) {
-    g.drawRoundedShape(getPolygonPoints(fullConfig.value.vertices), 0)
+    g.drawRoundedShape(fullConfig.value.vertices, 0)
   }
 }
 
-const getPolygonPoints = (path: Vertex[], s: number = 1, o: number = 0): Vertex[] => {
-  return path.map((point) => {
-    return { x: point.x * s + o, y: point.y * s + o, radius: (point.radius || 0) * s }
-  })
+const drawDropShadow = (g: Graphics) => {
+  // Linearly increase shadow alpha based on hover value.
+  const alpha = (scale.value - 1) / (fullConfig.value.hoverFactor - 1)
+  g.clear()
+  g.beginFill(fullConfig.value.shadowColour, alpha * fullConfig.value.shadowAlpha)
+  if (g.drawRoundedShape) {
+    g.drawRoundedShape(fullConfig.value.vertices, 0)
+  }
 }
 
 const VUtil = new VectorUtil()

@@ -13,4 +13,9 @@ export interface PolygonConfig {
   lineAlpha: number
   fillColour: Colours
   fillAlpha: number
+
+  shadowColour: Colours
+  shadowOffset: Vector
+  shadowEnable: boolean
+  shadowAlpha: number
 }

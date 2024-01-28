@@ -40,7 +40,7 @@ const fullConfig = computed((): AngledRectangleConfig => {
   return { ...defaultConfig, ...props.config }
 })
 
-const polygonConfig = computed((): PolygonConfig => {
+const polygonConfig = computed((): Partial<PolygonConfig> => {
   // Polygon is on same location as angled rectangle.
   return {
     ...fullConfig.value,
