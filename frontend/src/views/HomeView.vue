@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="header">Plantjesplanner</div>
+    <div class="header">Plantjesplanner: {{ viewportStore.monthReadable }}</div>
     <div class="quick-buttons"><ActionButtons /></div>
     <div class="menu-grid">
       <AppMenu />
@@ -15,8 +15,11 @@
 import ActionButtons from '@/components/menu/ActionButtons.vue'
 import AppMenu from '@/components/menu/AppMenu.vue'
 import PixiApp from '@/components/structure/PixiApp.vue'
+import { useViewportStore } from '@/stores'
 import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
+
+const viewportStore = useViewportStore()
 
 const extraMargin = 10
 
