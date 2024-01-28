@@ -120,7 +120,7 @@ const edgeConfig = computed((): Partial<PolygonConfig>[] => {
       data: {
         type: 'ThickEdge',
         thickness: 5 / gardenStore.position.scale,
-        start: { x: edge.p0.x, y: edge.p1.y },
+        start: { x: edge.p0.x, y: edge.p0.y },
         end: { x: edge.p1.x, y: edge.p1.y }
       }
     }

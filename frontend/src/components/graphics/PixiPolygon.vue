@@ -47,13 +47,7 @@ const fullConfig = computed((): PolygonConfig => {
 
 const hitArea = computed(
   () =>
-    new Polygon(
-      buildPolygonEdge(
-        fullConfig.value.data.start,
-        fullConfig.value.data.end,
-        fullConfig.value.data.thickness * fullConfig.value.hitAreaFactor
-      )
-    )
+    new Polygon(buildPolygonEdge(fullConfig.value.data.thickness * fullConfig.value.hitAreaFactor))
 )
 
 const el = ref()
@@ -64,7 +58,9 @@ const scale = useTransition(scaleTarget, {
   transition: TransitionPresets.easeOutQuad
 })
 
-const buildPolygonEdge = (start: Vector, end: Vector, thickness: number): Vector[] => {
+const buildPolygonEdge = (thickness: number): Vector[] => {
+  const start = fullConfig.value.data.start
+  const end = fullConfig.value.data.end
   // Build a thick line (so that it is clickable)
   // Step 1: Calculate the length of the line
   const length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))
@@ -105,11 +101,7 @@ const buildPolygonEdge = (start: Vector, end: Vector, thickness: number): Vector
 }
 
 const drawPolygon = (g: Graphics) => {
-  const points = buildPolygonEdge(
-    fullConfig.value.data.start,
-    fullConfig.value.data.end,
-    fullConfig.value.data.thickness
-  )
+  const points = buildPolygonEdge(fullConfig.value.data.thickness)
 
   g.clear()
   g.lineStyle(fullConfig.value.lineThickness, fullConfig.value.lineColour, fullConfig.value.alpha)
