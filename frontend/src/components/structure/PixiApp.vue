@@ -79,9 +79,9 @@ const setGardenPosition = (): void => {
 }
 setGardenPosition()
 
-const { sprites } = useSprites()
+const { addSprites } = useSprites()
 const onResolved = (sheet: Spritesheet) => {
-  sprites.value = sheet.animations
+  addSprites(sheet.animations)
 }
 
 watch(

@@ -16,7 +16,11 @@ export function useSprites() {
     return sprite
   }
 
+  const addSprites = (textures: Record<string | number, Texture[]>) => {
+    sprites.value = textures
+  }
+
   if (Object.keys(sprites.value).length == 0) getSprites()
 
-  return { spriteGet }
+  return { spriteGet, addSprites }
 }
