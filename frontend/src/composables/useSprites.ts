@@ -9,7 +9,14 @@ export function useSprites() {
     console.log('getting sprites')
   }
 
+  const spriteGet = (animationId: number | string) => {
+    const sprite = sprites.value[animationId]
+    // if (!sprite) return 'not found texture'
+    // if (sprite === 'loading') return 'loading texture'
+    return sprite
+  }
+
   if (Object.keys(sprites.value).length == 0) getSprites()
 
-  return { sprites }
+  return { spriteGet }
 }
