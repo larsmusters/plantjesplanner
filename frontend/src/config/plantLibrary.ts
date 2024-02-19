@@ -14,29 +14,35 @@ export const plantLibrary: Plant[] = [
     name: 'Default',
     nameLatin: 'Defaultis elegantis',
     animationId: 'madelief',
-    animationScale: 2
+    animationScale: 2,
+    leaf: {
+      colour: Colours.green,
+      scale: 2,
+      animationId: 'pink',
+      radius: 150
+    }
   },
   {
     ...LIBRARY_PLANT_BASE,
     name: 'Centaureau cyanus',
     animationId: 'madelief',
-    leaf: { colour: Colours.green, scale: 1, id: 1 },
-    flower: { colour: Colours.blue, scale: 1, id: 1 },
+    leaf: { colour: Colours.green, scale: 1, animationId: 'pink', radius: 50 },
+    flower: { colour: Colours.blue, scale: 1, animationId: 'pink', radius: 50 },
     animationScale: 2
   },
   {
     ...LIBRARY_PLANT_BASE,
     name: 'Malva sylvestris',
     animationId: 'madelief',
-    leaf: { colour: Colours.green, scale: 1, id: 1 },
-    flower: { colour: Colours.violetFlower, scale: 1, id: 1 },
+    leaf: { colour: Colours.green, scale: 1, animationId: 'pink', radius: 50 },
+    flower: { colour: Colours.violetFlower, scale: 1, animationId: 'pink', radius: 50 },
     animationScale: 2
   },
   {
     ...LIBRARY_PLANT_BASE,
     name: 'Centaureau cyanus',
-    leaf: { colour: Colours.green, scale: 1, id: 1 },
-    flower: { colour: Colours.white, scale: 1, id: 1 },
+    leaf: { colour: Colours.green, scale: 1, animationId: 'pink', radius: 50 },
+    flower: { colour: Colours.white, scale: 1, animationId: 'pink', radius: 50 },
     animationId: 'madelief',
     animationScale: 2
   },

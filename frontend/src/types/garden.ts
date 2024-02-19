@@ -27,7 +27,8 @@ export interface Bed {
 export interface PlantPart {
   colour: Colours
   scale: number
-  id: number
+  animationId: string
+  radius: number
 }
 
 export interface Leaf extends PlantPart {}

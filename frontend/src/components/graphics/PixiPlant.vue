@@ -1,15 +1,22 @@
 <template>
   <template v-if="animation.length">
-    <animated-sprite
-      v-for="(loc, index) in animationLocations"
-      :key="index"
-      :textures="animation"
-      playing
-      :animation-speed="0.04"
-      :x="loc.x"
-      :y="loc.y"
-      :scale="bed.plant.animationScale"
-    />
+    <container v-for="(loc, index) in animationLocations" :x="loc.x" :y="loc.y" :key="index">
+      <animated-sprite
+        :textures="animation"
+        playing
+        :animation-speed="0.04"
+        :scale="bed.plant.animationScale"
+      />
+      <template v-if="bed.plant.leaf">
+        <animated-sprite
+          v-for="(leaf, index) in getLeafPattern(7, bed.plant.leaf.radius)"
+          :key="index"
+          :position="leaf"
+          :textures="leafAnimation"
+          :scale="bed.plant.leaf.scale"
+        />
+      </template>
+    </container>
   </template>
 </template>
 
@@ -18,6 +25,7 @@ import { useGardenStore, useGridStore } from '@/stores'
 import type { Bed } from '@/types'
 import { VectorUtil } from '@/utils/vectorUtil'
 import { computed } from 'vue'
+import type { Vector } from '@/types'
 
 const props = defineProps<{
   bed: Bed
@@ -31,6 +39,11 @@ const animation = computed(
   () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
 )
 
+const leafAnimation = computed(() => {
+  if (!props.bed.plant.leaf) return []
+  return gardenStore.spritesheet?.animations[props.bed.plant.leaf?.animationId] || []
+})
+
 const animationLocations = computed(() => {
   const bounds = gardenStore.getBounds(props.bed)
   const points = VUtil.moveOrigins(props.bed.location, gridStore.vertices)
@@ -43,4 +56,18 @@ const animationLocations = computed(() => {
   })
   return filteredPoints
 })
+
+const getLeafPattern = (n: number, radius: number) => {
+  // Generates a circle of coordinates centered around 0,0
+  const angleIncrement = (2 * Math.PI) / n
+  const points: Vector[] = []
+
+  for (var i = 0; i < n; ++i) {
+    const angle = i * angleIncrement
+    const x = radius * Math.cos(angle)
+    const y = radius * Math.sin(angle)
+    points.push({ x, y })
+  }
+  return points
+}
 </script>
