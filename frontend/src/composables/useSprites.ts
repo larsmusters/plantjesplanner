@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const sprites = ref<Record<string | number, Texture[]>>({})
 
 export function useSprites() {
-  const getSprites = () => {
+  const loadSprites = () => {
     // Gets the relevant sprites (everything currently in the garden, and more i guess) from BE.
     console.log('getting sprites')
   }
@@ -20,7 +20,7 @@ export function useSprites() {
     sprites.value = textures
   }
 
-  if (Object.keys(sprites.value).length == 0) getSprites()
+  if (Object.keys(sprites.value).length == 0) loadSprites()
 
   return { spriteGet, addSprites }
 }
