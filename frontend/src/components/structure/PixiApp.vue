@@ -47,6 +47,7 @@ import { watch } from 'vue'
 import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
 import { useGardenStore } from '@/stores'
+import { useSprites } from '@/composables/useSprites'
 
 const props = defineProps<{
   width: number
@@ -78,8 +79,9 @@ const setGardenPosition = (): void => {
 }
 setGardenPosition()
 
+const { sprites } = useSprites()
 const onResolved = (sheet: Spritesheet) => {
-  gardenStore.spritesheet = sheet
+  sprites.value = sheet.animations
 }
 
 watch(

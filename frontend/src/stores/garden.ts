@@ -4,13 +4,11 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { fakeGarden } from '@/assets/garden'
 import { bedLibrary } from '@/config/bedLibrary'
-import { Spritesheet } from 'pixi.js'
 import { worldToGarden } from '@/utils'
 
 export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
   const newBed = ref<Bed>(bedLibrary[0])
-  const spritesheet = ref<Spritesheet>()
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
   const cursor = ref<Vector>({ x: 0, y: 0 })
 
@@ -45,7 +43,6 @@ export const useGardenStore = defineStore('garden', () => {
     cursor,
     newBed,
     updateCursor,
-    spritesheet,
     getBounds
   }
 })

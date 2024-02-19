@@ -11,6 +11,7 @@
         <animated-sprite
           v-for="(leaf, index) in getLeafPattern(7, bed.plant.leaf.radius)"
           :key="index"
+          :cache-as-bitmap="true"
           :position="leaf"
           :textures="leafAnimation"
           :scale="bed.plant.leaf.scale"
@@ -26,6 +27,7 @@ import type { Bed } from '@/types'
 import { VectorUtil } from '@/utils/vectorUtil'
 import { computed } from 'vue'
 import type { Vector } from '@/types'
+import { useSprites } from '@/composables/useSprites'
 
 const props = defineProps<{
   bed: Bed
@@ -35,13 +37,13 @@ const VUtil = new VectorUtil()
 const gardenStore = useGardenStore()
 const gridStore = useGridStore()
 
-const animation = computed(
-  () => gardenStore.spritesheet?.animations[props.bed.plant.animationId] || []
-)
+const animation = computed(() => sprites.value[props.bed.plant.animationId] || [])
 
+const { sprites } = useSprites()
 const leafAnimation = computed(() => {
   if (!props.bed.plant.leaf) return []
-  return gardenStore.spritesheet?.animations[props.bed.plant.leaf?.animationId] || []
+  console.log(sprites)
+  return sprites.value[props.bed.plant.leaf?.animationId] || []
 })
 
 const animationLocations = computed(() => {
