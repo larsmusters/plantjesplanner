@@ -1,9 +1,9 @@
 <template>
   <!-- To-do's:
     Difficult things: 
-    - Load SVG's instead of png's? And load them in a random pattern within the bed.
     - On edit mode, allow removing a bed.
     - On edit mode, only edit the bed you have selected.
+    
     - Build a system that defines the looks of the beds properly (based on plants and month) 
     - Build constraint-sets per shape-type (square, rectangle, etc)
     - Allow reversing changes from edit mode.
