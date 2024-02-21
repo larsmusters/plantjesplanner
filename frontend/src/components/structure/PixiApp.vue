@@ -1,28 +1,12 @@
 <template>
   <!-- To-do's:
     Difficult things: 
-    - On edit mode, allow removing a bed.
-    - On edit mode, only edit the bed you have selected.
-    
-    - Build a system that defines the looks of the beds properly (based on plants and month) 
-    - Build constraint-sets per shape-type (square, rectangle, etc)
-    - Allow reversing changes from edit mode.
+    - Remove beds, plants are directly in garden. (simplify!)
+    - !! Load textures from jpegs (all features are one picture), store in useSprites.
+    - Define animation type, which controls rotation, position.
+    - Build movement physics engine.
 
-    Fun-ish things:
-    - Add the ability to add other things in the garden (such as a 'path')
-    - Add a 'grid' structure to every bed (with the bed itself some margin inset to that one)
-    - Add image of plant to plant selector (and think about how to deal with 1000 images in the future...)
-
-    After these things (pending more stuff):
-    - Build backend to store garden
-    - Allow selecting a different garden (and a garden edit page?)
-    - Build a section where you can alter the shape library
-    - Build a section where you can alter the plant library (and with that any active plants)
-
-    After these things (pending more stuff):
-    - Add info on plants: (height(t), colour(time))
-    - Add visuals designs for heights and colours
-    - Add a slider to visualise the garden each month
+    - On edit mode, allow removing a plant.
   -->
 
   <Application background="white" :width="width" :height="height">
@@ -79,9 +63,10 @@ const setGardenPosition = (): void => {
 }
 setGardenPosition()
 
-const { addSprites } = useSprites()
+const { addSpritesheet } = useSprites()
 const onResolved = (sheet: Spritesheet) => {
-  addSprites(sheet.animations)
+  // Loads the file with all the sprites into the sprite data
+  addSpritesheet(sheet)
 }
 
 watch(

@@ -1,26 +1,26 @@
-import type { Texture } from 'pixi.js'
+import type { Spritesheet } from 'pixi.js'
 import { ref } from 'vue'
 
-const sprites = ref<Record<string | number, Texture[]>>({})
+const spritesheet = ref<Spritesheet>()
 
 export function useSprites() {
-  const loadSprites = () => {
-    // Gets the relevant sprites (everything currently in the garden, and more i guess) from BE.
-    console.log('getting sprites')
+  // Sprite loading strategy:
+  // All sprites in one file
+  // Load file at start-up.
+  // Generate file with python, place in front-end folder.
+  const addSpritesheet = (sheet: Spritesheet) => {
+    spritesheet.value = sheet
   }
 
-  const spriteGet = (animationId: number | string) => {
-    const sprite = sprites.value[animationId]
-    // if (!sprite) return 'not found texture'
-    // if (sprite === 'loading') return 'loading texture'
+  const getSprite = (textureId: string) => {
+    const sprite = spritesheet.value?.textures[textureId]
     return sprite
   }
 
-  const addSprites = (textures: Record<string | number, Texture[]>) => {
-    sprites.value = textures
+  const getAnimation = (animationId: string) => {
+    const animation = spritesheet.value?.animations[animationId]
+    return animation
   }
 
-  if (Object.keys(sprites.value).length == 0) loadSprites()
-
-  return { spriteGet, addSprites }
+  return { getSprite, getAnimation, addSpritesheet }
 }

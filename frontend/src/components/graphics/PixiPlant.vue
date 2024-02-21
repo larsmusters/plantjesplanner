@@ -37,12 +37,12 @@ const VUtil = new VectorUtil()
 const gardenStore = useGardenStore()
 const gridStore = useGridStore()
 
-const animation = computed(() => spriteGet(props.bed.plant.animationId) || [])
+const animation = computed(() => getAnimation(props.bed.plant.animationId) || [])
 
-const { spriteGet } = useSprites()
+const { getAnimation } = useSprites()
 const leafAnimation = computed(() => {
   if (!props.bed.plant.leaf) return []
-  return spriteGet(props.bed.plant.leaf?.animationId) || []
+  return getAnimation(props.bed.plant.leaf?.animationId) || []
 })
 
 const animationLocations = computed(() => {
