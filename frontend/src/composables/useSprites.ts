@@ -1,24 +1,29 @@
-import type { Spritesheet } from 'pixi.js'
+import { Point, type Spritesheet } from 'pixi.js'
 import { ref } from 'vue'
 
 const spritesheet = ref<Spritesheet>()
 
 export function useSprites() {
-  // Sprite loading strategy:
-  // All sprites in one file
-  // Load file at start-up.
-  // Generate file with python, place in front-end folder.
   const addSpritesheet = (sheet: Spritesheet) => {
     spritesheet.value = sheet
   }
 
-  const getSprite = (textureId: string) => {
-    const sprite = spritesheet.value?.textures[textureId]
+  const getSprite = (textureId: string | undefined) => {
+    if (!spritesheet.value) return
+    if (!textureId) return
+
+    const sprite = spritesheet.value.textures[textureId]
+    if (!sprite) {
+      return spritesheet.value.textures['default']
+    }
+    console.log(sprite)
+    // Move anchor as python generator can't put the anchor in the middle yet
+    sprite.defaultAnchor = new Point(0.5, 0.5)
     return sprite
   }
 
-  const getAnimation = (animationId: string) => {
-    const animation = spritesheet.value?.animations[animationId]
+  const getAnimation = (spriteId: string) => {
+    const animation = spritesheet.value?.animations[spriteId]
     return animation
   }
 
