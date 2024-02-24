@@ -12,28 +12,112 @@ export const fakeGarden: Garden = {
   ],
   beds: [
     {
-      ...bedLibrary[1],
-      shape: JSON.parse(JSON.stringify(bedLibrary[1].shape)),
-      location: { x: 1000, y: 500 },
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 250, y: 250 },
       plant: plantLibrary[0]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 750, y: 250 },
+      plant: plantLibrary[1]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1250, y: 250 },
+      plant: plantLibrary[2]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1750, y: 250 },
+      plant: plantLibrary[3]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 2250, y: 250 },
+      plant: plantLibrary[4]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 250, y: 750 },
+      plant: plantLibrary[5]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 750, y: 750 },
+      plant: plantLibrary[6]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1250, y: 750 },
+      plant: plantLibrary[7]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1750, y: 750 },
+      plant: plantLibrary[8]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 2250, y: 750 },
+      plant: plantLibrary[9]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 250, y: 1250 },
+      plant: plantLibrary[10]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 750, y: 1250 },
+      plant: plantLibrary[11]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1250, y: 1250 },
+      plant: plantLibrary[12]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1750, y: 1250 },
+      plant: plantLibrary[13]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 2250, y: 1250 },
+      plant: plantLibrary[14]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 250, y: 1750 },
+      plant: plantLibrary[15]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 750, y: 1750 },
+      plant: plantLibrary[16]
+    },
+    {
+      ...bedLibrary[0],
+      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
+      location: { x: 1250, y: 1750 },
+      plant: plantLibrary[17]
     }
-    // {
-    //   ...bedLibrary[2],
-    //   shape: JSON.parse(JSON.stringify(bedLibrary[2].shape)),
-    //   location: { x: 3000, y: 2000 },
-    //   plant: plantLibrary[1]
-    // },
-    // {
-    //   ...bedLibrary[4],
-    //   shape: JSON.parse(JSON.stringify(bedLibrary[4].shape)),
-    //   location: { x: 1500, y: 2500 },
-    //   plant: plantLibrary[2]
-    // },
-    // {
-    //   ...bedLibrary[3],
-    //   shape: JSON.parse(JSON.stringify(bedLibrary[3].shape)),
-    //   location: { x: 4000, y: 500 },
-    //   plant: plantLibrary[3]
-    // }
   ]
 }

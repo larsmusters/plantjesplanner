@@ -16,7 +16,6 @@ export function useSprites() {
     if (!sprite) {
       return spritesheet.value.textures['default']
     }
-    console.log(sprite)
     // Move anchor as python generator can't put the anchor in the middle yet
     sprite.defaultAnchor = new Point(0.5, 0.5)
     return sprite
