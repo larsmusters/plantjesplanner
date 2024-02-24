@@ -24,7 +24,7 @@ const gardenStore = useGardenStore()
 const appStore = useAppStore()
 
 const optionClicked = (plant: Plant) => {
-  gardenStore.newBed.plant = plant
+  gardenStore.newPlant = plant
   appStore.setClickMode('add')
 }
 </script>

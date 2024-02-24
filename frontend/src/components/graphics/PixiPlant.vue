@@ -1,6 +1,6 @@
 <template>
-  <container v-for="(loc, index) in spriteLocations" :x="loc.x" :y="loc.y" :key="index">
-    <template v-if="bed.plant.leaf">
+  <container :position="plant.location">
+    <template v-if="plant.leaf">
       <sprite
         v-for="(leaf, index) in getLeafPattern(7, 120)"
         :key="index"
@@ -9,50 +9,25 @@
         :y="leaf.y"
         :rotation="leaf.angle"
         :texture="leafSprite!"
-        :scale="bed.plant.leaf.spriteScale"
+        :scale="plant.leaf.spriteScale"
       />
     </template>
-    <sprite
-      v-if="bed.plant.flower"
-      :texture="flowerSprite!"
-      playing
-      :animation-speed="0.04"
-      :scale="bed.plant.flower.spriteScale"
-    />
+    <sprite v-if="plant.flower" :texture="flowerSprite!" :scale="plant.flower.spriteScale" />
   </container>
 </template>
 
 <script setup lang="ts">
-import { useGardenStore, useGridStore } from '@/stores'
-import type { Bed } from '@/types'
-import { VectorUtil } from '@/utils/vectorUtil'
 import { computed } from 'vue'
 import { useSprites } from '@/composables/useSprites'
+import type { Plant } from '@/types'
 
 const props = defineProps<{
-  bed: Bed
+  plant: Plant
 }>()
 
-const VUtil = new VectorUtil()
-const gardenStore = useGardenStore()
-const gridStore = useGridStore()
-
 const { getSprite } = useSprites()
-const leafSprite = computed(() => getSprite(props.bed.plant.leaf?.spriteId))
-const flowerSprite = computed(() => getSprite(props.bed.plant.flower?.spriteId))
-
-const spriteLocations = computed(() => {
-  const bounds = gardenStore.getBounds(props.bed)
-  const points = VUtil.moveOrigins(props.bed.location, gridStore.vertices)
-  const filteredPoints = points.filter((point) => {
-    if (point.x <= bounds.x) return false
-    if (point.x >= bounds.x + bounds.width) return false
-    if (point.y <= bounds.y) return false
-    if (point.y >= bounds.y + bounds.height) return false
-    return true
-  })
-  return filteredPoints
-})
+const leafSprite = computed(() => getSprite(props.plant.leaf?.spriteId))
+const flowerSprite = computed(() => getSprite(props.plant.flower?.spriteId))
 
 const getLeafPattern = (n: number, radius: number) => {
   // Generates a circle of coordinates centered around 0,0

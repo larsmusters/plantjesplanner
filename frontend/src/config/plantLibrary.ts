@@ -4,7 +4,8 @@ import type { Plant } from '@/types'
 const LIBRARY_PLANT_BASE = {
   color: Colours.black,
   info: 'No information available',
-  nameLatin: 'No scientific name available'
+  nameLatin: 'No scientific name available',
+  location: { x: 0, y: 0 }
 }
 
 export const plantLibrary: Plant[] = [

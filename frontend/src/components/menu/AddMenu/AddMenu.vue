@@ -1,12 +1,10 @@
 <template>
   <div class="add-menu-grid">
-    <ShapeSelector />
     <PlantSelector />
   </div>
 </template>
 
 <script setup lang="ts">
-import ShapeSelector from './ShapeSelector.vue'
 import PlantSelector from './PlantSelector.vue'
 </script>
 

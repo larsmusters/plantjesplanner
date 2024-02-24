@@ -1,8 +1,7 @@
 <template>
   <!-- To-do's:
     Difficult things: 
-    - Remove beds, plants are directly in garden. (simplify!)
-    - !! Load textures from jpegs (all features are one picture), store in useSprites.
+    - !!Remove beds, plants are directly in garden. (simplify!)
     - Define animation type, which controls rotation, position.
     - Build movement physics engine.
 

@@ -13,15 +13,7 @@ export interface Vector {
 
 export interface Garden {
   shape: Vertex[]
-  beds: Bed[]
-}
-
-export interface Bed {
-  name: string
-  shape: Vertex[]
-  location: Vector
-  plant: Plant
-  heightOnHover: number
+  plants: Plant[]
 }
 
 export interface PlantPart {
@@ -44,9 +36,5 @@ export interface Plant {
   leaf?: Leaf
   fruit?: Fruit
   flower?: Flower
-}
-
-export interface BedEdge {
-  p0: { id: number; x: number; y: number }
-  p1: { id: number; x: number; y: number }
+  location: Vector
 }

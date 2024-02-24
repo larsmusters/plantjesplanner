@@ -1,6 +1,5 @@
 import type { Garden } from '../types/garden'
 import { plantLibrary } from '@/config/plantLibrary'
-import { bedLibrary } from '@/config/bedLibrary'
 
 // Garden-space is in mm: x = 1000mm, y = 1000mm, etc. It is later scaled to screen
 export const fakeGarden: Garden = {
@@ -10,114 +9,78 @@ export const fakeGarden: Garden = {
     { x: 2500, y: 2500 },
     { x: 0, y: 2500 }
   ],
-  beds: [
+  plants: [
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 250, y: 250 },
-      plant: plantLibrary[0]
+      ...plantLibrary[0],
+      location: { x: 250, y: 250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 750, y: 250 },
-      plant: plantLibrary[1]
+      ...plantLibrary[1],
+      location: { x: 750, y: 250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1250, y: 250 },
-      plant: plantLibrary[2]
+      ...plantLibrary[2],
+      location: { x: 1250, y: 250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1750, y: 250 },
-      plant: plantLibrary[3]
+      ...plantLibrary[3],
+      location: { x: 1750, y: 250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 2250, y: 250 },
-      plant: plantLibrary[4]
+      ...plantLibrary[4],
+      location: { x: 2250, y: 250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 250, y: 750 },
-      plant: plantLibrary[5]
+      ...plantLibrary[5],
+      location: { x: 250, y: 750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 750, y: 750 },
-      plant: plantLibrary[6]
+      ...plantLibrary[6],
+      location: { x: 750, y: 750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1250, y: 750 },
-      plant: plantLibrary[7]
+      ...plantLibrary[7],
+      location: { x: 1250, y: 750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1750, y: 750 },
-      plant: plantLibrary[8]
+      ...plantLibrary[8],
+      location: { x: 1750, y: 750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 2250, y: 750 },
-      plant: plantLibrary[9]
+      ...plantLibrary[9],
+      location: { x: 2250, y: 750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 250, y: 1250 },
-      plant: plantLibrary[10]
+      ...plantLibrary[10],
+      location: { x: 250, y: 1250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 750, y: 1250 },
-      plant: plantLibrary[11]
+      ...plantLibrary[11],
+      location: { x: 750, y: 1250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1250, y: 1250 },
-      plant: plantLibrary[12]
+      ...plantLibrary[12],
+      location: { x: 1250, y: 1250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1750, y: 1250 },
-      plant: plantLibrary[13]
+      ...plantLibrary[13],
+      location: { x: 1750, y: 1250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 2250, y: 1250 },
-      plant: plantLibrary[14]
+      ...plantLibrary[14],
+      location: { x: 2250, y: 1250 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 250, y: 1750 },
-      plant: plantLibrary[15]
+      ...plantLibrary[15],
+      location: { x: 250, y: 1750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 750, y: 1750 },
-      plant: plantLibrary[16]
+      ...plantLibrary[16],
+      location: { x: 750, y: 1750 }
     },
     {
-      ...bedLibrary[0],
-      shape: JSON.parse(JSON.stringify(bedLibrary[0].shape)),
-      location: { x: 1250, y: 1750 },
-      plant: plantLibrary[17]
+      ...plantLibrary[17],
+      location: { x: 1250, y: 1750 }
     }
   ]
 }

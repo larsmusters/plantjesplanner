@@ -32,9 +32,15 @@ const defaultConfig: CircleConfig = {
   fillAlpha: 0.8
 }
 
-const props = defineProps<{
-  config: Partial<CircleConfig>
-}>()
+const props = withDefaults(
+  defineProps<{
+    config?: Partial<CircleConfig>
+    invisible?: boolean
+  }>(),
+  {
+    invisible: false
+  }
+)
 
 const emit = defineEmits<{
   (e: 'drag', dragLoc: Vector): void
@@ -54,6 +60,7 @@ const hitArea = computed(
 )
 
 const drawCircle = (g: Graphics) => {
+  if (props.invisible) return
   g.clear()
   g.lineStyle(
     fullConfig.value.lineThickness,

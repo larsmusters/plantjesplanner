@@ -2,11 +2,11 @@
   <container :position="position">
     <ToolTip v-if="tooltipEnabled" :cursor="position" />
   </container>
-  <AddBed />
+  <AddPlant />
 </template>
 
 <script setup lang="ts">
-import AddBed from './AddBed.vue'
+import AddPlant from './AddPlant.vue'
 import ToolTip from './ToolTip.vue'
 import type { FederatedPointerEvent } from 'pixi.js'
 import { useEventListener } from '@vueuse/core'

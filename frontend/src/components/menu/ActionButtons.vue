@@ -8,8 +8,8 @@
   <button class="border border-2 border-black m-1" @click="appStore.setClickMode('edit')">
     edit Mode
   </button>
-  <button class="border border-2 border-black m-1" @click="randomiseNewBed">
-    Randomise new bed
+  <button class="border border-2 border-black m-1" @click="randomiseNewPlant">
+    Randomise new plant
   </button>
   <input
     ref="month"
@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { bedLibrary } from '@/config/bedLibrary'
 import { plantLibrary } from '@/config/plantLibrary'
 import { useAppStore, useGardenStore, useViewportStore } from '@/stores'
 import { ref } from 'vue'
@@ -33,9 +32,8 @@ const gardenStore = useGardenStore()
 const appStore = useAppStore()
 const viewportStore = useViewportStore()
 
-const randomiseNewBed = () => {
-  gardenStore.newBed = bedLibrary[Math.floor(Math.random() * bedLibrary.length)]
-  gardenStore.newBed.plant = plantLibrary[Math.floor(Math.random() * plantLibrary.length)]
+const randomiseNewPlant = () => {
+  gardenStore.newPlant = plantLibrary[Math.floor(Math.random() * plantLibrary.length)]
   appStore.setClickMode('add')
 }
 
