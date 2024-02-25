@@ -1,6 +1,6 @@
 <template>
   <container v-if="appStore.isAddmode" :position="position">
-    <Plant :scale="gardenStore.position.scale" :plant="gardenStore.newPlant" />
+    <Plant :plant="gardenStore.newPlant" />
     <PixiCircle :config="{ radius: 100 }" invisible @click="addBed" />
   </container>
 </template>
@@ -31,8 +31,6 @@ const VUtil = new VectorUtil()
 const position = computed(() => {
   // To garden space
   const SuggestedLocation = VUtil.moveToGrid(gardenStore.cursor, gridStore.vertices, 100)
-  const pos = gardenToWorld(VUtil.sub(SuggestedLocation, gardenStore.newPlant.location))
-  console.log(pos)
-  return pos
+  return gardenToWorld(VUtil.sub(SuggestedLocation, gardenStore.newPlant.location))
 })
 </script>

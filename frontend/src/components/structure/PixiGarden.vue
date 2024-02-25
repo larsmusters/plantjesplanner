@@ -1,18 +1,23 @@
 <template>
   <Polygon :config="gardenShellConfig" />
   <Grid v-if="showGrid" />
-  <Plant v-for="(plant, index) in gardenStore.garden.plants" :key="index" :plant="plant" />
+  <PixiPlant
+    v-for="(plant, index) in garden.plants"
+    :key="index"
+    :plant="plant"
+    @update:location="(location: Vector) => updatePlant(location, index)"
+  />
 </template>
 
 <script setup lang="ts">
 import Polygon from '../graphics/PixiPolygon.vue'
 import Grid from './PixiGrid.vue'
-import Plant from '../graphics/PixiPlant.vue'
+import PixiPlant from '../graphics/PixiPlant.vue'
 import { computed } from 'vue'
 import { useGardenStore, useAppStore } from '@/stores'
-import { Colours, type PolygonConfig } from '@/types'
+import { Colours, type PolygonConfig, type Vector } from '@/types'
 
-const gardenStore = useGardenStore()
+const { garden } = useGardenStore()
 const appStore = useAppStore()
 
 const showGrid = computed(() => {
@@ -24,11 +29,15 @@ const showGrid = computed(() => {
 const gardenShellConfig = computed((): Partial<PolygonConfig> => {
   return {
     hoverFactor: 1,
-    vertices: gardenStore.garden.shape,
+    vertices: garden.shape,
     lineThickness: 2,
     lineColour: Colours.edge,
     lineAlpha: 0.5,
     fillColour: Colours.inside
   }
 })
+
+const updatePlant = (location: Vector, index: number) => {
+  garden.plants[index].location = location
+}
 </script>
