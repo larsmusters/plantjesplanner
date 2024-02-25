@@ -9,8 +9,8 @@ export const useGardenStore = defineStore('garden', () => {
   const garden = ref<Garden>(fakeGarden)
   const newPlant = ref<Plant>(plantLibrary[0])
   const position = ref<Position>({ x: 0, y: 0, scale: 1, rotation: 0 })
-  const cursor = ref<Vector>({ x: 0, y: 0 })
 
+  const cursor = ref<Vector>({ x: 0, y: 0 })
   const updateCursor = (newCursor: Vector) => (cursor.value = worldToGarden(newCursor))
 
   const bounds = computed(() => {

@@ -31,6 +31,7 @@ import { Loader, Application } from 'vue3-pixi'
 import { Spritesheet } from 'pixi.js'
 import { useGardenStore } from '@/stores'
 import { useSprites } from '@/composables/useSprites'
+import '@pixi/graphics-extras'
 
 const props = defineProps<{
   width: number

@@ -17,24 +17,27 @@ export interface Garden {
 }
 
 export interface PlantPart {
-  colour: Colours
+  colour?: Colours
   spriteId: string
   spriteScale: number
 }
 
-export interface Leaf extends PlantPart {}
+export interface Leaf extends PlantPart {
+  radius: number
+}
 
 export interface Fruit extends PlantPart {}
 
 export interface Flower extends PlantPart {}
 
+// All info concering a plant, for each period?
 export interface Plant {
   name: string
   nameLatin: string
   info: string
   color: Colours
-  leaf?: Leaf
-  fruit?: Fruit
-  flower?: Flower
+  leaf: Leaf[]
+  fruit: Fruit[]
+  flower: Flower[]
   location: Vector
 }

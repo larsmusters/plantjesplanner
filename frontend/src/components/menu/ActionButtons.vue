@@ -14,8 +14,8 @@
   <input
     ref="month"
     type="range"
-    min="1"
-    max="12"
+    min="0"
+    max="11"
     :value="viewportStore.month"
     class="slider"
     id="month-indicator"

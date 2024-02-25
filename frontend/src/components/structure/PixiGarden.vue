@@ -6,6 +6,7 @@
     :key="index"
     :plant="plant"
     @update:location="(location: Vector) => updatePlant(location, index)"
+    @clicked="plantClicked"
   />
 </template>
 
@@ -14,8 +15,8 @@ import Polygon from '../graphics/PixiPolygon.vue'
 import Grid from './PixiGrid.vue'
 import PixiPlant from '../graphics/PixiPlant.vue'
 import { computed } from 'vue'
-import { useGardenStore, useAppStore } from '@/stores'
-import { Colours, type PolygonConfig, type Vector } from '@/types'
+import { useGardenStore, useAppStore, useViewportStore } from '@/stores'
+import { Colours, type Plant, type PolygonConfig, type Vector } from '@/types'
 
 const { garden } = useGardenStore()
 const appStore = useAppStore()
@@ -39,5 +40,11 @@ const gardenShellConfig = computed((): Partial<PolygonConfig> => {
 
 const updatePlant = (location: Vector, index: number) => {
   garden.plants[index].location = location
+}
+
+const viewportStore = useViewportStore()
+const plantClicked = (plant: Plant) => {
+  viewportStore.plantInfo = plant
+  viewportStore.showInfo()
 }
 </script>

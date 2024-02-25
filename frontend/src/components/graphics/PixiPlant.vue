@@ -1,22 +1,26 @@
 <template>
   <container :position="plant.location">
-    <template v-if="plant.leaf">
+    <template v-if="plant.leaf && plant.leaf[period]">
       <sprite
-        v-for="(leaf, index) in getLeafPattern(7, 120)"
+        v-for="(leaf, index) in getLeafPattern(7, plant.leaf[period].radius)"
         :key="index"
-        :cache-as-bitmap="true"
         :x="leaf.x"
         :y="leaf.y"
         :rotation="leaf.angle"
         :texture="leafSprite!"
-        :scale="plant.leaf.spriteScale"
+        :scale="plant.leaf[period].spriteScale"
       />
     </template>
-    <sprite v-if="plant.flower" :texture="flowerSprite!" :scale="plant.flower.spriteScale" />
+    <template v-if="plant.flower && plant.flower[period]">
+      <sprite :texture="flowerSprite!" :scale="plant.flower[period].spriteScale" />
+    </template>
+    <template v-if="plant.fruit && plant.fruit[period]">
+      <sprite :texture="fruitSprite!" :scale="plant.fruit[period].spriteScale" />
+    </template>
     <Circle
       v-if="appStore.isEditMode || appStore.isSelectmode"
       :config="selectionCircleConfig"
-      @click="clicked"
+      @click="emit('clicked', props.plant)"
       @drag="dragging"
     />
   </container>
@@ -37,8 +41,9 @@ const props = defineProps<{
 const appStore = useAppStore()
 
 const { getSprite } = useSprites()
-const leafSprite = computed(() => getSprite(props.plant.leaf?.spriteId))
-const flowerSprite = computed(() => getSprite(props.plant.flower?.spriteId))
+const leafSprite = computed(() => getSprite(props.plant.leaf[period.value].spriteId))
+const flowerSprite = computed(() => getSprite(props.plant.flower[period.value].spriteId))
+const fruitSprite = computed(() => getSprite(props.plant.fruit[period.value].spriteId))
 
 const getLeafPattern = (n: number, radius: number) => {
   // Generates a circle of coordinates centered around 0,0
@@ -55,12 +60,12 @@ const getLeafPattern = (n: number, radius: number) => {
 }
 
 const viewportStore = useViewportStore()
-const clicked = () => {
-  viewportStore.plantInfo = props.plant
-  viewportStore.showInfo()
-}
+const period = computed(() => viewportStore.month)
 
-const emit = defineEmits<{ (e: 'update:location', location: Vector): void }>()
+const emit = defineEmits<{
+  (e: 'update:location', location: Vector): void
+  (e: 'clicked', plant: Plant): void
+}>()
 
 const VUtil = new VectorUtil()
 const gardenStore = useGardenStore()
