@@ -35,9 +35,12 @@ export interface Plant {
   name: string
   nameLatin: string
   info: string
-  color: Colours
-  leaf: Leaf[]
-  fruit: Fruit[]
-  flower: Flower[]
   location: Vector
+
+  // New additions,
+  radius: number[]
+  colour: Colours[]
+  height: number[]
+  iconId: string[]
+  iconScale: number[]
 }

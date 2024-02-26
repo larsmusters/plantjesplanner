@@ -12,69 +12,21 @@ export const plantLibrary: Plant[] = [
   {
     ...LIBRARY_PLANT_BASE,
     name: 'Default',
-    leaf: [
-      { radius: 100, spriteId: 'leaf.png', spriteScale: 0 },
-      { radius: 110, spriteId: 'leaf.png', spriteScale: 0 },
-      { radius: 120, spriteId: 'leaf.png', spriteScale: 2.5 },
-      { radius: 130, spriteId: 'leaf.png', spriteScale: 3 },
-      { radius: 140, spriteId: 'leaf.png', spriteScale: 3.5 },
-      { radius: 150, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 140, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 130, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 120, spriteId: 'leaf_brown.png', spriteScale: 4 },
-      { radius: 110, spriteId: 'leaf_brown.png', spriteScale: 4 },
-      { radius: 100, spriteId: 'leaf_brown.png', spriteScale: 4 },
-      { radius: 90, spriteId: 'leaf_brown.png', spriteScale: 4 }
-    ],
-    flower: [
-      { spriteId: 'bellis_perennis.png', spriteScale: 1 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 2 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 3 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 4 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 5 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 6 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 5 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 4 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 3 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 4 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 5 },
-      { spriteId: 'bellis_perennis.png', spriteScale: 6 }
-    ],
-    fruit: []
+    iconId: ['bellis_perennis.png'],
+    iconScale: [1],
+    radius: [150],
+    colour: [Colours.blue],
+    height: [50]
   },
   {
     ...LIBRARY_PLANT_BASE,
     name: 'Korenbloem',
     nameLatin: 'Centaureau cyanus',
-    leaf: [
-      { radius: 100, spriteId: 'leaf.png', spriteScale: 1.5 },
-      { radius: 110, spriteId: 'leaf.png', spriteScale: 2 },
-      { radius: 120, spriteId: 'leaf.png', spriteScale: 2.5 },
-      { radius: 130, spriteId: 'leaf.png', spriteScale: 3 },
-      { radius: 140, spriteId: 'leaf.png', spriteScale: 3.5 },
-      { radius: 150, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 140, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 130, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 120, spriteId: 'leaf.png', spriteScale: 4 },
-      { radius: 110, spriteId: 'leaf_brown.png', spriteScale: 4 },
-      { radius: 100, spriteId: 'leaf_brown.png', spriteScale: 4 },
-      { radius: 90, spriteId: 'leaf_brown.png', spriteScale: 4 }
-    ],
-    flower: [
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 0 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 0 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 1 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 3 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 5 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 5 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 5 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 3 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 1 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 0 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 0 },
-      { spriteId: 'centaurea_cyanus.png', spriteScale: 0 }
-    ],
-    fruit: []
+    iconId: ['centaurea_cyanus.png'],
+    iconScale: [3],
+    radius: [100],
+    colour: [Colours.green],
+    height: [20]
   }
   // {
   //   ...LIBRARY_PLANT_BASE,
