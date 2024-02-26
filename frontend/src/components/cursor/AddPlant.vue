@@ -1,5 +1,5 @@
 <template>
-  <container v-if="appStore.isAddmode" :position="position">
+  <container v-if="appStore.isAddmode" :position="position" :scale="gardenStore.position.scale">
     <Plant :plant="gardenStore.newPlant" />
     <PixiCircle :config="{ radius: 100 }" invisible @click="addBed" />
   </container>
